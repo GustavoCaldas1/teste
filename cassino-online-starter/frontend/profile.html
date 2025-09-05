@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lux Casino — Perfil</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-min">
+      <div class="brand-logo">♠</div>
+      <span>Lux <strong>Casino</strong></span>
+    </div>
+    <nav class="nav">
+      <a href="lobby.html">Lobby</a>
+      <a href="bonus.html">Bônus & Roleta</a>
+      <a href="sports.html">Apostas Esportivas</a>
+      <a href="wallet.html">Carteira</a>
+      <a href="profile.html" class="active">Perfil</a>
+    </nav>
+  </header>
+
+  <main class="container grid-2">
+    <section class="glass-card profile-header">
+      <img class="avatar" id="avatar" src="https://api.dicebear.com/9.x/bottts-neutral/svg?seed=Lux" alt="avatar" />
+      <div>
+        <h2 id="username">@lux_user</h2>
+        <p>Saldo: <span id="accBalance">R$ 0,00</span></p>
+        <div class="stats">
+          <div class="stat"><span>Total Ganho</span><strong id="totalWon">R$ 0,00</strong></div>
+          <div class="stat"><span>Total Perdido</span><strong id="totalLost">R$ 0,00</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="glass-card">
+      <h3>Histórico de Transações</h3>
+      <table class="table" id="txTable">
+        <thead><tr><th>Data</th><th>Tipo</th><th>Valor</th><th>Detalhe</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <section class="glass-card">
+      <h3>Linha do Tempo</h3>
+      <ul class="timeline" id="timeline"></ul>
+    </section>
+  </main>
+
+  <script src="js/app.js"></script>
+  <script>
+    initProfile();
+  </script>
+</body>
+</html>

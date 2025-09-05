@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lux Casino — Apostas Esportivas</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-min">
+      <div class="brand-logo">♠</div>
+      <span>Lux <strong>Casino</strong></span>
+    </div>
+    <nav class="nav">
+      <a href="lobby.html">Lobby</a>
+      <a href="bonus.html">Bônus & Roleta</a>
+      <a href="sports.html" class="active">Apostas Esportivas</a>
+      <a href="wallet.html">Carteira</a>
+      <a href="profile.html">Perfil</a>
+    </nav>
+  </header>
+
+  <main class="container grid-3">
+    <aside class="glass-card">
+      <h3>Esportes</h3>
+      <ul class="menu">
+        <li data-cat="futebol" class="active">Futebol</li>
+        <li data-cat="basquete">Basquete</li>
+        <li data-cat="mma">MMA</li>
+        <li data-cat="tenis">Tênis</li>
+      </ul>
+    </aside>
+
+    <section class="glass-card" id="liveMatches">
+      <h3>Ao vivo</h3>
+      <div class="scoreboard" id="scoreboard"><!-- placares ao vivo --></div>
+      <div class="odds" id="odds"><!-- odds dinâmicas --></div>
+    </section>
+
+    <aside class="glass-card ticket">
+      <h3>Bilhete</h3>
+      <div id="ticketItems"></div>
+      <div class="ticket-footer">
+        <div>Odds totais: <span id="totalOdds">1.00</span></div>
+        <div>
+          Aposta (R$): <input id="stake" type="number" min="1" value="10" />
+        </div>
+        <div>Retorno estimado: <span id="estReturn">R$ 10,00</span></div>
+        <button class="btn btn-primary glow" id="placeBet">Apostar</button>
+      </div>
+    </aside>
+  </main>
+
+  <script src="js/sports.js"></script>
+</body>
+</html>
