@@ -1,0 +1,1809 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Perfil do Paciente - Cuida Mais</title>
+
+  <!-- Fonte moderna -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Ícones Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Chart.js para gráficos -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background-color: #f5f5f5;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    .header {
+      background-color: white;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1e3a8a;
+    }
+
+    .search-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background-color: #f3f4f6;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      width: 300px;
+    }
+
+    .search-bar input {
+      border: none;
+      background: none;
+      outline: none;
+      font-size: 0.875rem;
+      color: #374151;
+      width: 100%;
+    }
+
+    .search-bar input::placeholder {
+      color: #6b7280;
+    }
+
+    .user-profile {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #813dff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .user-profile:hover {
+      background-color: #6a2dd9;
+      transform: scale(1.05);
+    }
+
+    /* Container principal */
+    .container {
+      display: flex;
+      min-height: calc(100vh - 80px);
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 250px;
+      background-color: white;
+      padding: 2rem 0;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 80px;
+      height: calc(100vh - 80px);
+      overflow-y: auto;
+    }
+
+    .nav-item {
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: #374151;
+      transition: all 0.3s ease;
+      border-left: 3px solid transparent;
+      margin: 0.25rem 0;
+    }
+
+    .nav-item:hover {
+      background-color: #f3f4f6;
+      color: #813dff;
+    }
+
+    .nav-item.active {
+      background-color: #813dff;
+      color: white;
+      border-left-color: #6a2dd9;
+    }
+
+    .nav-item i {
+      margin-right: 12px;
+      width: 20px;
+      font-size: 1.1rem;
+    }
+
+    /* Conteúdo principal */
+    .main-content {
+      flex: 1;
+      padding: 2rem;
+    }
+
+    .page-header {
+      margin-bottom: 2rem;
+    }
+
+    .page-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 0.5rem;
+    }
+
+    .page-subtitle {
+      color: #6b7280;
+      font-size: 1rem;
+    }
+
+    /* Grid do perfil */
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    /* Card do perfil do paciente */
+    .profile-card {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .patient-photo {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      margin: 0 auto 1rem;
+      background: linear-gradient(135deg, #813dff, #6a2dd9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 3rem;
+      font-weight: 600;
+    }
+
+    .patient-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 0.5rem;
+    }
+
+    .patient-id {
+      color: #6b7280;
+      font-size: 0.875rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .patient-details {
+      text-align: left;
+    }
+
+    .detail-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #f3f4f6;
+    }
+
+    .detail-item:last-child {
+      border-bottom: none;
+    }
+
+    .detail-icon {
+      width: 20px;
+      color: #813dff;
+      font-size: 1rem;
+    }
+
+    .detail-label {
+      color: #6b7280;
+      font-size: 0.875rem;
+      min-width: 80px;
+    }
+
+    .detail-value {
+      color: #111827;
+      font-weight: 600;
+      font-size: 0.875rem;
+    }
+
+    .edit-profile-btn {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #813dff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 1.5rem;
+    }
+
+    .edit-profile-btn:hover {
+      background-color: #6a2dd9;
+    }
+
+    /* Card do gráfico de sinais vitais */
+    .vitals-card {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+    }
+
+    .vitals-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .vitals-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #111827;
+    }
+
+    .vitals-legend {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+      color: #6b7280;
+    }
+
+    .legend-color {
+      width: 12px;
+      height: 12px;
+      border-radius: 2px;
+    }
+
+    .legend-fc { background-color: #dc2626; }
+    .legend-temp { background-color: #2563eb; }
+    .legend-pa-sist { background-color: #7c3aed; }
+    .legend-pa-diast { background-color: #ec4899; }
+
+    .chart-container {
+      position: relative;
+      height: 300px;
+    }
+
+    /* Seção do prontuário */
+    .record-section {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .record-header {
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .record-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #111827;
+      margin-bottom: 0.25rem;
+    }
+
+    .record-subtitle {
+      color: #6b7280;
+      font-size: 0.875rem;
+    }
+
+    /* Tabs do prontuário */
+    .record-tabs {
+      display: flex;
+      border-bottom: 1px solid #e5e7eb;
+      background-color: #f9fafb;
+    }
+
+    .tab-button {
+      padding: 1rem 2rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      color: #6b7280;
+      transition: all 0.3s ease;
+      border-bottom: 3px solid transparent;
+    }
+
+    .tab-button:hover {
+      color: #813dff;
+      background-color: #f3f4f6;
+    }
+
+    .tab-button.active {
+      color: #813dff;
+      border-bottom-color: #813dff;
+      background-color: white;
+    }
+
+    /* Conteúdo das tabs */
+    .tab-content {
+      display: none;
+      padding: 2rem;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Tabela de dados */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .data-table th {
+      background-color: #f9fafb;
+      padding: 1rem 1.5rem;
+      text-align: left;
+      font-weight: 600;
+      color: #374151;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .data-table td {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid #f3f4f6;
+      color: #374151;
+    }
+
+    .data-table tr:hover {
+      background-color: #f9fafb;
+    }
+
+    /* Responsividade */
+    @media (max-width: 1200px) {
+      .profile-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+      
+      .sidebar {
+        width: 100%;
+        position: static;
+        height: auto;
+        padding: 1rem 0;
+      }
+      
+      .nav-item {
+        padding: 0.75rem 1rem;
+      }
+      
+      .main-content {
+        padding: 1rem;
+      }
+      
+      .page-title {
+        font-size: 1.5rem;
+      }
+      
+      .profile-grid {
+        gap: 1rem;
+      }
+      
+      .vitals-legend {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      
+      .record-tabs {
+        flex-wrap: wrap;
+      }
+      
+      .tab-button {
+        padding: 0.75rem 1rem;
+        font-size: 0.875rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">Cuida Mais</div>
+    <div class="search-bar">
+      <i class="fas fa-search" style="color: #6b7280;"></i>
+      <input id="global-search" type="text" placeholder="Pesquise por pacientes...">
+    </div>
+    <div class="user-profile" onclick="toggleUserMenu()">
+      <i class="fas fa-user"></i>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <a href="home-dashboard.html" class="nav-item">
+        <i class="fas fa-home"></i>
+        Home
+      </a>
+      <a href="pesquisa-pacientes.html" class="nav-item active">
+        <i class="fas fa-users"></i>
+        Pacientes
+      </a>
+      <a href="registrar-dados.html" class="nav-item">
+        <i class="fas fa-clipboard-list"></i>
+        Registro de Dados
+      </a>
+      <a href="PaginaRelatorio/Relatorio.html" class="nav-item">
+        <i class="fas fa-chart-bar"></i>
+        Relatórios
+      </a>
+      <a href="alertas.html" class="nav-item">
+        <i class="fas fa-bell"></i>
+        Alertas
+      </a>
+    </nav>
+
+    <!-- Conteúdo principal -->
+    <main class="main-content">
+      <div class="page-header">
+        <h1 class="page-title">Perfil do Paciente</h1>
+        <p class="page-subtitle">Visualização detalhada dos dados e histórico do paciente</p>
+      </div>
+
+      <!-- Grid do perfil -->
+      <div class="profile-grid">
+        <!-- Card do perfil do paciente -->
+        <div class="profile-card">
+          <div class="patient-photo">
+            IS
+          </div>
+          <h2 class="patient-name">Isabelle Silva</h2>
+          <p class="patient-id">ID Paciente: P210</p>
+          
+          <div class="patient-details">
+            <div class="detail-item">
+              <i class="fas fa-user detail-icon"></i>
+              <span class="detail-label">Idade:</span>
+              <span class="detail-value">68 anos</span>
+            </div>
+            <div class="detail-item">
+              <i class="fas fa-bed detail-icon"></i>
+              <span class="detail-label">Quarto:</span>
+              <span class="detail-value">UTI-B 223</span>
+            </div>
+            <div class="detail-item">
+              <i class="fas fa-tint detail-icon"></i>
+              <span class="detail-label">Tipo Sanguíneo:</span>
+              <span class="detail-value">B+</span>
+            </div>
+            <div class="detail-item">
+              <i class="fas fa-calendar detail-icon"></i>
+              <span class="detail-label">Admissão:</span>
+              <span class="detail-value">2025-07-06</span>
+            </div>
+            <div class="detail-item">
+              <i class="fas fa-phone detail-icon"></i>
+              <span class="detail-label">Contato:</span>
+              <span class="detail-value">(61) 91234-6789</span>
+            </div>
+          </div>
+          
+          <button class="edit-profile-btn" onclick="editProfile()">
+            <i class="fas fa-edit"></i> Editar Perfil
+          </button>
+        </div>
+
+        <!-- Card do gráfico de sinais vitais -->
+        <div class="vitals-card">
+          <div class="vitals-header">
+            <h3 class="vitals-title">Tendência de Sinais Vitais</h3>
+            <div class="vitals-legend">
+              <div class="legend-item">
+                <div class="legend-color legend-fc"></div>
+                <span>Frequência cardíaca (BPM)</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color legend-temp"></div>
+                <span>Temperatura (°C)</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color legend-pa-sist"></div>
+                <span>PA Sistólica (mmHg)</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color legend-pa-diast"></div>
+                <span>PA Diastólica (mmHg)</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="chart-container">
+            <canvas id="vitalsChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Seção do prontuário -->
+      <section class="record-section">
+        <div class="record-header">
+          <h2 class="record-title">Prontuário do Paciente</h2>
+          <p class="record-subtitle">Histórico completo de dados médicos e procedimentos</p>
+        </div>
+
+        <!-- Tabs do prontuário -->
+        <div class="record-tabs">
+          <button class="tab-button active" onclick="showTab('vitals')">
+            Histórico de Vitais
+          </button>
+          <button class="tab-button" onclick="showTab('medications')">
+            Medicamentos
+          </button>
+          <button class="tab-button" onclick="showTab('procedures')">
+            Procedimentos
+          </button>
+          <button class="tab-button" onclick="showTab('exams')">
+            Exames
+          </button>
+          <button class="tab-button" onclick="showTab('comments')">
+            Comentários
+          </button>
+        </div>
+
+        <!-- Conteúdo das tabs -->
+        <div id="vitals-tab" class="tab-content active">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Data</th>
+                <th>Horário</th>
+                <th>FC (BPM)</th>
+                <th>Temp (°C)</th>
+                <th>PA (mmHg)</th>
+                <th>SpO2 (%)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>2025-08-06</td>
+                <td>15:00</td>
+                <td>80</td>
+                <td>37.7</td>
+                <td>125/85</td>
+                <td>97</td>
+              </tr>
+              <tr>
+                <td>2025-08-06</td>
+                <td>14:00</td>
+                <td>83</td>
+                <td>37.9</td>
+                <td>128/88</td>
+                <td>96</td>
+              </tr>
+              <tr>
+                <td>2025-08-06</td>
+                <td>13:00</td>
+                <td>85</td>
+                <td>38.0</td>
+                <td>130/90</td>
+                <td>95</td>
+              </tr>
+              <tr>
+                <td>2025-08-06</td>
+                <td>12:00</td>
+                <td>82</td>
+                <td>37.8</td>
+                <td>128/88</td>
+                <td>96</td>
+              </tr>
+              <tr>
+                <td>2025-08-06</td>
+                <td>11:00</td>
+                <td>77</td>
+                <td>37.3</td>
+                <td>120/80</td>
+                <td>98</td>
+              </tr>
+              <tr>
+                <td>2025-08-06</td>
+                <td>10:00</td>
+                <td>80</td>
+                <td>37.5</td>
+                <td>125/85</td>
+                <td>97</td>
+              </tr>
+              <tr>
+                <td>2025-08-06</td>
+                <td>09:00</td>
+                <td>78</td>
+                <td>37.0</td>
+                <td>122/82</td>
+                <td>98</td>
+              </tr>
+              <tr>
+                <td>2025-08-06</td>
+                <td>08:00</td>
+                <td>75</td>
+                <td>37.2</td>
+                <td>120/80</td>
+                <td>99</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div id="medications-tab" class="tab-content">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Medicamento</th>
+                <th>Dosagem</th>
+                <th>Frequência</th>
+                <th>Início</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Dipirona</td>
+                <td>1g</td>
+                <td>6/6h</td>
+                <td>2025-08-05</td>
+                <td><span style="color: #059669; font-weight: 600;">Ativo</span></td>
+              </tr>
+              <tr>
+                <td>Omeprazol</td>
+                <td>40mg</td>
+                <td>1x/dia</td>
+                <td>2025-08-04</td>
+                <td><span style="color: #059669; font-weight: 600;">Ativo</span></td>
+              </tr>
+              <tr>
+                <td>Heparina</td>
+                <td>5000UI</td>
+                <td>12/12h</td>
+                <td>2025-08-03</td>
+                <td><span style="color: #dc2626; font-weight: 600;">Suspenso</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div id="procedures-tab" class="tab-content">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Procedimento</th>
+                <th>Data</th>
+                <th>Médico</th>
+                <th>Observações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Cateterismo Venoso Central</td>
+                <td>2025-08-05</td>
+                <td>Dr. Carlos Mendes</td>
+                <td>Procedimento realizado com sucesso</td>
+              </tr>
+              <tr>
+                <td>Intubação Orotraqueal</td>
+                <td>2025-08-04</td>
+                <td>Dr. Ana Silva</td>
+                <td>Paciente em ventilação mecânica</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div id="exams-tab" class="tab-content">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Exame</th>
+                <th>Data</th>
+                <th>Resultado</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Hemograma Completo</td>
+                <td>2025-08-06</td>
+                <td>Normal</td>
+                <td><span style="color: #059669; font-weight: 600;">Concluído</span></td>
+              </tr>
+              <tr>
+                <td>Ressonância Magnética</td>
+                <td>2025-08-05</td>
+                <td>Pendente</td>
+                <td><span style="color: #d97706; font-weight: 600;">Agendado</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div id="comments-tab" class="tab-content">
+          <div style="padding: 1rem 0;">
+            <div style="margin-bottom: 1rem; padding: 1rem; background-color: #f9fafb; border-radius: 8px;">
+              <div style="font-weight: 600; color: #111827; margin-bottom: 0.5rem;">Dr. Carlos Mendes - 2025-08-06 15:30</div>
+              <div style="color: #374151; line-height: 1.5;">
+                Paciente apresentou melhora significativa nos sinais vitais. Mantendo observação intensiva por mais 24h.
+              </div>
+            </div>
+            <div style="margin-bottom: 1rem; padding: 1rem; background-color: #f9fafb; border-radius: 8px;">
+              <div style="font-weight: 600; color: #111827; margin-bottom: 0.5rem;">Enf. Maria Santos - 2025-08-06 14:00</div>
+              <div style="color: #374151; line-height: 1.5;">
+                Administração de medicamentos conforme prescrição. Paciente colaborativo com os cuidados.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // Dados para o gráfico de sinais vitais
+    const chartData = {
+      labels: ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00'],
+      datasets: [
+        {
+          label: 'Frequência cardíaca (BPM)',
+          data: [75, 78, 80, 77, 82, 85, 83, 80],
+          borderColor: '#dc2626',
+          backgroundColor: 'rgba(220, 38, 38, 0.1)',
+          tension: 0.4
+        },
+        {
+          label: 'Temperatura (°C)',
+          data: [37.2, 37.0, 37.5, 37.3, 37.8, 38.0, 37.9, 37.7],
+          borderColor: '#2563eb',
+          backgroundColor: 'rgba(37, 99, 235, 0.1)',
+          tension: 0.4
+        },
+        {
+          label: 'PA Sistólica (mmHg)',
+          data: [120, 122, 125, 120, 128, 130, 128, 125],
+          borderColor: '#7c3aed',
+          backgroundColor: 'rgba(124, 58, 237, 0.1)',
+          tension: 0.4
+        },
+        {
+          label: 'PA Diastólica (mmHg)',
+          data: [80, 82, 85, 80, 88, 90, 88, 85],
+          borderColor: '#ec4899',
+          backgroundColor: 'rgba(236, 72, 153, 0.1)',
+          tension: 0.4
+        }
+      ]
+    };
+
+    // Configuração do gráfico
+    const ctx = document.getElementById('vitalsChart').getContext('2d');
+    const vitalsChart = new Chart(ctx, {
+      type: 'line',
+      data: chartData,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: false,
+            min: 35,
+            max: 140,
+            grid: {
+              color: '#e5e7eb'
+            }
+          },
+          x: {
+            grid: {
+              color: '#e5e7eb'
+            }
+          }
+        },
+        elements: {
+          point: {
+            radius: 4,
+            hoverRadius: 6
+          }
+        }
+      }
+    });
+
+    // Função para alternar entre as tabs
+    function showTab(tabName) {
+      // Esconder todas as tabs
+      document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      
+      // Remover classe active de todos os botões
+      document.querySelectorAll('.tab-button').forEach(button => {
+        button.classList.remove('active');
+      });
+      
+      // Mostrar a tab selecionada
+      document.getElementById(tabName + '-tab').classList.add('active');
+      
+      // Adicionar classe active ao botão clicado
+      event.target.classList.add('active');
+    }
+
+    // Função para editar perfil
+    function editProfile() {
+      alert('Função de edição de perfil - Em desenvolvimento');
+    }
+
+    // Função para toggle do menu do usuário
+    function toggleUserMenu() {
+      alert('Menu do usuário - Em desenvolvimento');
+    }
+
+    // Atualização automática dos dados (simulação)
+    setInterval(() => {
+      // Simular novos dados de sinais vitais
+      const newData = {
+        fc: Math.floor(Math.random() * 20) + 70, // 70-90 BPM
+        temp: (Math.random() * 2 + 36.5).toFixed(1), // 36.5-38.5°C
+        paSist: Math.floor(Math.random() * 30) + 110, // 110-140 mmHg
+        paDiast: Math.floor(Math.random() * 20) + 70 // 70-90 mmHg
+      };
+      
+      // Aqui você pode atualizar o gráfico com novos dados
+      console.log('Novos dados de sinais vitais:', newData);
+    }, 30000); // A cada 30 segundos
+
+    // Busca global: enter redireciona para a pesquisa
+    (function attachGlobalSearch(){
+      const input = document.getElementById('global-search');
+      if (!input) return;
+      input.addEventListener('keypress', function(e){
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          const term = input.value.trim();
+          if (term) window.location.href = `pesquisa-pacientes.html?search=${encodeURIComponent(term)}`;
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
+
+    </div>
+
+    <div class="user-profile" onclick="toggleUserMenu()">
+
+      <i class="fas fa-user"></i>
+
+    </div>
+
+  </header>
+
+
+
+  <div class="container">
+
+    <!-- Sidebar -->
+
+    <nav class="sidebar">
+
+      <a href="home-dashboard.html" class="nav-item">
+
+        <i class="fas fa-home"></i>
+
+        Home
+
+      </a>
+
+      <a href="pesquisa-pacientes.html" class="nav-item active">
+
+        <i class="fas fa-users"></i>
+
+        Pacientes
+
+      </a>
+
+      <a href="registrar-dados.html" class="nav-item">
+
+        <i class="fas fa-clipboard-list"></i>
+
+        Registro de Dados
+
+      </a>
+
+      <a href="#" class="nav-item">
+
+        <i class="fas fa-chart-bar"></i>
+
+        Relatórios
+
+      </a>
+
+      <a href="#" class="nav-item">
+
+        <i class="fas fa-bell"></i>
+
+        Alertas
+
+      </a>
+
+    </nav>
+
+
+
+    <!-- Conteúdo principal -->
+
+    <main class="main-content">
+
+      <div class="page-header">
+
+        <h1 class="page-title">Perfil do Paciente</h1>
+
+        <p class="page-subtitle">Visualização detalhada dos dados e histórico do paciente</p>
+
+      </div>
+
+
+
+      <!-- Grid do perfil -->
+
+      <div class="profile-grid">
+
+        <!-- Card do perfil do paciente -->
+
+        <div class="profile-card">
+
+          <div class="patient-photo">
+
+            IS
+
+          </div>
+
+          <h2 class="patient-name">Isabelle Silva</h2>
+
+          <p class="patient-id">ID Paciente: P210</p>
+
+          
+
+          <div class="patient-details">
+
+            <div class="detail-item">
+
+              <i class="fas fa-user detail-icon"></i>
+
+              <span class="detail-label">Idade:</span>
+
+              <span class="detail-value">68 anos</span>
+
+            </div>
+
+            <div class="detail-item">
+
+              <i class="fas fa-bed detail-icon"></i>
+
+              <span class="detail-label">Quarto:</span>
+
+              <span class="detail-value">UTI-B 223</span>
+
+            </div>
+
+            <div class="detail-item">
+
+              <i class="fas fa-tint detail-icon"></i>
+
+              <span class="detail-label">Tipo Sanguíneo:</span>
+
+              <span class="detail-value">B+</span>
+
+            </div>
+
+            <div class="detail-item">
+
+              <i class="fas fa-calendar detail-icon"></i>
+
+              <span class="detail-label">Admissão:</span>
+
+              <span class="detail-value">2025-07-06</span>
+
+            </div>
+
+            <div class="detail-item">
+
+              <i class="fas fa-phone detail-icon"></i>
+
+              <span class="detail-label">Contato:</span>
+
+              <span class="detail-value">(61) 91234-6789</span>
+
+            </div>
+
+          </div>
+
+          
+
+          <button class="edit-profile-btn" onclick="editProfile()">
+
+            <i class="fas fa-edit"></i> Editar Perfil
+
+          </button>
+
+        </div>
+
+
+
+        <!-- Card do gráfico de sinais vitais -->
+
+        <div class="vitals-card">
+
+          <div class="vitals-header">
+
+            <h3 class="vitals-title">Tendência de Sinais Vitais</h3>
+
+            <div class="vitals-legend">
+
+              <div class="legend-item">
+
+                <div class="legend-color legend-fc"></div>
+
+                <span>Frequência cardíaca (BPM)</span>
+
+              </div>
+
+              <div class="legend-item">
+
+                <div class="legend-color legend-temp"></div>
+
+                <span>Temperatura (°C)</span>
+
+              </div>
+
+              <div class="legend-item">
+
+                <div class="legend-color legend-pa-sist"></div>
+
+                <span>PA Sistólica (mmHg)</span>
+
+              </div>
+
+              <div class="legend-item">
+
+                <div class="legend-color legend-pa-diast"></div>
+
+                <span>PA Diastólica (mmHg)</span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          
+
+          <div class="chart-container">
+
+            <canvas id="vitalsChart"></canvas>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- Seção do prontuário -->
+
+      <section class="record-section">
+
+        <div class="record-header">
+
+          <h2 class="record-title">Prontuário do Paciente</h2>
+
+          <p class="record-subtitle">Histórico completo de dados médicos e procedimentos</p>
+
+        </div>
+
+
+
+        <!-- Tabs do prontuário -->
+
+        <div class="record-tabs">
+
+          <button class="tab-button active" onclick="showTab('vitals')">
+
+            Histórico de Vitais
+
+          </button>
+
+          <button class="tab-button" onclick="showTab('medications')">
+
+            Medicamentos
+
+          </button>
+
+          <button class="tab-button" onclick="showTab('procedures')">
+
+            Procedimentos
+
+          </button>
+
+          <button class="tab-button" onclick="showTab('exams')">
+
+            Exames
+
+          </button>
+
+          <button class="tab-button" onclick="showTab('comments')">
+
+            Comentários
+
+          </button>
+
+        </div>
+
+
+
+        <!-- Conteúdo das tabs -->
+
+        <div id="vitals-tab" class="tab-content active">
+
+          <table class="data-table">
+
+            <thead>
+
+              <tr>
+
+                <th>Data</th>
+
+                <th>Horário</th>
+
+                <th>FC (BPM)</th>
+
+                <th>Temp (°C)</th>
+
+                <th>PA (mmHg)</th>
+
+                <th>SpO2 (%)</th>
+
+              </tr>
+
+            </thead>
+
+            <tbody>
+
+              <tr>
+
+                <td>2025-08-06</td>
+
+                <td>15:00</td>
+
+                <td>80</td>
+
+                <td>37.7</td>
+
+                <td>125/85</td>
+
+                <td>97</td>
+
+              </tr>
+
+              <tr>
+
+                <td>2025-08-06</td>
+
+                <td>14:00</td>
+
+                <td>83</td>
+
+                <td>37.9</td>
+
+                <td>128/88</td>
+
+                <td>96</td>
+
+              </tr>
+
+              <tr>
+
+                <td>2025-08-06</td>
+
+                <td>13:00</td>
+
+                <td>85</td>
+
+                <td>38.0</td>
+
+                <td>130/90</td>
+
+                <td>95</td>
+
+              </tr>
+
+              <tr>
+
+                <td>2025-08-06</td>
+
+                <td>12:00</td>
+
+                <td>82</td>
+
+                <td>37.8</td>
+
+                <td>128/88</td>
+
+                <td>96</td>
+
+              </tr>
+
+              <tr>
+
+                <td>2025-08-06</td>
+
+                <td>11:00</td>
+
+                <td>77</td>
+
+                <td>37.3</td>
+
+                <td>120/80</td>
+
+                <td>98</td>
+
+              </tr>
+
+              <tr>
+
+                <td>2025-08-06</td>
+
+                <td>10:00</td>
+
+                <td>80</td>
+
+                <td>37.5</td>
+
+                <td>125/85</td>
+
+                <td>97</td>
+
+              </tr>
+
+              <tr>
+
+                <td>2025-08-06</td>
+
+                <td>09:00</td>
+
+                <td>78</td>
+
+                <td>37.0</td>
+
+                <td>122/82</td>
+
+                <td>98</td>
+
+              </tr>
+
+              <tr>
+
+                <td>2025-08-06</td>
+
+                <td>08:00</td>
+
+                <td>75</td>
+
+                <td>37.2</td>
+
+                <td>120/80</td>
+
+                <td>99</td>
+
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+
+
+        <div id="medications-tab" class="tab-content">
+
+          <table class="data-table">
+
+            <thead>
+
+              <tr>
+
+                <th>Medicamento</th>
+
+                <th>Dosagem</th>
+
+                <th>Frequência</th>
+
+                <th>Início</th>
+
+                <th>Status</th>
+
+              </tr>
+
+            </thead>
+
+            <tbody>
+
+              <tr>
+
+                <td>Dipirona</td>
+
+                <td>1g</td>
+
+                <td>6/6h</td>
+
+                <td>2025-08-05</td>
+
+                <td><span style="color: #059669; font-weight: 600;">Ativo</span></td>
+
+              </tr>
+
+              <tr>
+
+                <td>Omeprazol</td>
+
+                <td>40mg</td>
+
+                <td>1x/dia</td>
+
+                <td>2025-08-04</td>
+
+                <td><span style="color: #059669; font-weight: 600;">Ativo</span></td>
+
+              </tr>
+
+              <tr>
+
+                <td>Heparina</td>
+
+                <td>5000UI</td>
+
+                <td>12/12h</td>
+
+                <td>2025-08-03</td>
+
+                <td><span style="color: #dc2626; font-weight: 600;">Suspenso</span></td>
+
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+
+
+        <div id="procedures-tab" class="tab-content">
+
+          <table class="data-table">
+
+            <thead>
+
+              <tr>
+
+                <th>Procedimento</th>
+
+                <th>Data</th>
+
+                <th>Médico</th>
+
+                <th>Observações</th>
+
+              </tr>
+
+            </thead>
+
+            <tbody>
+
+              <tr>
+
+                <td>Cateterismo Venoso Central</td>
+
+                <td>2025-08-05</td>
+
+                <td>Dr. Carlos Mendes</td>
+
+                <td>Procedimento realizado com sucesso</td>
+
+              </tr>
+
+              <tr>
+
+                <td>Intubação Orotraqueal</td>
+
+                <td>2025-08-04</td>
+
+                <td>Dr. Ana Silva</td>
+
+                <td>Paciente em ventilação mecânica</td>
+
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+
+
+        <div id="exams-tab" class="tab-content">
+
+          <table class="data-table">
+
+            <thead>
+
+              <tr>
+
+                <th>Exame</th>
+
+                <th>Data</th>
+
+                <th>Resultado</th>
+
+                <th>Status</th>
+
+              </tr>
+
+            </thead>
+
+            <tbody>
+
+              <tr>
+
+                <td>Hemograma Completo</td>
+
+                <td>2025-08-06</td>
+
+                <td>Normal</td>
+
+                <td><span style="color: #059669; font-weight: 600;">Concluído</span></td>
+
+              </tr>
+
+              <tr>
+
+                <td>Ressonância Magnética</td>
+
+                <td>2025-08-05</td>
+
+                <td>Pendente</td>
+
+                <td><span style="color: #d97706; font-weight: 600;">Agendado</span></td>
+
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+
+
+        <div id="comments-tab" class="tab-content">
+
+          <div style="padding: 1rem 0;">
+
+            <div style="margin-bottom: 1rem; padding: 1rem; background-color: #f9fafb; border-radius: 8px;">
+
+              <div style="font-weight: 600; color: #111827; margin-bottom: 0.5rem;">Dr. Carlos Mendes - 2025-08-06 15:30</div>
+
+              <div style="color: #374151; line-height: 1.5;">
+
+                Paciente apresentou melhora significativa nos sinais vitais. Mantendo observação intensiva por mais 24h.
+
+              </div>
+
+            </div>
+
+            <div style="margin-bottom: 1rem; padding: 1rem; background-color: #f9fafb; border-radius: 8px;">
+
+              <div style="font-weight: 600; color: #111827; margin-bottom: 0.5rem;">Enf. Maria Santos - 2025-08-06 14:00</div>
+
+              <div style="color: #374151; line-height: 1.5;">
+
+                Administração de medicamentos conforme prescrição. Paciente colaborativo com os cuidados.
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+
+
+  <script>
+
+    // Dados para o gráfico de sinais vitais
+
+    const chartData = {
+
+      labels: ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00'],
+
+      datasets: [
+
+        {
+
+          label: 'Frequência cardíaca (BPM)',
+
+          data: [75, 78, 80, 77, 82, 85, 83, 80],
+
+          borderColor: '#dc2626',
+
+          backgroundColor: 'rgba(220, 38, 38, 0.1)',
+
+          tension: 0.4
+
+        },
+
+        {
+
+          label: 'Temperatura (°C)',
+
+          data: [37.2, 37.0, 37.5, 37.3, 37.8, 38.0, 37.9, 37.7],
+
+          borderColor: '#2563eb',
+
+          backgroundColor: 'rgba(37, 99, 235, 0.1)',
+
+          tension: 0.4
+
+        },
+
+        {
+
+          label: 'PA Sistólica (mmHg)',
+
+          data: [120, 122, 125, 120, 128, 130, 128, 125],
+
+          borderColor: '#7c3aed',
+
+          backgroundColor: 'rgba(124, 58, 237, 0.1)',
+
+          tension: 0.4
+
+        },
+
+        {
+
+          label: 'PA Diastólica (mmHg)',
+
+          data: [80, 82, 85, 80, 88, 90, 88, 85],
+
+          borderColor: '#ec4899',
+
+          backgroundColor: 'rgba(236, 72, 153, 0.1)',
+
+          tension: 0.4
+
+        }
+
+      ]
+
+    };
+
+
+
+    // Configuração do gráfico
+
+    const ctx = document.getElementById('vitalsChart').getContext('2d');
+
+    const vitalsChart = new Chart(ctx, {
+
+      type: 'line',
+
+      data: chartData,
+
+      options: {
+
+        responsive: true,
+
+        maintainAspectRatio: false,
+
+        plugins: {
+
+          legend: {
+
+            display: false
+
+          }
+
+        },
+
+        scales: {
+
+          y: {
+
+            beginAtZero: false,
+
+            min: 35,
+
+            max: 140,
+
+            grid: {
+
+              color: '#e5e7eb'
+
+            }
+
+          },
+
+          x: {
+
+            grid: {
+
+              color: '#e5e7eb'
+
+            }
+
+          }
+
+        },
+
+        elements: {
+
+          point: {
+
+            radius: 4,
+
+            hoverRadius: 6
+
+          }
+
+        }
+
+      }
+
+    });
+
+
+
+    // Função para alternar entre as tabs
+
+    function showTab(tabName) {
+
+      // Esconder todas as tabs
+
+      document.querySelectorAll('.tab-content').forEach(tab => {
+
+        tab.classList.remove('active');
+
+      });
+
+      
+
+      // Remover classe active de todos os botões
+
+      document.querySelectorAll('.tab-button').forEach(button => {
+
+        button.classList.remove('active');
+
+      });
+
+      
+
+      // Mostrar a tab selecionada
+
+      document.getElementById(tabName + '-tab').classList.add('active');
+
+      
+
+      // Adicionar classe active ao botão clicado
+
+      event.target.classList.add('active');
+
+    }
+
+
+
+    // Função para editar perfil
+
+    function editProfile() {
+
+      alert('Função de edição de perfil - Em desenvolvimento');
+
+    }
+
+
+
+    // Função para toggle do menu do usuário
+
+    function toggleUserMenu() {
+
+      alert('Menu do usuário - Em desenvolvimento');
+
+    }
+
+
+
+    // Atualização automática dos dados (simulação)
+
+    setInterval(() => {
+
+      // Simular novos dados de sinais vitais
+
+      const newData = {
+
+        fc: Math.floor(Math.random() * 20) + 70, // 70-90 BPM
+
+        temp: (Math.random() * 2 + 36.5).toFixed(1), // 36.5-38.5°C
+
+        paSist: Math.floor(Math.random() * 30) + 110, // 110-140 mmHg
+
+        paDiast: Math.floor(Math.random() * 20) + 70 // 70-90 mmHg
+
+      };
+
+      
+
+      // Aqui você pode atualizar o gráfico com novos dados
+
+      console.log('Novos dados de sinais vitais:', newData);
+
+    }, 30000); // A cada 30 segundos
+
+  </script>
+
+</body>
+
+</html>
+
+

@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home - Cuida Mais</title>
+
+  <!-- Fonte moderna -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Ícones Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background-color: #f5f5f5;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    .header {
+      background-color: white;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1e3a8a;
+    }
+
+    .user-profile {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #813dff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .user-profile:hover {
+      background-color: #6a2dd9;
+      transform: scale(1.05);
+    }
+
+    /* Container principal */
+    .container {
+      display: flex;
+      min-height: calc(100vh - 80px);
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 250px;
+      background-color: white;
+      padding: 2rem 0;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 80px;
+      height: calc(100vh - 80px);
+      overflow-y: auto;
+    }
+
+    .nav-item {
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: #374151;
+      transition: all 0.3s ease;
+      border-left: 3px solid transparent;
+      margin: 0.25rem 0;
+    }
+
+    .nav-item:hover {
+      background-color: #f3f4f6;
+      color: #813dff;
+    }
+
+    .nav-item.active {
+      background-color: #813dff;
+      color: white;
+      border-left-color: #6a2dd9;
+    }
+
+    .nav-item i {
+      margin-right: 12px;
+      width: 20px;
+      font-size: 1.1rem;
+    }
+
+    /* Conteúdo principal */
+    .main-content {
+      flex: 1;
+      padding: 2rem;
+    }
+
+    .welcome-section {
+      margin-bottom: 2rem;
+    }
+
+    .welcome-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 0.5rem;
+    }
+
+    .welcome-subtitle {
+      color: #6b7280;
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+    }
+
+    /* Barra de pesquisa */
+    .search-section {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      margin-bottom: 2rem;
+      background-color: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .search-input {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: #813dff;
+      box-shadow: 0 0 0 3px rgba(129, 61, 255, 0.1);
+    }
+
+    .search-btn {
+      padding: 0.75rem 1.5rem;
+      background-color: #813dff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .search-btn:hover {
+      background-color: #6a2dd9;
+    }
+
+    /* Cards do dashboard */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .card {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #111827;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .card-subtitle {
+      color: #6b7280;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+    }
+
+    .card-content {
+      padding: 1.5rem;
+    }
+
+    /* Alertas urgentes */
+    .alert-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      border-bottom: 1px solid #f3f4f6;
+      transition: all 0.3s ease;
+    }
+
+    .alert-item:last-child {
+      border-bottom: none;
+    }
+
+    .alert-item:hover {
+      background-color: #f9fafb;
+      margin: 0 -1.5rem;
+      padding: 1rem 1.5rem;
+    }
+
+    .alert-info {
+      flex: 1;
+    }
+
+    .alert-patient {
+      font-weight: 600;
+      color: #111827;
+      margin-bottom: 0.25rem;
+    }
+
+    .alert-time {
+      font-size: 0.875rem;
+      color: #6b7280;
+    }
+
+    .alert-level {
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .level-critical {
+      background-color: #fef2f2;
+      color: #dc2626;
+    }
+
+    .level-high {
+      background-color: #fef3c7;
+      color: #d97706;
+    }
+
+    .level-medium {
+      background-color: #fef3c7;
+      color: #d97706;
+    }
+
+    .level-low {
+      background-color: #dbeafe;
+      color: #2563eb;
+    }
+
+    .alert-arrow {
+      color: #6b7280;
+      margin-left: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .alert-item:hover .alert-arrow {
+      color: #813dff;
+      transform: translateX(3px);
+    }
+
+    .see-more-link {
+      display: block;
+      text-align: center;
+      padding: 1rem;
+      color: #813dff;
+      text-decoration: none;
+      font-weight: 600;
+      border-top: 1px solid #e5e7eb;
+      transition: all 0.3s ease;
+    }
+
+    .see-more-link:hover {
+      background-color: #f9fafb;
+      color: #6a2dd9;
+    }
+
+    /* Cards de ação */
+    .action-card {
+      text-align: center;
+      padding: 2rem 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .action-card:hover {
+      background-color: #f9fafb;
+    }
+
+    .action-icon {
+      width: 60px;
+      height: 60px;
+      background-color: #f3f4f6;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      font-size: 1.5rem;
+      color: #813dff;
+      transition: all 0.3s ease;
+    }
+
+    .action-card:hover .action-icon {
+      background-color: #813dff;
+      color: white;
+      transform: scale(1.1);
+    }
+
+    .action-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: #111827;
+      margin-bottom: 0.5rem;
+    }
+
+    .action-subtitle {
+      color: #6b7280;
+      font-size: 0.875rem;
+      line-height: 1.4;
+    }
+
+    /* Atividade recente */
+    .activity-section {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .activity-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .activity-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #111827;
+      margin-bottom: 0.25rem;
+    }
+
+    .activity-subtitle {
+      color: #6b7280;
+      font-size: 0.875rem;
+    }
+
+    .activity-list {
+      padding: 1.5rem;
+    }
+
+    .activity-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid #f3f4f6;
+    }
+
+    .activity-item:last-child {
+      border-bottom: none;
+    }
+
+    .activity-icon {
+      width: 8px;
+      height: 8px;
+      background-color: #813dff;
+      border-radius: 50%;
+      margin-top: 0.5rem;
+      flex-shrink: 0;
+    }
+
+    .activity-content {
+      flex: 1;
+    }
+
+    .activity-text {
+      color: #374151;
+      margin-bottom: 0.25rem;
+      line-height: 1.4;
+    }
+
+    .activity-time {
+      font-size: 0.875rem;
+      color: #6b7280;
+    }
+
+    /* Responsividade */
+    @media (max-width: 1200px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      
+      .alerts-card {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+      
+      .sidebar {
+        width: 100%;
+        position: static;
+        height: auto;
+        padding: 1rem 0;
+      }
+      
+      .nav-item {
+        padding: 0.75rem 1rem;
+      }
+      
+      .main-content {
+        padding: 1rem;
+      }
+      
+      .welcome-title {
+        font-size: 2rem;
+      }
+      
+      .search-section {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      
+      .card-header {
+        padding: 1rem;
+      }
+      
+      .card-content {
+        padding: 1rem;
+      }
+    }
+
+    /* Animações */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in-up {
+      animation: fadeInUp 0.6s ease-out;
+    }
+
+    .fade-in-up-delay-1 {
+      animation: fadeInUp 0.6s ease-out 0.1s both;
+    }
+
+    .fade-in-up-delay-2 {
+      animation: fadeInUp 0.6s ease-out 0.2s both;
+    }
+
+    .fade-in-up-delay-3 {
+      animation: fadeInUp 0.6s ease-out 0.3s both;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">Cuida Mais</div>
+    <div class="user-profile" onclick="toggleUserMenu()">
+      <i class="fas fa-user"></i>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <a href="home-dashboard.html" class="nav-item active">
+        <i class="fas fa-home"></i>
+        Home
+      </a>
+      <a href="pesquisa-pacientes.html" class="nav-item">
+        <i class="fas fa-users"></i>
+        Pacientes
+      </a>
+      <a href="registrar-dados.html" class="nav-item">
+        <i class="fas fa-clipboard-list"></i>
+        Registro de Dados
+      </a>
+      <a href="PaginaRelatorio/Relatorio.html" class="nav-item">
+        <i class="fas fa-chart-bar"></i>
+        Relatórios
+      </a>
+      <a href="alertas.html" class="nav-item">
+        <i class="fas fa-bell"></i>
+        Alertas
+      </a>
+    </nav>
+
+    <!-- Conteúdo principal -->
+    <main class="main-content">
+      <!-- Seção de boas-vindas -->
+      <section class="welcome-section fade-in-up">
+        <h1 class="welcome-title">Bem-vindo ao Cuida Mais</h1>
+        <p class="welcome-subtitle">Seu HUB central de gerenciamento de pacientes</p>
+      </section>
+
+      <!-- Barra de pesquisa -->
+      <section class="search-section fade-in-up-delay-1">
+        <input type="text" class="search-input" placeholder="Pesquise por pacientes por nome ou ID...">
+        <button class="search-btn" onclick="searchPatients()">
+          <i class="fas fa-search"></i>
+          Pesquisar Paciente
+        </button>
+      </section>
+
+      <!-- Grid do dashboard -->
+      <div class="dashboard-grid">
+        <!-- Card de Alertas Urgentes -->
+        <div class="card alerts-card fade-in-up-delay-2">
+          <div class="card-header">
+            <div>
+              <div class="card-title">
+                <i class="fas fa-exclamation-triangle" style="color: #dc2626;"></i>
+                Alertas Urgentes
+              </div>
+              <div class="card-subtitle">Atenção imediata necessitada para esses pacientes</div>
+            </div>
+          </div>
+          <div class="card-content">
+            <div class="alert-item" onclick="viewPatient('Isabelle Silva')">
+              <div class="alert-info">
+                <div class="alert-patient">Isabelle Silva</div>
+                <div class="alert-time">5 min atrás</div>
+              </div>
+              <span class="alert-level level-critical">Crítico</span>
+              <i class="fas fa-chevron-right alert-arrow"></i>
+            </div>
+            
+            <div class="alert-item" onclick="viewPatient('Sofia Lima')">
+              <div class="alert-info">
+                <div class="alert-patient">Sofia Lima</div>
+                <div class="alert-time">30 min atrás</div>
+              </div>
+              <span class="alert-level level-high">Alto</span>
+              <i class="fas fa-chevron-right alert-arrow"></i>
+            </div>
+            
+            <div class="alert-item" onclick="viewPatient('Beatriz Pereira')">
+              <div class="alert-info">
+                <div class="alert-patient">Beatriz Pereira</div>
+                <div class="alert-time">1 hr atrás</div>
+              </div>
+              <span class="alert-level level-medium">Médio</span>
+              <i class="fas fa-chevron-right alert-arrow"></i>
+            </div>
+            
+            <div class="alert-item" onclick="viewPatient('Maria Rodriguez')">
+              <div class="alert-info">
+                <div class="alert-patient">Maria Rodriguez</div>
+                <div class="alert-time">2 hrs atrás</div>
+              </div>
+              <span class="alert-level level-high">Alto</span>
+              <i class="fas fa-chevron-right alert-arrow"></i>
+            </div>
+            
+            <div class="alert-item" onclick="viewPatient('Lucas Ferreira')">
+              <div class="alert-info">
+                <div class="alert-patient">Lucas Ferreira</div>
+                <div class="alert-time">4 hrs atrás</div>
+              </div>
+              <span class="alert-level level-critical">Crítico</span>
+              <i class="fas fa-chevron-right alert-arrow"></i>
+            </div>
+            
+            <div class="alert-item" onclick="viewPatient('Carlos Mendes')">
+              <div class="alert-info">
+                <div class="alert-patient">Carlos Mendes</div>
+                <div class="alert-time">6 hrs atrás</div>
+              </div>
+              <span class="alert-level level-low">Baixo</span>
+              <i class="fas fa-chevron-right alert-arrow"></i>
+            </div>
+            
+            <a href="#" class="see-more-link">Ver mais →</a>
+          </div>
+        </div>
+
+        <!-- Card Registrar Dados -->
+        <div class="card action-card" onclick="openDataRegistration()">
+          <div class="card-content">
+            <div class="action-icon">
+              <i class="fas fa-edit"></i>
+            </div>
+            <div class="action-title">Registrar Dados</div>
+            <div class="action-subtitle">Registre novos pedidos de Assistência</div>
+          </div>
+        </div>
+
+        <!-- Card Monitoramento -->
+        <div class="card action-card" onclick="openPatientMonitoring()">
+          <div class="card-content">
+            <div class="action-icon">
+              <i class="fas fa-users"></i>
+            </div>
+            <div class="action-title">Monitoramento de Pacientes</div>
+            <div class="action-subtitle">Veja prontuários e históricos dos pacientes</div>
+          </div>
+        </div>
+
+        <!-- Card Configurações -->
+        <div class="card action-card" onclick="openSettings()">
+          <div class="card-content">
+            <div class="action-icon">
+              <i class="fas fa-cog"></i>
+            </div>
+            <div class="action-title">Configurações</div>
+            <div class="action-subtitle">Customize suas preferências</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Seção de Atividade Recente -->
+      <section class="activity-section fade-in-up-delay-3">
+        <div class="activity-header">
+          <h2 class="activity-title">Atividade Recente</h2>
+          <p class="activity-subtitle">Últimas atualizações acerca dos pacientes</p>
+        </div>
+        <div class="activity-list">
+          <div class="activity-item">
+            <div class="activity-icon"></div>
+            <div class="activity-content">
+              <div class="activity-text">Registro de Dados: Novos dados de Triagem para Carlos Mendes.</div>
+              <div class="activity-time">Agora</div>
+            </div>
+          </div>
+          
+          <div class="activity-item">
+            <div class="activity-icon"></div>
+            <div class="activity-content">
+              <div class="activity-text">Atualização de Paciente: Medicação alterada para Luís Costa.</div>
+              <div class="activity-time">15 min atrás</div>
+            </div>
+          </div>
+          
+          <div class="activity-item">
+            <div class="activity-icon"></div>
+            <div class="activity-content">
+              <div class="activity-text">Alerta Resolvida: Alerta Baixo de Charlie Brown Jr. marcado como concluído.</div>
+              <div class="activity-time">45 min atrás</div>
+            </div>
+          </div>
+          
+          <div class="activity-item">
+            <div class="activity-icon"></div>
+            <div class="activity-content">
+              <div class="activity-text">Novo Paciente: Ana Beatriz Costa registrada no sistema.</div>
+              <div class="activity-time">1 hr atrás</div>
+            </div>
+          </div>
+          
+          <div class="activity-item">
+            <div class="activity-icon"></div>
+            <div class="activity-content">
+              <div class="activity-text">Relatório Gerado: Relatório mensal de atividades do departamento.</div>
+              <div class="activity-time">2 hrs atrás</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // Função para pesquisa de pacientes
+    function searchPatients() {
+      const searchTerm = document.querySelector('.search-input').value;
+      if (searchTerm.trim()) {
+        // Redirecionar para a página de pesquisa com o termo
+        window.location.href = `pesquisa-pacientes.html?search=${encodeURIComponent(searchTerm)}`;
+      } else {
+        alert('Digite um termo para pesquisar');
+      }
+    }
+
+    // Enter também dispara a pesquisa
+    document.querySelector('.search-input').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        searchPatients();
+      }
+    });
+
+    // Função para visualizar paciente
+    function viewPatient(patientName) {
+      // Redirecionar para o perfil do paciente
+      window.location.href = 'perfil-paciente.html';
+    }
+
+    // Função para abrir registro de dados
+    function openDataRegistration() {
+      window.location.href = 'registrar-dados.html';
+    }
+
+    // Função para abrir monitoramento de pacientes
+    function openPatientMonitoring() {
+      alert('Abrindo monitoramento de pacientes...');
+      // Aqui você pode redirecionar para a página de monitoramento
+    }
+
+    // Função para abrir configurações
+    function openSettings() {
+      alert('Abrindo configurações do sistema...');
+      // Aqui você pode redirecionar para a página de configurações
+    }
+
+    // Função para toggle do menu do usuário
+    function toggleUserMenu() {
+      alert('Menu do usuário - Em desenvolvimento');
+      // Aqui você pode implementar um dropdown menu
+    }
+
+    // (mantido acima)
+
+    // Efeitos de hover nos cards de ação
+    document.querySelectorAll('.action-card').forEach(card => {
+      card.addEventListener('mouseenter', function() {
+        this.style.transform = 'translateY(-4px)';
+      });
+      
+      card.addEventListener('mouseleave', function() {
+        this.style.transform = 'translateY(0)';
+      });
+    });
+
+    // Atualização automática de alertas (simulação)
+    setInterval(() => {
+      // Simular novos alertas
+      const alertItems = document.querySelectorAll('.alert-item');
+      if (alertItems.length > 0) {
+        const randomAlert = alertItems[Math.floor(Math.random() * alertItems.length)];
+        randomAlert.style.backgroundColor = '#fef3c7';
+        setTimeout(() => {
+          randomAlert.style.backgroundColor = '';
+        }, 2000);
+      }
+    }, 10000);
+
+    // Contador de tempo real
+    function updateTimeAgo() {
+      const timeElements = document.querySelectorAll('.alert-time, .activity-time');
+      timeElements.forEach(element => {
+        const text = element.textContent;
+        if (text.includes('min atrás') || text.includes('hr atrás')) {
+          // Aqui você pode implementar uma lógica mais sofisticada
+          // para atualizar os tempos em tempo real
+        }
+      });
+    }
+
+    // Atualizar tempos a cada minuto
+    setInterval(updateTimeAgo, 60000);
+
+    // Animações de entrada
+    document.addEventListener('DOMContentLoaded', function() {
+      // Adicionar classes de animação após o carregamento
+      const elements = document.querySelectorAll('.fade-in-up, .fade-in-up-delay-1, .fade-in-up-delay-2, .fade-in-up-delay-3');
+      elements.forEach(element => {
+        element.style.opacity = '0';
+        element.style.transform = 'translateY(20px)';
+      });
+
+      setTimeout(() => {
+        elements.forEach(element => {
+          element.style.transition = 'all 0.6s ease-out';
+          element.style.opacity = '1';
+          element.style.transform = 'translateY(0)';
+        });
+      }, 100);
+    });
+  </script>
+</body>
+</html>

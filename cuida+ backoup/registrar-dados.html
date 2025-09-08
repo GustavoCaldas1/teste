@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registrar Nova Requisição de Ajuda - Cuida Mais</title>
+
+  <!-- Fonte moderna -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Ícones Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background-color: #f5f5f5;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    .header {
+      background-color: white;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1e3a8a;
+    }
+
+    .search-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background-color: #f3f4f6;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      width: 300px;
+    }
+
+    .search-bar input {
+      border: none;
+      background: none;
+      outline: none;
+      font-size: 0.875rem;
+      color: #374151;
+      width: 100%;
+    }
+
+    .search-bar input::placeholder {
+      color: #6b7280;
+    }
+
+    .user-profile {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #813dff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .user-profile:hover {
+      background-color: #6a2dd9;
+      transform: scale(1.05);
+    }
+
+    /* Container principal */
+    .container {
+      display: flex;
+      min-height: calc(100vh - 80px);
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 250px;
+      background-color: white;
+      padding: 2rem 0;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 80px;
+      height: calc(100vh - 80px);
+      overflow-y: auto;
+    }
+
+    .nav-item {
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: #374151;
+      transition: all 0.3s ease;
+      border-left: 3px solid transparent;
+      margin: 0.25rem 0;
+    }
+
+    .nav-item:hover {
+      background-color: #f3f4f6;
+      color: #813dff;
+    }
+
+    .nav-item.active {
+      background-color: #813dff;
+      color: white;
+      border-left-color: #6a2dd9;
+    }
+
+    .nav-item i {
+      margin-right: 12px;
+      width: 20px;
+      font-size: 1.1rem;
+    }
+
+    /* Conteúdo principal */
+    .main-content {
+      flex: 1;
+      padding: 2rem;
+    }
+
+    .page-header {
+      margin-bottom: 2rem;
+    }
+
+    .page-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 0.5rem;
+    }
+
+    .page-subtitle {
+      color: #6b7280;
+      font-size: 1rem;
+    }
+
+    /* Formulário */
+    .form-container {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      max-width: 1200px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .form-section {
+      margin-bottom: 2rem;
+    }
+
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #111827;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #f3f4f6;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #374151;
+      font-size: 0.875rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      background-color: white;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #813dff;
+      box-shadow: 0 0 0 3px rgba(129, 61, 255, 0.1);
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: #9ca3af;
+    }
+
+    .form-group select {
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+      background-position: right 0.5rem center;
+      background-repeat: no-repeat;
+      background-size: 1.5em 1.5em;
+      padding-right: 2.5rem;
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    /* Necessidades específicas */
+    .needs-section {
+      grid-column: 1 / -1;
+    }
+
+    .needs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .need-item {
+      background-color: #f9fafb;
+      padding: 1.5rem;
+      border-radius: 8px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .need-item label {
+      font-weight: 600;
+      color: #111827;
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    .need-item textarea {
+      background-color: white;
+    }
+
+    /* Botões de ação */
+    .form-actions {
+      grid-column: 1 / -1;
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-secondary {
+      background-color: white;
+      color: #813dff;
+      border: 1px solid #813dff;
+    }
+
+    .btn-secondary:hover {
+      background-color: #f3f4f6;
+    }
+
+    .btn-primary {
+      background-color: #813dff;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: #6a2dd9;
+      transform: translateY(-1px);
+    }
+
+    /* Validação */
+    .form-group.error input,
+    .form-group.error select,
+    .form-group.error textarea {
+      border-color: #dc2626;
+    }
+
+    .error-message {
+      color: #dc2626;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+    }
+
+    /* Responsividade */
+    @media (max-width: 1024px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .needs-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+      
+      .sidebar {
+        width: 100%;
+        position: static;
+        height: auto;
+        padding: 1rem 0;
+      }
+      
+      .nav-item {
+        padding: 0.75rem 1rem;
+      }
+      
+      .main-content {
+        padding: 1rem;
+      }
+      
+      .form-container {
+        padding: 1rem;
+      }
+      
+      .form-actions {
+        flex-direction: column;
+      }
+      
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    /* Animações */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in-up {
+      animation: fadeInUp 0.6s ease-out;
+    }
+
+    .fade-in-up-delay-1 {
+      animation: fadeInUp 0.6s ease-out 0.1s both;
+    }
+
+    .fade-in-up-delay-2 {
+      animation: fadeInUp 0.6s ease-out 0.2s both;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">Cuida Mais</div>
+    <div class="search-bar">
+      <i class="fas fa-search" style="color: #6b7280;"></i>
+      <input id="global-search" type="text" placeholder="Pesquisar por pacientes...">
+    </div>
+    <div class="user-profile" onclick="toggleUserMenu()">
+      <i class="fas fa-user"></i>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <a href="home-dashboard.html" class="nav-item">
+        <i class="fas fa-home"></i>
+        Home
+      </a>
+      <a href="pesquisa-pacientes.html" class="nav-item">
+        <i class="fas fa-users"></i>
+        Pacientes
+      </a>
+      <a href="#" class="nav-item active">
+        <i class="fas fa-clipboard-list"></i>
+        Registro de Dados
+      </a>
+      <a href="PaginaRelatorio/Relatorio.html" class="nav-item">
+        <i class="fas fa-chart-bar"></i>
+        Relatórios
+      </a>
+      <a href="alertas.html" class="nav-item">
+        <i class="fas fa-bell"></i>
+        Alertas
+      </a>
+    </nav>
+
+    <!-- Conteúdo principal -->
+    <main class="main-content">
+      <div class="page-header fade-in-up">
+        <h1 class="page-title">Registrar Nova Requisição de Ajuda</h1>
+        <p class="page-subtitle">Preencha os dados abaixo para registrar uma nova requisição de assistência</p>
+      </div>
+
+      <form class="form-container fade-in-up-delay-1" id="requestForm">
+        <div class="form-grid">
+          <!-- Coluna Esquerda: Detalhes do Pedido -->
+          <div class="form-section">
+            <h2 class="section-title">Detalhes do Pedido</h2>
+            
+            <div class="form-group">
+              <label for="patient-id">ID do Paciente</label>
+              <input type="text" id="patient-id" name="patient-id" placeholder="ex. P00123" required>
+            </div>
+
+            <div class="form-group">
+              <label for="request-date">Data</label>
+              <input type="date" id="request-date" name="request-date" required>
+            </div>
+
+            <div class="form-group">
+              <label for="request-time">Hora</label>
+              <input type="time" id="request-time" name="request-time" required>
+            </div>
+          </div>
+
+          <!-- Coluna Direita: Urgência -->
+          <div class="form-section">
+            <h2 class="section-title">Urgência</h2>
+            
+            <div class="form-group">
+              <label for="urgency-level">Nível de Urgência</label>
+              <select id="urgency-level" name="urgency-level" required>
+                <option value="">Selecione a Urgência</option>
+                <option value="baixa">Baixa</option>
+                <option value="media">Média</option>
+                <option value="alta">Alta</option>
+                <option value="critica">Crítica</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Seção de Necessidades (Ocupa toda a largura) -->
+          <div class="form-section needs-section fade-in-up-delay-2">
+            <h2 class="section-title">Tipos Comuns de Necessidade</h2>
+            
+            <div class="needs-grid">
+              <div class="need-item">
+                <label for="medication-needs">Administração de Medicamento</label>
+                <textarea 
+                  id="medication-needs" 
+                  name="medication-needs" 
+                  placeholder="Insira as necessidades do(a) Paciente"
+                  rows="3"
+                ></textarea>
+              </div>
+
+              <div class="need-item">
+                <label for="hygiene-needs">Assistência para Higiene</label>
+                <textarea 
+                  id="hygiene-needs" 
+                  name="hygiene-needs" 
+                  placeholder="Insira as necessidades do(a) Paciente"
+                  rows="3"
+                ></textarea>
+              </div>
+
+              <div class="need-item">
+                <label for="feeding-needs">Assistência para Alimentação</label>
+                <textarea 
+                  id="feeding-needs" 
+                  name="feeding-needs" 
+                  placeholder="Insira as necessidades do(a) Paciente"
+                  rows="3"
+                ></textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- Comentários Adicionais -->
+          <div class="form-section" style="grid-column: 1 / -1;">
+            <h2 class="section-title">Comentários Adicionais</h2>
+            
+            <div class="form-group">
+              <label for="additional-comments">Informações Adicionais</label>
+              <textarea 
+                id="additional-comments" 
+                name="additional-comments" 
+                placeholder="Insira informações adicionais sobre o pedido"
+                rows="4"
+              ></textarea>
+            </div>
+          </div>
+
+          <!-- Botões de Ação -->
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary" onclick="resetForm()">
+              <i class="fas fa-undo"></i>
+              Reiniciar Formulário
+            </button>
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-save"></i>
+              Registrar Pedido
+            </button>
+          </div>
+        </div>
+      </form>
+    </main>
+  </div>
+
+  <script>
+    // Função para resetar o formulário
+    function resetForm() {
+      if (confirm('Tem certeza que deseja limpar todos os dados do formulário?')) {
+        document.getElementById('requestForm').reset();
+        clearErrors();
+        // Definir data e hora atual
+        const now = new Date();
+        document.getElementById('request-date').value = now.toISOString().split('T')[0];
+        document.getElementById('request-time').value = now.toTimeString().slice(0, 5);
+      }
+    }
+
+    // Função para limpar erros
+    function clearErrors() {
+      document.querySelectorAll('.form-group.error').forEach(group => {
+        group.classList.remove('error');
+      });
+      document.querySelectorAll('.error-message').forEach(msg => {
+        msg.remove();
+      });
+    }
+
+    // Função para mostrar erro
+    function showError(fieldId, message) {
+      const field = document.getElementById(fieldId);
+      const formGroup = field.closest('.form-group');
+      
+      formGroup.classList.add('error');
+      
+      // Remover mensagem de erro existente
+      const existingError = formGroup.querySelector('.error-message');
+      if (existingError) {
+        existingError.remove();
+      }
+      
+      // Adicionar nova mensagem de erro
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'error-message';
+      errorDiv.textContent = message;
+      formGroup.appendChild(errorDiv);
+    }
+
+    // Função para validar formulário
+    function validateForm() {
+      clearErrors();
+      let isValid = true;
+
+      // Validar ID do paciente
+      const patientId = document.getElementById('patient-id').value.trim();
+      if (!patientId) {
+        showError('patient-id', 'ID do paciente é obrigatório');
+        isValid = false;
+      } else if (patientId.length < 3) {
+        showError('patient-id', 'ID do paciente deve ter pelo menos 3 caracteres');
+        isValid = false;
+      }
+
+      // Validar data
+      const requestDate = document.getElementById('request-date').value;
+      if (!requestDate) {
+        showError('request-date', 'Data é obrigatória');
+        isValid = false;
+      }
+
+      // Validar hora
+      const requestTime = document.getElementById('request-time').value;
+      if (!requestTime) {
+        showError('request-time', 'Hora é obrigatória');
+        isValid = false;
+      }
+
+      // Validar nível de urgência
+      const urgencyLevel = document.getElementById('urgency-level').value;
+      if (!urgencyLevel) {
+        showError('urgency-level', 'Nível de urgência é obrigatório');
+        isValid = false;
+      }
+
+      return isValid;
+    }
+
+    // Manipulador de envio do formulário
+    document.getElementById('requestForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      if (validateForm()) {
+        // Coletar dados do formulário
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData);
+        
+        // Simular envio
+        const submitBtn = document.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Registrando...';
+        submitBtn.disabled = true;
+        
+        setTimeout(() => {
+          alert('Requisição registrada com sucesso!');
+          this.reset();
+          clearErrors();
+          
+          // Definir data e hora atual
+          const now = new Date();
+          document.getElementById('request-date').value = now.toISOString().split('T')[0];
+          document.getElementById('request-time').value = now.toTimeString().slice(0, 5);
+          
+          submitBtn.innerHTML = originalText;
+          submitBtn.disabled = false;
+        }, 2000);
+      }
+    });
+
+    // Função para toggle do menu do usuário
+    function toggleUserMenu() {
+      alert('Menu do usuário - Em desenvolvimento');
+    }
+
+    // Inicialização
+    document.addEventListener('DOMContentLoaded', function() {
+      // Definir data e hora atual
+      const now = new Date();
+      document.getElementById('request-date').value = now.toISOString().split('T')[0];
+      document.getElementById('request-time').value = now.toTimeString().slice(0, 5);
+      
+      // Auto-resize para textareas
+      document.querySelectorAll('textarea').forEach(textarea => {
+        textarea.addEventListener('input', function() {
+          this.style.height = 'auto';
+          this.style.height = this.scrollHeight + 'px';
+        });
+      });
+    });
+
+    // Validação em tempo real
+    document.getElementById('patient-id').addEventListener('blur', function() {
+      const value = this.value.trim();
+      if (value && value.length < 3) {
+        showError('patient-id', 'ID do paciente deve ter pelo menos 3 caracteres');
+      } else {
+        clearErrors();
+      }
+    });
+    // Busca global em registrar-dados
+    (function attachGlobalSearch(){
+      const input = document.getElementById('global-search');
+      if (!input) return;
+      input.addEventListener('keypress', function(e){
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          const term = input.value.trim();
+          if (term) window.location.href = `pesquisa-pacientes.html?search=${encodeURIComponent(term)}`;
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
+
+
+      
+
+      .main-content {
+
+        padding: 1rem;
+
+      }
+
+      
+
+      .form-container {
+
+        padding: 1rem;
+
+      }
+
+      
+
+      .form-actions {
+
+        flex-direction: column;
+
+      }
+
+      
+
+      .btn {
+
+        width: 100%;
+
+        justify-content: center;
+
+      }
+
+    }
+
+
+
+    /* Animações */
+
+    @keyframes fadeInUp {
+
+      from {
+
+        opacity: 0;
+
+        transform: translateY(20px);
+
+      }
+
+      to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+
+      }
+
+    }
+
+
+
+    .fade-in-up {
+
+      animation: fadeInUp 0.6s ease-out;
+
+    }
+
+
+
+    .fade-in-up-delay-1 {
+
+      animation: fadeInUp 0.6s ease-out 0.1s both;
+
+    }
+
+
+
+    .fade-in-up-delay-2 {
+
+      animation: fadeInUp 0.6s ease-out 0.2s both;
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <!-- Header -->
+
+  <header class="header">
+
+    <div class="logo">Cuida Mais</div>
+
+    <div class="search-bar">
+
+      <i class="fas fa-search" style="color: #6b7280;"></i>
+
+      <input type="text" placeholder="Pesquisar por pacientes...">
+
+    </div>
+
+    <div class="user-profile" onclick="toggleUserMenu()">
+
+      <i class="fas fa-user"></i>
+
+    </div>
+
+  </header>
+
+
+
+  <div class="container">
+
+    <!-- Sidebar -->
+
+    <nav class="sidebar">
+
+      <a href="home-dashboard.html" class="nav-item">
+
+        <i class="fas fa-home"></i>
+
+        Home
+
+      </a>
+
+      <a href="pesquisa-pacientes.html" class="nav-item">
+
+        <i class="fas fa-users"></i>
+
+        Pacientes
+
+      </a>
+
+      <a href="#" class="nav-item active">
+
+        <i class="fas fa-clipboard-list"></i>
+
+        Registro de Dados
+
+      </a>
+
+      <a href="#" class="nav-item">
+
+        <i class="fas fa-chart-bar"></i>
+
+        Relatórios
+
+      </a>
+
+      <a href="#" class="nav-item">
+
+        <i class="fas fa-bell"></i>
+
+        Alertas
+
+      </a>
+
+    </nav>
+
+
+
+    <!-- Conteúdo principal -->
+
+    <main class="main-content">
+
+      <div class="page-header fade-in-up">
+
+        <h1 class="page-title">Registrar Nova Requisição de Ajuda</h1>
+
+        <p class="page-subtitle">Preencha os dados abaixo para registrar uma nova requisição de assistência</p>
+
+      </div>
+
+
+
+      <form class="form-container fade-in-up-delay-1" id="requestForm">
+
+        <div class="form-grid">
+
+          <!-- Coluna Esquerda: Detalhes do Pedido -->
+
+          <div class="form-section">
+
+            <h2 class="section-title">Detalhes do Pedido</h2>
+
+            
+
+            <div class="form-group">
+
+              <label for="patient-id">ID do Paciente</label>
+
+              <input type="text" id="patient-id" name="patient-id" placeholder="ex. P00123" required>
+
+            </div>
+
+
+
+            <div class="form-group">
+
+              <label for="request-date">Data</label>
+
+              <input type="date" id="request-date" name="request-date" required>
+
+            </div>
+
+
+
+            <div class="form-group">
+
+              <label for="request-time">Hora</label>
+
+              <input type="time" id="request-time" name="request-time" required>
+
+            </div>
+
+          </div>
+
+
+
+          <!-- Coluna Direita: Urgência -->
+
+          <div class="form-section">
+
+            <h2 class="section-title">Urgência</h2>
+
+            
+
+            <div class="form-group">
+
+              <label for="urgency-level">Nível de Urgência</label>
+
+              <select id="urgency-level" name="urgency-level" required>
+
+                <option value="">Selecione a Urgência</option>
+
+                <option value="baixa">Baixa</option>
+
+                <option value="media">Média</option>
+
+                <option value="alta">Alta</option>
+
+                <option value="critica">Crítica</option>
+
+              </select>
+
+            </div>
+
+          </div>
+
+
+
+          <!-- Seção de Necessidades (Ocupa toda a largura) -->
+
+          <div class="form-section needs-section fade-in-up-delay-2">
+
+            <h2 class="section-title">Tipos Comuns de Necessidade</h2>
+
+            
+
+            <div class="needs-grid">
+
+              <div class="need-item">
+
+                <label for="medication-needs">Administração de Medicamento</label>
+
+                <textarea 
+
+                  id="medication-needs" 
+
+                  name="medication-needs" 
+
+                  placeholder="Insira as necessidades do(a) Paciente"
+
+                  rows="3"
+
+                ></textarea>
+
+              </div>
+
+
+
+              <div class="need-item">
+
+                <label for="hygiene-needs">Assistência para Higiene</label>
+
+                <textarea 
+
+                  id="hygiene-needs" 
+
+                  name="hygiene-needs" 
+
+                  placeholder="Insira as necessidades do(a) Paciente"
+
+                  rows="3"
+
+                ></textarea>
+
+              </div>
+
+
+
+              <div class="need-item">
+
+                <label for="feeding-needs">Assistência para Alimentação</label>
+
+                <textarea 
+
+                  id="feeding-needs" 
+
+                  name="feeding-needs" 
+
+                  placeholder="Insira as necessidades do(a) Paciente"
+
+                  rows="3"
+
+                ></textarea>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+
+          <!-- Comentários Adicionais -->
+
+          <div class="form-section" style="grid-column: 1 / -1;">
+
+            <h2 class="section-title">Comentários Adicionais</h2>
+
+            
+
+            <div class="form-group">
+
+              <label for="additional-comments">Informações Adicionais</label>
+
+              <textarea 
+
+                id="additional-comments" 
+
+                name="additional-comments" 
+
+                placeholder="Insira informações adicionais sobre o pedido"
+
+                rows="4"
+
+              ></textarea>
+
+            </div>
+
+          </div>
+
+
+
+          <!-- Botões de Ação -->
+
+          <div class="form-actions">
+
+            <button type="button" class="btn btn-secondary" onclick="resetForm()">
+
+              <i class="fas fa-undo"></i>
+
+              Reiniciar Formulário
+
+            </button>
+
+            <button type="submit" class="btn btn-primary">
+
+              <i class="fas fa-save"></i>
+
+              Registrar Pedido
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </form>
+
+    </main>
+
+  </div>
+
+
+
+  <script>
+
+    // Função para resetar o formulário
+
+    function resetForm() {
+
+      if (confirm('Tem certeza que deseja limpar todos os dados do formulário?')) {
+
+        document.getElementById('requestForm').reset();
+
+        clearErrors();
+
+        // Definir data e hora atual
+
+        const now = new Date();
+
+        document.getElementById('request-date').value = now.toISOString().split('T')[0];
+
+        document.getElementById('request-time').value = now.toTimeString().slice(0, 5);
+
+      }
+
+    }
+
+
+
+    // Função para limpar erros
+
+    function clearErrors() {
+
+      document.querySelectorAll('.form-group.error').forEach(group => {
+
+        group.classList.remove('error');
+
+      });
+
+      document.querySelectorAll('.error-message').forEach(msg => {
+
+        msg.remove();
+
+      });
+
+    }
+
+
+
+    // Função para mostrar erro
+
+    function showError(fieldId, message) {
+
+      const field = document.getElementById(fieldId);
+
+      const formGroup = field.closest('.form-group');
+
+      
+
+      formGroup.classList.add('error');
+
+      
+
+      // Remover mensagem de erro existente
+
+      const existingError = formGroup.querySelector('.error-message');
+
+      if (existingError) {
+
+        existingError.remove();
+
+      }
+
+      
+
+      // Adicionar nova mensagem de erro
+
+      const errorDiv = document.createElement('div');
+
+      errorDiv.className = 'error-message';
+
+      errorDiv.textContent = message;
+
+      formGroup.appendChild(errorDiv);
+
+    }
+
+
+
+    // Função para validar formulário
+
+    function validateForm() {
+
+      clearErrors();
+
+      let isValid = true;
+
+
+
+      // Validar ID do paciente
+
+      const patientId = document.getElementById('patient-id').value.trim();
+
+      if (!patientId) {
+
+        showError('patient-id', 'ID do paciente é obrigatório');
+
+        isValid = false;
+
+      } else if (patientId.length < 3) {
+
+        showError('patient-id', 'ID do paciente deve ter pelo menos 3 caracteres');
+
+        isValid = false;
+
+      }
+
+
+
+      // Validar data
+
+      const requestDate = document.getElementById('request-date').value;
+
+      if (!requestDate) {
+
+        showError('request-date', 'Data é obrigatória');
+
+        isValid = false;
+
+      }
+
+
+
+      // Validar hora
+
+      const requestTime = document.getElementById('request-time').value;
+
+      if (!requestTime) {
+
+        showError('request-time', 'Hora é obrigatória');
+
+        isValid = false;
+
+      }
+
+
+
+      // Validar nível de urgência
+
+      const urgencyLevel = document.getElementById('urgency-level').value;
+
+      if (!urgencyLevel) {
+
+        showError('urgency-level', 'Nível de urgência é obrigatório');
+
+        isValid = false;
+
+      }
+
+
+
+      return isValid;
+
+    }
+
+
+
+    // Manipulador de envio do formulário
+
+    document.getElementById('requestForm').addEventListener('submit', function(e) {
+
+      e.preventDefault();
+
+      
+
+      if (validateForm()) {
+
+        // Coletar dados do formulário
+
+        const formData = new FormData(this);
+
+        const data = Object.fromEntries(formData);
+
+        
+
+        // Simular envio
+
+        const submitBtn = document.querySelector('button[type="submit"]');
+
+        const originalText = submitBtn.innerHTML;
+
+        
+
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Registrando...';
+
+        submitBtn.disabled = true;
+
+        
+
+        setTimeout(() => {
+
+          alert('Requisição registrada com sucesso!');
+
+          this.reset();
+
+          clearErrors();
+
+          
+
+          // Definir data e hora atual
+
+          const now = new Date();
+
+          document.getElementById('request-date').value = now.toISOString().split('T')[0];
+
+          document.getElementById('request-time').value = now.toTimeString().slice(0, 5);
+
+          
+
+          submitBtn.innerHTML = originalText;
+
+          submitBtn.disabled = false;
+
+        }, 2000);
+
+      }
+
+    });
+
+
+
+    // Função para toggle do menu do usuário
+
+    function toggleUserMenu() {
+
+      alert('Menu do usuário - Em desenvolvimento');
+
+    }
+
+
+
+    // Inicialização
+
+    document.addEventListener('DOMContentLoaded', function() {
+
+      // Definir data e hora atual
+
+      const now = new Date();
+
+      document.getElementById('request-date').value = now.toISOString().split('T')[0];
+
+      document.getElementById('request-time').value = now.toTimeString().slice(0, 5);
+
+      
+
+      // Auto-resize para textareas
+
+      document.querySelectorAll('textarea').forEach(textarea => {
+
+        textarea.addEventListener('input', function() {
+
+          this.style.height = 'auto';
+
+          this.style.height = this.scrollHeight + 'px';
+
+        });
+
+      });
+
+    });
+
+
+
+    // Validação em tempo real
+
+    document.getElementById('patient-id').addEventListener('blur', function() {
+
+      const value = this.value.trim();
+
+      if (value && value.length < 3) {
+
+        showError('patient-id', 'ID do paciente deve ter pelo menos 3 caracteres');
+
+      } else {
+
+        clearErrors();
+
+      }
+
+    });
+
+  </script>
+
+</body>
+
+</html>
+
+

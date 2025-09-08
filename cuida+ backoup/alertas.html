@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alertas - Cuida Mais</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/alertas.css">
+</head>
+<body>
+  <header class="header">
+    <div class="logo">Cuida Mais</div>
+    <div class="search-bar">
+      <i class="fas fa-search" style="color: #6b7280;"></i>
+      <input type="text" placeholder="Pesquise por pacientes...">
+    </div>
+    <div class="user-profile"><i class="fas fa-user"></i></div>
+  </header>
+
+  <div class="container">
+    <nav class="sidebar">
+      <a href="home-dashboard.html" class="nav-item">
+        <i class="fas fa-home"></i>
+        Home
+      </a>
+      <a href="pesquisa-pacientes.html" class="nav-item">
+        <i class="fas fa-users"></i>
+        Pacientes
+      </a>
+      <a href="registrar-dados.html" class="nav-item">
+        <i class="fas fa-clipboard-list"></i>
+        Registro de Dados
+      </a>
+      <a href="PaginaRelatorio/Relatorio.html" class="nav-item">
+        <i class="fas fa-chart-bar"></i>
+        Relatórios
+      </a>
+      <a href="alertas.html" class="nav-item active">
+        <i class="fas fa-bell"></i>
+        Alertas
+      </a>
+    </nav>
+
+    <main class="main-content">
+      <div class="page-header">
+        <h1 class="page-title">Alertas Recentes</h1>
+        <p class="page-subtitle">Acompanhe e gerencie os alertas gerados pelos pacientes</p>
+      </div>
+
+      <section class="alerts-card">
+        <div class="alerts-header">
+          <div>
+            <h2 class="alerts-title">Alertas Recentes</h2>
+            <p class="alerts-subtitle">Lista atualizada de eventos com prioridade</p>
+          </div>
+          <div class="filters">
+            <select id="filterUrgency">
+              <option value="">Todas as urgências</option>
+              <option value="Crítico">Crítico</option>
+              <option value="Alto">Alto</option>
+              <option value="Médio">Médio</option>
+              <option value="Baixo">Baixo</option>
+            </select>
+            <select id="filterStatus">
+              <option value="">Todos os status</option>
+              <option>Aberto</option>
+              <option>Em atendimento</option>
+              <option>Resolvido</option>
+            </select>
+          </div>
+        </div>
+
+        <table class="alerts-table" id="alertsTable">
+          <thead>
+            <tr>
+              <th>Paciente</th>
+              <th>ID</th>
+              <th>Tipo de Alerta</th>
+              <th>Urgência</th>
+              <th>Timestamp</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr onclick="window.location.href='alerta-detalhe.html?id=CUIMAIS-001-2025-ALERTA'" style="cursor:pointer;">
+              <td>Isabelle Silva</td>
+              <td>P210</td>
+              <td>Febre Aumentou</td>
+              <td><span class="badge critico">Crítico</span></td>
+              <td>2025-08-06 18:25</td>
+              <td><span class="badge aberto">Aberto</span></td>
+            </tr>
+            <tr>
+              <td>Jane Smith</td>
+              <td>P122</td>
+              <td>Arritmia cardíaca</td>
+              <td><span class="badge alto">Alto</span></td>
+              <td>2024-07-28 09:51</td>
+              <td><span class="badge andamento">Em atendimento</span></td>
+            </tr>
+            <tr>
+              <td>Robert Johnson</td>
+              <td>P143</td>
+              <td>Indicador de sepse</td>
+              <td><span class="badge critico">Crítico</span></td>
+              <td>2024-07-27 11:00</td>
+              <td><span class="badge aberto">Aberto</span></td>
+            </tr>
+            <tr>
+              <td>Emily Davis</td>
+              <td>P154</td>
+              <td>Hipotensão</td>
+              <td><span class="badge medio">Médio</span></td>
+              <td>2024-07-27 08:45</td>
+              <td><span class="badge resolvido">Resolvido</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+
+  <script src="assets/js/alertas.js"></script>
+</body>
+</html>
+
+
