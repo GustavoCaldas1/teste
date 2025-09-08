@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cuida Mais - Relatórios &amp; Estatísticas</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="style.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</link></head>
+<body>
+<div class="container">
+<aside class="sidebar">
+<h2>Cuida Mais</h2>
+<nav>
+<ul>
+<li>
+<a href="../home-dashboard.html">
+<i class="fas fa-home"></i>
+<span>Home</span>
+</a>
+</li>
+<li>
+<a href="../pesquisa-pacientes.html">
+<i class="fas fa-users"></i>
+<span>Pacientes</span>
+</a>
+</li>
+<li>
+<a href="../registrar-dados.html">
+<i class="fas fa-clipboard-list"></i>
+<span>Registro de Dados</span>
+</a>
+</li>
+<li class="active">
+<a href="Relatorio.html">
+<i class="fas fa-chart-bar"></i>
+<span>Relatórios</span>
+</a>
+</li>
+<li>
+<a href="../alertas.html">
+<i class="fas fa-bell"></i>
+<span>Alertas</span>
+</a>
+</li>
+</ul>
+</nav>
+</aside>
+<main class="dashboard">
+<header>
+<h1>Relatórios &amp; Estatísticas</h1>
+<button class="export-btn">Exportar para Excel</button>
+</header>
+<section class="stats">
+<div class="card">
+          Total de Alertas: <strong>1.348</strong>
+<span>↑ 15%</span>
+</div>
+<div class="card">
+          Alertas Críticos: <strong>89</strong>
+<span>↓ 20%</span>
+</div>
+<div class="card">
+          Pacientes Monitorados: <strong>1.120</strong>
+<span>4 UTIs</span>
+</div>
+<div class="card">
+          Tempo Médio de Resolução: <strong>2h 30m</strong>
+<span>↓ 8h</span>
+</div>
+</section>
+<div class="report-grid">
+<div class="report-main">
+<section class="alerts">
+<h3>Alertas Recentes</h3>
+<table>
+<thead>
+<tr>
+<th>Paciente</th>
+<th>Código</th>
+<th>Descrição</th>
+<th>Urgência</th>
+<th>Timestamp</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Isabelle Silva</td>
+<td>P210</td>
+<td>Dificuldade respiratoria</td>
+<td><span class="tag critico">Alto</span></td>
+<td>2024-07-28 18:00</td>
+<td><span class="tag em aberto">Aberto</span></td>
+</tr>
+<tr>
+<td>Michael Brown</td>
+<td>P025</td>
+<td>Pico de glicose no sangue</td>
+<td><span class="tag alto">Alto</span></td>
+<td>2024-07-27 18:00</td>
+<td><span class="tag resolvido">Resolvido</span></td>
+</tr>
+<tr>
+<td>Sarah White</td>
+<td>P036</td>
+<td>Febre inexplicada</td>
+<td><span class="tag critico">Crítico</span></td>
+<td>2024-07-27 14:30</td>
+<td><span class="tag atendimento">Em atendimento</span></td>
+</tr>
+<tr>
+<td>David Green</td>
+<td>P127</td>
+<td>Dessaturação c/ queda de oxigênio</td>
+<td><span class="tag baixo">Baixo</span></td>
+<td>2024-07-27 13:45</td>
+<td><span class="tag aberto">Aberto</span></td>
+</tr>
+<tr>
+<td>Laura Black</td>
+<td>P308</td>
+<td>Aumento de batimento</td>
+<td><span class="tag medio">Médio</span></td>
+<td>2024-07-27 13:00</td>
+<td><span class="tag atendimento">Em atendimento</span></td>
+</tr>
+<tr>
+<td>Chris Blue</td>
+<td>P629</td>
+<td>Sobrecarga de uso de aparelho</td>
+<td><span class="tag medio">Médio</span></td>
+<td>2024-07-27 12:30</td>
+<td><span class="tag atendimento">Em atendimento</span></td>
+</tr>
+<tr>
+<td>Olivia Gray</td>
+<td>P011</td>
+<td>Marcha instável</td>
+<td><span class="tag medio">Médio</span></td>
+<td>2024-07-26 07:00</td>
+<td><span class="tag resolvido">Resolvido</span></td>
+</tr>
+</tbody>
+</table>
+</section>
+</div>
+<aside class="report-aside">
+<section class="filters">
+<h3>Filtro de Relatório</h3>
+<form>
+<label>Grupo de Paciente:</label>
+<select>
+<option>Selecione o Grupo</option>
+</select>
+<label>Paciente específico:</label>
+<input placeholder="Procure o paciente por ID ou nome" type="text"/>
+<label>Intervalo de tempo:</label>
+<select>
+<option>Últimos 30 dias</option>
+</select>
+<label>Data customizada:</label>
+<input type="date" value="2025-08-06"/>
+<button type="submit">Aplicar Filtros</button>
+</form>
+</section>
+<section class="export-card">
+<h3>Exportar Relatório</h3>
+<p>Baixe os dados do relatório atual em formato Excel para análise posterior.</p>
+<button class="export-btn"><i class="fas fa-file-export"></i> Exportar para Excel</button>
+</section>
+</aside>
+</div>
+<section class="charts">
+<h3>Alertas ao longo do tempo</h3>
+<canvas id="lineChart"></canvas>
+<h3>Distribuição de Urgência</h3>
+<canvas id="barChart"></canvas>
+</section>
+</main>
+</div>
+
+<script src="assets/js/Relatorio.inline.js"></script></body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Detalhe do Alerta - Cuida Mais</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+
+<link href="assets/css/alerta-detalhe.inline.css" rel="stylesheet"/></head>
+<body>
+<header class="header">
+<div style="font-weight:800;color:#1e3a8a">Cuida Mais</div>
+<div style="display:flex;align-items:center;gap:.5rem;background:#f3f4f6;padding:.5rem 1rem;border-radius:8px">
+<i class="fas fa-search" style="color:#6b7280"></i>
+<input id="global-search" placeholder="Pesquise por pacientes..." style="border:none;background:transparent;outline:none" type="text"/>
+</div>
+<div style="width:40px;height:40px;border-radius:999px;background:#813dff;color:#fff;display:flex;align-items:center;justify-content:center"><i class="fas fa-user"></i></div>
+</header>
+<div class="container">
+<nav class="sidebar">
+<a class="nav-item" href="home-dashboard.html"><i class="fas fa-home"></i>Home</a>
+<a class="nav-item" href="pesquisa-pacientes.html"><i class="fas fa-users"></i>Pacientes</a>
+<a class="nav-item" href="registrar-dados.html"><i class="fas fa-clipboard-list"></i>Registro de Dados</a>
+<a class="nav-item" href="PaginaRelatorio/Relatorio.html"><i class="fas fa-chart-bar"></i>Relatórios</a>
+<a class="nav-item active" href="alertas.html"><i class="fas fa-bell"></i>Alertas</a>
+</nav>
+<main class="main">
+<div style="margin-bottom:1rem">
+<div class="page-title" id="alertTitle">Alerta: CUIMAIS-001-2025-ALERTA</div>
+<div class="muted">Paciente: Isabelle Silva (Crítico)</div>
+</div>
+<div class="grid">
+<section class="card">
+<h3>Status do Alerta</h3>
+<div class="status-steps">
+<div class="step"><div class="dot aberto"><i class="fas fa-bolt"></i></div><span>Aberto</span></div>
+<div style="flex:1;height:4px;background:#e5e7eb;margin:0 .5rem"></div>
+<div class="step"><div class="dot atendimento"><i class="fas fa-user-nurse"></i></div><span>Em atendimento</span></div>
+<div style="flex:1;height:4px;background:#e5e7eb;margin:0 .5rem"></div>
+<div class="step"><div class="dot resolvido"><i class="fas fa-check"></i></div><span>Resolvido</span></div>
+</div>
+</section>
+<section class="card">
+<h3>Detalhes do Alerta</h3>
+<div class="muted">Descrição do Alerta:</div>
+<p style="margin:.25rem 0  .75rem">O paciente apresentou febre repentina e aumento persistente dos batimentos. Iniciar avaliação de possíveis infecções.</p>
+<div class="muted">Criado:</div>
+<p>2024-03-10 10:30 AM</p>
+<div class="muted">Departamento:</div>
+<p>UTI</p>
+<div class="muted">Designado para:</div>
+<p>Dr. Ana Costa</p>
+</section>
+<section class="card" style="grid-column:1/-1">
+<h3>Histórico de Comentários</h3>
+<div class="comment"><strong>Enfermeiro João Pereira</strong> — 2024-03-10 10:35 AM<br/><span class="muted">Paciente transferido para UTI. Vitais estáveis, mas temperatura alta. Começando monitoramento.</span></div>
+<div class="comment"><strong>Dr. Ana Costa</strong> — 2024-03-10 11:00 AM<br/><span class="muted">Iniciei antibiótico e solicitei hemocultura de imediato. Monitoramento de sinais de choque.</span></div>
+<div style="margin-top:.75rem">
+<h3>Adicione Novo Comentário</h3>
+<textarea id="newComment" placeholder="Escreva seu comentário aqui..." rows="3" style="width:100%;padding:.75rem;border:1px solid #e5e7eb;border-radius:8px"></textarea>
+<div class="actions">
+<button class="btn">Marcar como Em Atendimento</button>
+<button class="btn">Marcar como Resolvido</button>
+<button class="btn btn-primary" id="sendComment">Enviar Comentário</button>
+</div>
+</div>
+</section>
+</div>
+</main>
+</div>
+
+<script src="assets/js/alerta-detalhe.inline.js"></script></body>
+</html>

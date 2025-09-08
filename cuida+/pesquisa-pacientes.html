@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pesquisa de Pacientes - Cuida Mais</title>
+<!-- Fonte moderna -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<!-- Ícones Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+
+<link href="assets/css/pesquisa-pacientes.inline.css" rel="stylesheet"/></head>
+<body>
+<!-- Header -->
+<header class="header">
+<div class="logo">Cuida Mais</div>
+<div class="user-profile">
+<i class="fas fa-user"></i>
+</div>
+</header>
+<div class="container">
+<!-- Sidebar -->
+<nav class="sidebar">
+<a class="nav-item" href="home-dashboard.html">
+<i class="fas fa-home"></i>
+        Home
+      </a>
+<a class="nav-item active" href="#">
+<i class="fas fa-users"></i>
+        Pacientes
+      </a>
+<a class="nav-item" href="registrar-dados.html">
+<i class="fas fa-clipboard-list"></i>
+        Registro de Dados
+      </a>
+<a class="nav-item" href="PaginaRelatorio/Relatorio.html">
+<i class="fas fa-chart-bar"></i>
+        Relatórios
+      </a>
+<a class="nav-item" href="alertas.html">
+<i class="fas fa-bell"></i>
+        Alertas
+      </a>
+</nav>
+<!-- Conteúdo principal -->
+<main class="main-content">
+<div class="page-header">
+<h1 class="page-title">Pesquisa de Pacientes</h1>
+<p class="page-subtitle">Encontre e gerencie os dados dos pacientes do sistema</p>
+</div>
+<!-- Seção de pesquisa -->
+<section class="search-section">
+<form class="search-form">
+<div class="form-group">
+<label for="search-name">Nome do Paciente</label>
+<input id="search-name" placeholder="Digite o nome completo ou parcial" type="text"/>
+</div>
+<div class="form-group">
+<label for="search-id">ID do Paciente</label>
+<input id="search-id" placeholder="Ex: PAC-2024-001" type="text"/>
+</div>
+<div class="form-group">
+<label for="search-status">Status</label>
+<select id="search-status">
+<option value="">Todos os status</option>
+<option value="active">Ativo</option>
+<option value="inactive">Inativo</option>
+<option value="pending">Pendente</option>
+</select>
+</div>
+<button class="search-btn" type="submit">
+<i class="fas fa-search"></i>
+            Pesquisar
+          </button>
+</form>
+</section>
+<!-- Seção de resultados -->
+<section class="results-section">
+<div class="results-header">
+<h2 class="results-title">Resultados da Pesquisa</h2>
+<span class="results-count">Mostrando 8 de 156 pacientes</span>
+</div>
+<table class="results-table hide">
+<thead>
+<tr>
+<th>Nome do Paciente</th>
+<th>ID</th>
+<th>Idade</th>
+<th>Status</th>
+<th>Última Atualização</th>
+<th>Ações</th>
+</tr>
+</thead>
+<tbody id="results-body">
+<tr>
+<td class="patient-name"><a class="patient-link" href="perfil-paciente.html">Maria Silva Santos</a></td>
+<td class="patient-id">PAC-2024-001</td>
+<td>45 anos</td>
+<td><span class="status-badge status-active">Ativo</span></td>
+<td>Hoje, 14:30</td>
+<td>
+<a class="action-btn btn-view" href="#">Ver</a>
+<a class="action-btn btn-edit" href="#">Editar</a>
+</td>
+</tr>
+<tr>
+<td class="patient-name"><a class="patient-link" href="perfil-paciente.html">João Carlos Oliveira</a></td>
+<td class="patient-id">PAC-2024-002</td>
+<td>32 anos</td>
+<td><span class="status-badge status-active">Ativo</span></td>
+<td>Ontem, 16:45</td>
+<td>
+<a class="action-btn btn-view" href="#">Ver</a>
+<a class="action-btn btn-edit" href="#">Editar</a>
+</td>
+</tr>
+<tr>
+<td class="patient-name"><a class="patient-link" href="perfil-paciente.html">Ana Beatriz Costa</a></td>
+<td class="patient-id">PAC-2024-003</td>
+<td>28 anos</td>
+<td><span class="status-badge status-pending">Pendente</span></td>
+<td>2 dias atrás</td>
+<td>
+<a class="action-btn btn-view" href="#">Ver</a>
+<a class="action-btn btn-edit" href="#">Editar</a>
+</td>
+</tr>
+<tr>
+<td class="patient-name"><a class="patient-link" href="perfil-paciente.html">Pedro Henrique Lima</a></td>
+<td class="patient-id">PAC-2024-004</td>
+<td>67 anos</td>
+<td><span class="status-badge status-active">Ativo</span></td>
+<td>3 dias atrás</td>
+<td>
+<a class="action-btn btn-view" href="#">Ver</a>
+<a class="action-btn btn-edit" href="#">Editar</a>
+</td>
+</tr>
+<tr>
+<td class="patient-name"><a class="patient-link" href="perfil-paciente.html">Fernanda Rodrigues</a></td>
+<td class="patient-id">PAC-2024-005</td>
+<td>39 anos</td>
+<td><span class="status-badge status-inactive">Inativo</span></td>
+<td>1 semana atrás</td>
+<td>
+<a class="action-btn btn-view" href="#">Ver</a>
+<a class="action-btn btn-edit" href="#">Editar</a>
+</td>
+</tr>
+<tr>
+<td class="patient-name"><a class="patient-link" href="perfil-paciente.html">Lucas Mendes Pereira</a></td>
+<td class="patient-id">PAC-2024-006</td>
+<td>24 anos</td>
+<td><span class="status-badge status-active">Ativo</span></td>
+<td>Hoje, 09:15</td>
+<td>
+<a class="action-btn btn-view" href="#">Ver</a>
+<a class="action-btn btn-edit" href="#">Editar</a>
+</td>
+</tr>
+<tr>
+<td class="patient-name"><a class="patient-link" href="perfil-paciente.html">Isabela Ferreira</a></td>
+<td class="patient-id">PAC-2024-007</td>
+<td>51 anos</td>
+<td><span class="status-badge status-pending">Pendente</span></td>
+<td>4 dias atrás</td>
+<td>
+<a class="action-btn btn-view" href="#">Ver</a>
+<a class="action-btn btn-edit" href="#">Editar</a>
+</td>
+</tr>
+<tr>
+<td class="patient-name"><a class="patient-link" href="perfil-paciente.html">Roberto Almeida</a></td>
+<td class="patient-id">PAC-2024-008</td>
+<td>73 anos</td>
+<td><span class="status-badge status-active">Ativo</span></td>
+<td>Ontem, 11:20</td>
+<td>
+<a class="action-btn btn-view" href="#">Ver</a>
+<a class="action-btn btn-edit" href="#">Editar</a>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="cards-grid" id="cardsGrid">
+<div class="patient-card" data-id="p001" data-name="maria rodriguez" data-status="inactive" data-ward="Enfermaria: UTI A">
+<div class="card-header">
+<div class="avatar">MR</div>
+<div>
+<div class="name-row"><span class="patient-name">Maria Rodriguez</span><span class="id-badge">ID: P001</span><span class="status-badge status-inactive">Crítico</span></div>
+<div class="muted">Diagnóstico: Síndrome respiratória aguda grave</div>
+</div>
+</div>
+<div class="info-row"><div>Local: Enfermaria: UTI A, Quarto: 101</div><div>Idade: 58 anos</div></div>
+<div class="card-actions"><a class="btn-sm btn-primary-sm" href="perfil-paciente.html">Ver Detalhes</a><button class="btn-sm">Ações</button></div>
+</div>
+<div class="patient-card" data-id="p002" data-name="joão silva" data-status="active" data-ward="Enfermaria: UTI B">
+<div class="card-header">
+<div class="avatar">JS</div>
+<div>
+<div class="name-row"><span class="patient-name">João Silva</span><span class="id-badge">ID: P002</span><span class="status-badge status-active">Estável</span></div>
+<div class="muted">Diagnóstico: Recuperação pós-operatória</div>
+</div>
+</div>
+<div class="info-row"><div>Local: Enfermaria: UTI B, Quarto: 205</div><div>Idade: 45 anos</div></div>
+<div class="card-actions"><a class="btn-sm btn-primary-sm" href="perfil-paciente.html">Ver Detalhes</a><button class="btn-sm">Ações</button></div>
+</div>
+<div class="patient-card" data-id="p003" data-name="ana costa" data-status="pending" data-ward="Enfermaria: UTI A">
+<div class="card-header">
+<div class="avatar">AC</div>
+<div>
+<div class="name-row"><span class="patient-name">Ana Costa</span><span class="id-badge">ID: P003</span><span class="status-badge status-pending">Alto</span></div>
+<div class="muted">Diagnóstico: Suspeita de sepse</div>
+</div>
+</div>
+<div class="info-row"><div>Local: Enfermaria: UTI A, Quarto: 103</div><div>Idade: 32 anos</div></div>
+<div class="card-actions"><a class="btn-sm btn-primary-sm" href="perfil-paciente.html">Ver Detalhes</a><button class="btn-sm">Ações</button></div>
+</div>
+<div class="patient-card" data-id="p005" data-name="carlos mendes" data-status="active" data-ward="Enfermaria: Clínica">
+<div class="card-header"><div class="avatar">CM</div><div><div class="name-row"><span class="patient-name">Carlos Mendes</span><span class="id-badge">ID: P005</span><span class="status-badge status-active">Estável</span></div><div class="muted">Diagnóstico: Pós-Trauma</div></div></div>
+<div class="info-row"><div>Local: Enfermaria: Emergência, Quarto: 402</div><div>Idade: 29 anos</div></div>
+<div class="card-actions"><a class="btn-sm btn-primary-sm" href="perfil-paciente.html">Ver Detalhes</a><button class="btn-sm">Ações</button></div>
+</div>
+<div class="patient-card" data-id="p009" data-name="lucas ferreira" data-status="active" data-ward="Enfermaria: Recuperação">
+<div class="card-header"><div class="avatar">LF</div><div><div class="name-row"><span class="patient-name">Lucas Ferreira</span><span class="id-badge">ID: P009</span><span class="status-badge status-active">Estável</span></div><div class="muted">Diagnóstico: Controle</div></div></div>
+<div class="info-row"><div>Local: Enfermaria: Recuperação, Quarto: 305</div><div>Idade: 50 anos</div></div>
+<div class="card-actions"><a class="btn-sm btn-primary-sm" href="perfil-paciente.html">Ver Detalhes</a><button class="btn-sm">Ações</button></div>
+</div>
+</div>
+</section>
+</main>
+</div>
+
+<script src="assets/js/pesquisa-pacientes.inline.js"></script></body>
+</html>
+
+
+    .pagination-btn:hover {
+
+      background-color: #f3f4f6;
+
+    }
+
+
+
+    .pagination-btn.active {
+
+      background-color: #813dff;
+
+      color: white;
+
+      border-color: #813dff;
+
+    }
+
+
+
+    .pagination-btn:disabled {
+
+      opacity: 0.5;
+
+      cursor: not-allowed;
+
+    }
+
+
+
+    /* Responsividade */
+
+    @media (max-width: 1024px) {
+
+      .sidebar {
+
+        width: 200px;
+
+      }
+
+      
+      
+      .search-form {
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+      }
+
+    }
+
+
+
+    @media (max-width: 768px) {
+
+      .container {
+
+        flex-direction: column;
+
+      }
+
+      
+      
+      .sidebar {
+
+        width: 100%;
+
+        padding: 1rem 0;
+
+      }
+
+      
+      
+      .nav-item {
+
+        padding: 0.75rem 1rem;
+
+      }
+
+      
+      
+      .main-content {
+
+        padding: 1rem;
+
+      }
+
+      
+      
+      .search-section {
+
+        padding: 1rem;
+
+      }
+
+      
+      
+      .results-header {
+
+        padding: 1rem;
+
+        flex-direction: column;
+
+        gap: 0.5rem;
+
+        align-items: flex-start;
+
+      }
+
+      
+      
+      .results-table {
+
+        font-size: 0.875rem;
+
+      }
+
+      
+      
+      .results-table th,
+
+      .results-table td {
+
+        padding: 0.75rem;
+
+      }
+
+    }
+
+  
+
+<body>
+<!-- Header -->
+<header class="header">
+<div class="logo">Cuida Mais</div>
+<div class="user-profile">
+<i class="fas fa-user"></i>
+</div>
+</header>
+<div class="container">
+<!-- Sidebar -->
+<nav class="sidebar">
+<a class="nav-item" href="home-dashboard.html">
+<i class="fas fa-home"></i>
+
+        Home
+
+      </a>
+<a class="nav-item active" href="#">
+<i class="fas fa-users"></i>
+
+        Pacientes
+
+      </a>
+<a class="nav-item" href="registrar-dados.html">
+<i class="fas fa-clipboard-list"></i>
+
+        Registro de Dados
+
+      </a>
+<a class="nav-item" href="#">
+<i class="fas fa-chart-bar"></i>
+
+        Relatórios
+
+      </a>
+<a class="nav-item" href="#">
+<i class="fas fa-bell"></i>
+
+        Alertas
+
+      </a>
+</nav>
+<!-- Conteúdo principal -->
+<main class="main-content">
+<div class="page-header">
+<h1 class="page-title">Pesquisa de Pacientes</h1>
+<p class="page-subtitle">Encontre e gerencie os dados dos pacientes do sistema</p>
+</div>
+<!-- Seção de pesquisa -->
+<section class="search-section">
+<form class="search-form">
+<div class="form-group">
+<label for="search-name">Nome do Paciente</label>
+<input id="search-name" placeholder="Digite o nome completo ou parcial" type="text"/>
+</div>
+<div class="form-group">
+<label for="search-id">ID do Paciente</label>
+<input id="search-id" placeholder="Ex: PAC-2024-001" type="text"/>
+</div>
+<div class="form-group">
+<label for="search-status">Status</label>
+<select id="search-status">
+<option value="">Todos os status</option>
+<option value="active">Ativo</option>
+<option value="inactive">Inativo</option>
+<option value="pending">Pendente</option>
+</select>
+</div>
+<button class="search-btn" type="submit">
+<i class="fas fa-search"></i>
+
+            Pesquisar
+
+          </button>
+</form>
+</section>
+<!-- Seção de resultados -->
+<section class="results-section">
+<div class="results-header">
+<h2 class="results-title">Resultados da Pesquisa</h2>
+<span class="results-count">Mostrando 8 de 156 pacientes</span>
+</div>
+<table class="results-table">
+<thead>
+<tr>
+<th>Nome do Paciente</th>
+<th>ID</th>
+<th>Idade</th>
+<th>Status</th>
+<th>Última Atualização</th>
+<th>Ações</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="patient-name">Maria Silva Santos</td>
+<td class="patient-id">PAC-2024-001</td>
+<td>45 anos</td>
+<td><span class="status-badge status-active">Ativo</span></td>
+<td>Hoje, 14:30</td>
+<td>
+<a class="action-btn btn-view" href="#">Ver</a>
+<a class="action-btn btn-edit" href="#">Editar</a>
+</td>
+</tr>
+<tr>
+<td class="patient-name">João Carlos Oliveira</td>
+<td class="patient-id">PAC-2024-002</td>
+<td>32 anos</td>
+<td><span class="status-badge status-active">Ativo</span></td>
+<td>Ontem, 16:45</td>
+<td>
+<a class="action-btn btn-view" href="#">Ver</a>
+<a class="action-btn btn-edit" href="#">Editar</a>
+</td>
+</tr>
+<tr>
+<td class="patient-name">Ana Beatriz Costa</td>
+<td class="patient-id">PAC-2024-003</td>
+<td>28 anos</td>
+<td><span class="status-badge status-pending">Pendente</span></td>
+<td>2 dias atrás</td>
+<td>
+<a class="action-btn btn-view" href="#">Ver</a>
+<a class="action-btn btn-edit" href="#">Editar</a>
+</td>
+</tr>
+<tr>
+<td class="patient-name">Pedro Henrique Lima</td>
+<td class="patient-id">PAC-2024-004</td>
+<td>67 anos</td>
+<td><span class="status-badge status-active">Ativo</span></td>
+<td>3 dias atrás</td>
+<td>
+<a class="action-btn btn-view" href="#">Ver</a>
+<a class="action-btn btn-edit" href="#">Editar</a>
+</td>
+</tr>
+<tr>
+<td class="patient-name">Fernanda Rodrigues</td>
+<td class="patient-id">PAC-2024-005</td>
+<td>39 anos</td>
+<td><span class="status-badge status-inactive">Inativo</span></td>
+<td>1 semana atrás</td>
+<td>
+<a class="action-btn btn-view" href="#">Ver</a>
+<a class="action-btn btn-edit" href="#">Editar</a>
+</td>
+</tr>
+<tr>
+<td class="patient-name">Lucas Mendes Pereira</td>
+<td class="patient-id">PAC-2024-006</td>
+<td>24 anos</td>
+<td><span class="status-badge status-active">Ativo</span></td>
+<td>Hoje, 09:15</td>
+<td>
+<a class="action-btn btn-view" href="#">Ver</a>
+<a class="action-btn btn-edit" href="#">Editar</a>
+</td>
+</tr>
+<tr>
+<td class="patient-name">Isabela Ferreira</td>
+<td class="patient-id">PAC-2024-007</td>
+<td>51 anos</td>
+<td><span class="status-badge status-pending">Pendente</span></td>
+<td>4 dias atrás</td>
+<td>
+<a class="action-btn btn-view" href="#">Ver</a>
+<a class="action-btn btn-edit" href="#">Editar</a>
+</td>
+</tr>
+<tr>
+<td class="patient-name">Roberto Almeida</td>
+<td class="patient-id">PAC-2024-008</td>
+<td>73 anos</td>
+<td><span class="status-badge status-active">Ativo</span></td>
+<td>Ontem, 11:20</td>
+<td>
+<a class="action-btn btn-view" href="#">Ver</a>
+<a class="action-btn btn-edit" href="#">Editar</a>
+</td>
+</tr>
+</tbody>
+</table>
+<!-- Paginação -->
+<div class="pagination">
+<div class="pagination-info">
+
+            Página 1 de 20
+
+          </div>
+<div class="pagination-controls">
+<button class="pagination-btn" disabled="">
+<i class="fas fa-chevron-left"></i>
+</button>
+<button class="pagination-btn active">1</button>
+<button class="pagination-btn">2</button>
+<button class="pagination-btn">3</button>
+<button class="pagination-btn">4</button>
+<button class="pagination-btn">5</button>
+<button class="pagination-btn">
+<i class="fas fa-chevron-right"></i>
+</button>
+</div>
+</div>
+</section>
+</main>
+</div>
+
+</body>
+
+
+
+
+
+    .pagination-btn:hover {
+
+      background-color: #f3f4f6;
+
+    }
+
+
+
+    .pagination-btn.active {
+
+      background-color: #813dff;
+
+      color: white;
+
+      border-color: #813dff;
+
+    }
+
+
+
+    .pagination-btn:disabled {
+
+      opacity: 0.5;
+
+      cursor: not-allowed;
+
+    }
+
+
+
+    /* Responsividade */
+
+    @media (max-width: 1024px) {
+
+      .sidebar {
+
+        width: 200px;
+
+      }
+
+      
+
+      .search-form {
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+      }
+
+    }
+
+
+
+    @media (max-width: 768px) {
+
+      .container {
+
+        flex-direction: column;
+
+      }
+
+      
+
+      .sidebar {
+
+        width: 100%;
+
+        padding: 1rem 0;
+
+      }
+
+      
+
+      .nav-item {
+
+        padding: 0.75rem 1rem;
+
+      }
+
+      
+
+      .main-content {
+
+        padding: 1rem;
+
+      }
+
+      
+
+      .search-section {
+
+        padding: 1rem;
+
+      }
+
+      
+
+      .results-header {
+
+        padding: 1rem;
+
+        flex-direction: column;
+
+        gap: 0.5rem;
+
+        align-items: flex-start;
+
+      }
+
+      
+
+      .results-table {
+
+        font-size: 0.875rem;
+
+      }
+
+      
+
+      .results-table th,
+
+      .results-table td {
+
+        padding: 0.75rem;
+
+      }
+
+    }
+
+  
+
+<body>
+<!-- Header -->
+<header class="header">
+<div class="logo">Cuida Mais</div>
+<div class="user-profile">
+<i class="fas fa-user"></i>
+</div>
+</header>
+<div class="container">
+<!-- Sidebar -->
+<nav class="sidebar">
+<a class="nav-item" href="home-dashboard.html">
+<i class="fas fa-home"></i>
+
+        Home
+
+      </a>
+<a class="nav-item active" href="#">
+<i class="fas fa-users"></i>
+
+        Pacientes
+
+      </a>
+<a class="nav-item" href="registrar-dados.html">
+<i class="fas fa-clipboard-list"></i>
+
+        Registro de Dados
+
+      </a>
+<a class="nav-item" href="#">
+<i class="fas fa-chart-bar"></i>
+
+        Relatórios
+
+      </a>
+<a class="nav-item" href="#">
+<i class="fas fa-bell"></i>
+
+        Alertas
+
+      </a>
+</nav>
+<!-- Conteúdo principal -->
+<main class="main-content">
+<div class="page-header">
+<h1 class="page-title">Pesquisa de Pacientes</h1>
+<p class="page-subtitle">Encontre e gerencie os dados dos pacientes do sistema</p>
+</div>
+<!-- Seção de pesquisa -->
+<section class="search-section">
+<form class="search-form">
+<div class="form-group">
+<label for="search-name">Nome do Paciente</label>
+<input id="search-name" placeholder="Digite o nome completo ou parcial" type="text"/>
+</div>
+<div class="form-group">
+<label for="search-id">ID do Paciente</label>
+<input id="search-id" placeholder="Ex: PAC-2024-001" type="text"/>
+</div>
+<div class="form-group">
+<label for="search-status">Status</label>
+<select id="search-status">
+<option value="">Todos os status</option>
+<option value="active">Ativo</option>
+<option value="inactive">Inativo</option>
+<option value="pending">Pendente</option>
+</select>
+</div>
+<button class="search-btn" type="submit">
+<i class="fas fa-search"></i>
+
+            Pesquisar
+
+          </button>
+</form>
+</section>
+<!-- Seção de resultados -->
+<section class="results-section">
+<div class="results-header">
+<h2 class="results-title">Resultados da Pesquisa</h2>
+<span class="results-count">Mostrando 8 de 156 pacientes</span>
+</div>
+<table class="results-table">
+<thead>
+<tr>
+<th>Nome do Paciente</th>
+<th>ID</th>
+<th>Idade</th>
+<th>Status</th>
+<th>Última Atualização</th>
+<th>Ações</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="patient-name">Maria Silva Santos</td>
+<td class="patient-id">PAC-2024-001</td>
+<td>45 anos</td>
+<td><span class="status-badge status-active">Ativo</span></td>
+<td>Hoje, 14:30</td>
+<td>
+<a class="action-btn btn-view" href="#">Ver</a>
+<a class="action-btn btn-edit" href="#">Editar</a>
+</td>
+</tr>
+<tr>
+<td class="patient-name">João Carlos Oliveira</td>
+<td class="patient-id">PAC-2024-002</td>
+<td>32 anos</td>
+<td><span class="status-badge status-active">Ativo</span></td>
+<td>Ontem, 16:45</td>
+<td>
+<a class="action-btn btn-view" href="#">Ver</a>
+<a class="action-btn btn-edit" href="#">Editar</a>
+</td>
+</tr>
+<tr>
+<td class="patient-name">Ana Beatriz Costa</td>
+<td class="patient-id">PAC-2024-003</td>
+<td>28 anos</td>
+<td><span class="status-badge status-pending">Pendente</span></td>
+<td>2 dias atrás</td>
+<td>
+<a class="action-btn btn-view" href="#">Ver</a>
+<a class="action-btn btn-edit" href="#">Editar</a>
+</td>
+</tr>
+<tr>
+<td class="patient-name">Pedro Henrique Lima</td>
+<td class="patient-id">PAC-2024-004</td>
+<td>67 anos</td>
+<td><span class="status-badge status-active">Ativo</span></td>
+<td>3 dias atrás</td>
+<td>
+<a class="action-btn btn-view" href="#">Ver</a>
+<a class="action-btn btn-edit" href="#">Editar</a>
+</td>
+</tr>
+<tr>
+<td class="patient-name">Fernanda Rodrigues</td>
+<td class="patient-id">PAC-2024-005</td>
+<td>39 anos</td>
+<td><span class="status-badge status-inactive">Inativo</span></td>
+<td>1 semana atrás</td>
+<td>
+<a class="action-btn btn-view" href="#">Ver</a>
+<a class="action-btn btn-edit" href="#">Editar</a>
+</td>
+</tr>
+<tr>
+<td class="patient-name">Lucas Mendes Pereira</td>
+<td class="patient-id">PAC-2024-006</td>
+<td>24 anos</td>
+<td><span class="status-badge status-active">Ativo</span></td>
+<td>Hoje, 09:15</td>
+<td>
+<a class="action-btn btn-view" href="#">Ver</a>
+<a class="action-btn btn-edit" href="#">Editar</a>
+</td>
+</tr>
+<tr>
+<td class="patient-name">Isabela Ferreira</td>
+<td class="patient-id">PAC-2024-007</td>
+<td>51 anos</td>
+<td><span class="status-badge status-pending">Pendente</span></td>
+<td>4 dias atrás</td>
+<td>
+<a class="action-btn btn-view" href="#">Ver</a>
+<a class="action-btn btn-edit" href="#">Editar</a>
+</td>
+</tr>
+<tr>
+<td class="patient-name">Roberto Almeida</td>
+<td class="patient-id">PAC-2024-008</td>
+<td>73 anos</td>
+<td><span class="status-badge status-active">Ativo</span></td>
+<td>Ontem, 11:20</td>
+<td>
+<a class="action-btn btn-view" href="#">Ver</a>
+<a class="action-btn btn-edit" href="#">Editar</a>
+</td>
+</tr>
+</tbody>
+</table>
+<!-- Paginação -->
+<div class="pagination">
+<div class="pagination-info">
+
+            Página 1 de 20
+
+          </div>
+<div class="pagination-controls">
+<button class="pagination-btn" disabled="">
+<i class="fas fa-chevron-left"></i>
+</button>
+<button class="pagination-btn active">1</button>
+<button class="pagination-btn">2</button>
+<button class="pagination-btn">3</button>
+<button class="pagination-btn">4</button>
+<button class="pagination-btn">5</button>
+<button class="pagination-btn">
+<i class="fas fa-chevron-right"></i>
+</button>
+</div>
+</div>
+</section>
+</main>
+</div>
+
+</body>
+

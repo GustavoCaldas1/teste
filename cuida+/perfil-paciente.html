@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Perfil do Paciente - Cuida Mais</title>
+<!-- Fonte moderna -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Ícones Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<!-- Chart.js para gráficos -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<link href="assets/css/perfil-paciente.inline.css" rel="stylesheet"/></head>
+<body>
+<!-- Header -->
+<header class="header">
+<div class="logo">Cuida Mais</div>
+<div class="search-bar">
+<i class="fas fa-search" style="color: #6b7280;"></i>
+<input id="global-search" placeholder="Pesquise por pacientes..." type="text"/>
+</div>
+<div class="user-profile" onclick="toggleUserMenu()">
+<i class="fas fa-user"></i>
+</div>
+</header>
+<div class="container">
+<!-- Sidebar -->
+<nav class="sidebar">
+<a class="nav-item" href="home-dashboard.html">
+<i class="fas fa-home"></i>
+        Home
+      </a>
+<a class="nav-item active" href="pesquisa-pacientes.html">
+<i class="fas fa-users"></i>
+        Pacientes
+      </a>
+<a class="nav-item" href="registrar-dados.html">
+<i class="fas fa-clipboard-list"></i>
+        Registro de Dados
+      </a>
+<a class="nav-item" href="PaginaRelatorio/Relatorio.html">
+<i class="fas fa-chart-bar"></i>
+        Relatórios
+      </a>
+<a class="nav-item" href="alertas.html">
+<i class="fas fa-bell"></i>
+        Alertas
+      </a>
+</nav>
+<!-- Conteúdo principal -->
+<main class="main-content">
+<div class="page-header">
+<h1 class="page-title">Perfil do Paciente</h1>
+<p class="page-subtitle">Visualização detalhada dos dados e histórico do paciente</p>
+</div>
+<!-- Grid do perfil -->
+<div class="profile-grid">
+<!-- Card do perfil do paciente -->
+<div class="profile-card">
+<div class="patient-photo">
+            IS
+          </div>
+<h2 class="patient-name">Isabelle Silva</h2>
+<p class="patient-id">ID Paciente: P210</p>
+<div class="patient-details">
+<div class="detail-item">
+<i class="fas fa-user detail-icon"></i>
+<span class="detail-label">Idade:</span>
+<span class="detail-value">68 anos</span>
+</div>
+<div class="detail-item">
+<i class="fas fa-bed detail-icon"></i>
+<span class="detail-label">Quarto:</span>
+<span class="detail-value">UTI-B 223</span>
+</div>
+<div class="detail-item">
+<i class="fas fa-tint detail-icon"></i>
+<span class="detail-label">Tipo Sanguíneo:</span>
+<span class="detail-value">B+</span>
+</div>
+<div class="detail-item">
+<i class="fas fa-calendar detail-icon"></i>
+<span class="detail-label">Admissão:</span>
+<span class="detail-value">2025-07-06</span>
+</div>
+<div class="detail-item">
+<i class="fas fa-phone detail-icon"></i>
+<span class="detail-label">Contato:</span>
+<span class="detail-value">(61) 91234-6789</span>
+</div>
+</div>
+<button class="edit-profile-btn" onclick="editProfile()">
+<i class="fas fa-edit"></i> Editar Perfil
+          </button>
+</div>
+<!-- Card do gráfico de sinais vitais -->
+<div class="vitals-card">
+<div class="vitals-header">
+<h3 class="vitals-title">Tendência de Sinais Vitais</h3>
+<div class="vitals-legend">
+<div class="legend-item">
+<div class="legend-color legend-fc"></div>
+<span>Frequência cardíaca (BPM)</span>
+</div>
+<div class="legend-item">
+<div class="legend-color legend-temp"></div>
+<span>Temperatura (°C)</span>
+</div>
+<div class="legend-item">
+<div class="legend-color legend-pa-sist"></div>
+<span>PA Sistólica (mmHg)</span>
+</div>
+<div class="legend-item">
+<div class="legend-color legend-pa-diast"></div>
+<span>PA Diastólica (mmHg)</span>
+</div>
+</div>
+</div>
+<div class="chart-container">
+<canvas id="vitalsChart"></canvas>
+</div>
+</div>
+</div>
+<!-- Seção do prontuário -->
+<section class="record-section">
+<div class="record-header">
+<h2 class="record-title">Prontuário do Paciente</h2>
+<p class="record-subtitle">Histórico completo de dados médicos e procedimentos</p>
+</div>
+<!-- Tabs do prontuário -->
+<div class="record-tabs">
+<button class="tab-button active" onclick="showTab('vitals')">
+            Histórico de Vitais
+          </button>
+<button class="tab-button" onclick="showTab('medications')">
+            Medicamentos
+          </button>
+<button class="tab-button" onclick="showTab('procedures')">
+            Procedimentos
+          </button>
+<button class="tab-button" onclick="showTab('exams')">
+            Exames
+          </button>
+<button class="tab-button" onclick="showTab('comments')">
+            Comentários
+          </button>
+</div>
+<!-- Conteúdo das tabs -->
+<div class="tab-content active" id="vitals-tab">
+<table class="data-table">
+<thead>
+<tr>
+<th>Data</th>
+<th>Horário</th>
+<th>FC (BPM)</th>
+<th>Temp (°C)</th>
+<th>PA (mmHg)</th>
+<th>SpO2 (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2025-08-06</td>
+<td>15:00</td>
+<td>80</td>
+<td>37.7</td>
+<td>125/85</td>
+<td>97</td>
+</tr>
+<tr>
+<td>2025-08-06</td>
+<td>14:00</td>
+<td>83</td>
+<td>37.9</td>
+<td>128/88</td>
+<td>96</td>
+</tr>
+<tr>
+<td>2025-08-06</td>
+<td>13:00</td>
+<td>85</td>
+<td>38.0</td>
+<td>130/90</td>
+<td>95</td>
+</tr>
+<tr>
+<td>2025-08-06</td>
+<td>12:00</td>
+<td>82</td>
+<td>37.8</td>
+<td>128/88</td>
+<td>96</td>
+</tr>
+<tr>
+<td>2025-08-06</td>
+<td>11:00</td>
+<td>77</td>
+<td>37.3</td>
+<td>120/80</td>
+<td>98</td>
+</tr>
+<tr>
+<td>2025-08-06</td>
+<td>10:00</td>
+<td>80</td>
+<td>37.5</td>
+<td>125/85</td>
+<td>97</td>
+</tr>
+<tr>
+<td>2025-08-06</td>
+<td>09:00</td>
+<td>78</td>
+<td>37.0</td>
+<td>122/82</td>
+<td>98</td>
+</tr>
+<tr>
+<td>2025-08-06</td>
+<td>08:00</td>
+<td>75</td>
+<td>37.2</td>
+<td>120/80</td>
+<td>99</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tab-content" id="medications-tab">
+<table class="data-table">
+<thead>
+<tr>
+<th>Medicamento</th>
+<th>Dosagem</th>
+<th>Frequência</th>
+<th>Início</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dipirona</td>
+<td>1g</td>
+<td>6/6h</td>
+<td>2025-08-05</td>
+<td><span style="color: #059669; font-weight: 600;">Ativo</span></td>
+</tr>
+<tr>
+<td>Omeprazol</td>
+<td>40mg</td>
+<td>1x/dia</td>
+<td>2025-08-04</td>
+<td><span style="color: #059669; font-weight: 600;">Ativo</span></td>
+</tr>
+<tr>
+<td>Heparina</td>
+<td>5000UI</td>
+<td>12/12h</td>
+<td>2025-08-03</td>
+<td><span style="color: #dc2626; font-weight: 600;">Suspenso</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tab-content" id="procedures-tab">
+<table class="data-table">
+<thead>
+<tr>
+<th>Procedimento</th>
+<th>Data</th>
+<th>Médico</th>
+<th>Observações</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cateterismo Venoso Central</td>
+<td>2025-08-05</td>
+<td>Dr. Carlos Mendes</td>
+<td>Procedimento realizado com sucesso</td>
+</tr>
+<tr>
+<td>Intubação Orotraqueal</td>
+<td>2025-08-04</td>
+<td>Dr. Ana Silva</td>
+<td>Paciente em ventilação mecânica</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tab-content" id="exams-tab">
+<table class="data-table">
+<thead>
+<tr>
+<th>Exame</th>
+<th>Data</th>
+<th>Resultado</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hemograma Completo</td>
+<td>2025-08-06</td>
+<td>Normal</td>
+<td><span style="color: #059669; font-weight: 600;">Concluído</span></td>
+</tr>
+<tr>
+<td>Ressonância Magnética</td>
+<td>2025-08-05</td>
+<td>Pendente</td>
+<td><span style="color: #d97706; font-weight: 600;">Agendado</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tab-content" id="comments-tab">
+<div style="padding: 1rem 0;">
+<div style="margin-bottom: 1rem; padding: 1rem; background-color: #f9fafb; border-radius: 8px;">
+<div style="font-weight: 600; color: #111827; margin-bottom: 0.5rem;">Dr. Carlos Mendes - 2025-08-06 15:30</div>
+<div style="color: #374151; line-height: 1.5;">
+                Paciente apresentou melhora significativa nos sinais vitais. Mantendo observação intensiva por mais 24h.
+              </div>
+</div>
+<div style="margin-bottom: 1rem; padding: 1rem; background-color: #f9fafb; border-radius: 8px;">
+<div style="font-weight: 600; color: #111827; margin-bottom: 0.5rem;">Enf. Maria Santos - 2025-08-06 14:00</div>
+<div style="color: #374151; line-height: 1.5;">
+                Administração de medicamentos conforme prescrição. Paciente colaborativo com os cuidados.
+              </div>
+</div>
+</div>
+</div>
+</section>
+</main>
+</div>
+
+<script src="assets/js/perfil-paciente.inline.js"></script></body>
+</html>
+
+<div class="user-profile" onclick="toggleUserMenu()">
+<i class="fas fa-user"></i>
+</div>
+
+<div class="container">
+<!-- Sidebar -->
+<nav class="sidebar">
+<a class="nav-item" href="home-dashboard.html">
+<i class="fas fa-home"></i>
+
+        Home
+
+      </a>
+<a class="nav-item active" href="pesquisa-pacientes.html">
+<i class="fas fa-users"></i>
+
+        Pacientes
+
+      </a>
+<a class="nav-item" href="registrar-dados.html">
+<i class="fas fa-clipboard-list"></i>
+
+        Registro de Dados
+
+      </a>
+<a class="nav-item" href="#">
+<i class="fas fa-chart-bar"></i>
+
+        Relatórios
+
+      </a>
+<a class="nav-item" href="#">
+<i class="fas fa-bell"></i>
+
+        Alertas
+
+      </a>
+</nav>
+<!-- Conteúdo principal -->
+<main class="main-content">
+<div class="page-header">
+<h1 class="page-title">Perfil do Paciente</h1>
+<p class="page-subtitle">Visualização detalhada dos dados e histórico do paciente</p>
+</div>
+<!-- Grid do perfil -->
+<div class="profile-grid">
+<!-- Card do perfil do paciente -->
+<div class="profile-card">
+<div class="patient-photo">
+
+            IS
+
+          </div>
+<h2 class="patient-name">Isabelle Silva</h2>
+<p class="patient-id">ID Paciente: P210</p>
+<div class="patient-details">
+<div class="detail-item">
+<i class="fas fa-user detail-icon"></i>
+<span class="detail-label">Idade:</span>
+<span class="detail-value">68 anos</span>
+</div>
+<div class="detail-item">
+<i class="fas fa-bed detail-icon"></i>
+<span class="detail-label">Quarto:</span>
+<span class="detail-value">UTI-B 223</span>
+</div>
+<div class="detail-item">
+<i class="fas fa-tint detail-icon"></i>
+<span class="detail-label">Tipo Sanguíneo:</span>
+<span class="detail-value">B+</span>
+</div>
+<div class="detail-item">
+<i class="fas fa-calendar detail-icon"></i>
+<span class="detail-label">Admissão:</span>
+<span class="detail-value">2025-07-06</span>
+</div>
+<div class="detail-item">
+<i class="fas fa-phone detail-icon"></i>
+<span class="detail-label">Contato:</span>
+<span class="detail-value">(61) 91234-6789</span>
+</div>
+</div>
+<button class="edit-profile-btn" onclick="editProfile()">
+<i class="fas fa-edit"></i> Editar Perfil
+
+          </button>
+</div>
+<!-- Card do gráfico de sinais vitais -->
+<div class="vitals-card">
+<div class="vitals-header">
+<h3 class="vitals-title">Tendência de Sinais Vitais</h3>
+<div class="vitals-legend">
+<div class="legend-item">
+<div class="legend-color legend-fc"></div>
+<span>Frequência cardíaca (BPM)</span>
+</div>
+<div class="legend-item">
+<div class="legend-color legend-temp"></div>
+<span>Temperatura (°C)</span>
+</div>
+<div class="legend-item">
+<div class="legend-color legend-pa-sist"></div>
+<span>PA Sistólica (mmHg)</span>
+</div>
+<div class="legend-item">
+<div class="legend-color legend-pa-diast"></div>
+<span>PA Diastólica (mmHg)</span>
+</div>
+</div>
+</div>
+<div class="chart-container">
+<canvas id="vitalsChart"></canvas>
+</div>
+</div>
+</div>
+<!-- Seção do prontuário -->
+<section class="record-section">
+<div class="record-header">
+<h2 class="record-title">Prontuário do Paciente</h2>
+<p class="record-subtitle">Histórico completo de dados médicos e procedimentos</p>
+</div>
+<!-- Tabs do prontuário -->
+<div class="record-tabs">
+<button class="tab-button active" onclick="showTab('vitals')">
+
+            Histórico de Vitais
+
+          </button>
+<button class="tab-button" onclick="showTab('medications')">
+
+            Medicamentos
+
+          </button>
+<button class="tab-button" onclick="showTab('procedures')">
+
+            Procedimentos
+
+          </button>
+<button class="tab-button" onclick="showTab('exams')">
+
+            Exames
+
+          </button>
+<button class="tab-button" onclick="showTab('comments')">
+
+            Comentários
+
+          </button>
+</div>
+<!-- Conteúdo das tabs -->
+<div class="tab-content active" id="vitals-tab">
+<table class="data-table">
+<thead>
+<tr>
+<th>Data</th>
+<th>Horário</th>
+<th>FC (BPM)</th>
+<th>Temp (°C)</th>
+<th>PA (mmHg)</th>
+<th>SpO2 (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2025-08-06</td>
+<td>15:00</td>
+<td>80</td>
+<td>37.7</td>
+<td>125/85</td>
+<td>97</td>
+</tr>
+<tr>
+<td>2025-08-06</td>
+<td>14:00</td>
+<td>83</td>
+<td>37.9</td>
+<td>128/88</td>
+<td>96</td>
+</tr>
+<tr>
+<td>2025-08-06</td>
+<td>13:00</td>
+<td>85</td>
+<td>38.0</td>
+<td>130/90</td>
+<td>95</td>
+</tr>
+<tr>
+<td>2025-08-06</td>
+<td>12:00</td>
+<td>82</td>
+<td>37.8</td>
+<td>128/88</td>
+<td>96</td>
+</tr>
+<tr>
+<td>2025-08-06</td>
+<td>11:00</td>
+<td>77</td>
+<td>37.3</td>
+<td>120/80</td>
+<td>98</td>
+</tr>
+<tr>
+<td>2025-08-06</td>
+<td>10:00</td>
+<td>80</td>
+<td>37.5</td>
+<td>125/85</td>
+<td>97</td>
+</tr>
+<tr>
+<td>2025-08-06</td>
+<td>09:00</td>
+<td>78</td>
+<td>37.0</td>
+<td>122/82</td>
+<td>98</td>
+</tr>
+<tr>
+<td>2025-08-06</td>
+<td>08:00</td>
+<td>75</td>
+<td>37.2</td>
+<td>120/80</td>
+<td>99</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tab-content" id="medications-tab">
+<table class="data-table">
+<thead>
+<tr>
+<th>Medicamento</th>
+<th>Dosagem</th>
+<th>Frequência</th>
+<th>Início</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dipirona</td>
+<td>1g</td>
+<td>6/6h</td>
+<td>2025-08-05</td>
+<td><span style="color: #059669; font-weight: 600;">Ativo</span></td>
+</tr>
+<tr>
+<td>Omeprazol</td>
+<td>40mg</td>
+<td>1x/dia</td>
+<td>2025-08-04</td>
+<td><span style="color: #059669; font-weight: 600;">Ativo</span></td>
+</tr>
+<tr>
+<td>Heparina</td>
+<td>5000UI</td>
+<td>12/12h</td>
+<td>2025-08-03</td>
+<td><span style="color: #dc2626; font-weight: 600;">Suspenso</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tab-content" id="procedures-tab">
+<table class="data-table">
+<thead>
+<tr>
+<th>Procedimento</th>
+<th>Data</th>
+<th>Médico</th>
+<th>Observações</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cateterismo Venoso Central</td>
+<td>2025-08-05</td>
+<td>Dr. Carlos Mendes</td>
+<td>Procedimento realizado com sucesso</td>
+</tr>
+<tr>
+<td>Intubação Orotraqueal</td>
+<td>2025-08-04</td>
+<td>Dr. Ana Silva</td>
+<td>Paciente em ventilação mecânica</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tab-content" id="exams-tab">
+<table class="data-table">
+<thead>
+<tr>
+<th>Exame</th>
+<th>Data</th>
+<th>Resultado</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hemograma Completo</td>
+<td>2025-08-06</td>
+<td>Normal</td>
+<td><span style="color: #059669; font-weight: 600;">Concluído</span></td>
+</tr>
+<tr>
+<td>Ressonância Magnética</td>
+<td>2025-08-05</td>
+<td>Pendente</td>
+<td><span style="color: #d97706; font-weight: 600;">Agendado</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tab-content" id="comments-tab">
+<div style="padding: 1rem 0;">
+<div style="margin-bottom: 1rem; padding: 1rem; background-color: #f9fafb; border-radius: 8px;">
+<div style="font-weight: 600; color: #111827; margin-bottom: 0.5rem;">Dr. Carlos Mendes - 2025-08-06 15:30</div>
+<div style="color: #374151; line-height: 1.5;">
+
+                Paciente apresentou melhora significativa nos sinais vitais. Mantendo observação intensiva por mais 24h.
+
+              </div>
+</div>
+<div style="margin-bottom: 1rem; padding: 1rem; background-color: #f9fafb; border-radius: 8px;">
+<div style="font-weight: 600; color: #111827; margin-bottom: 0.5rem;">Enf. Maria Santos - 2025-08-06 14:00</div>
+<div style="color: #374151; line-height: 1.5;">
+
+                Administração de medicamentos conforme prescrição. Paciente colaborativo com os cuidados.
+
+              </div>
+</div>
+</div>
+</div>
+</section>
+</main>
+</div>
+
+
+

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Home - Cuida Mais</title>
+<!-- Fonte moderna -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Ícones Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+
+<link href="assets/css/home-dashboard.inline.css" rel="stylesheet"/></head>
+<body>
+<!-- Header -->
+<header class="header">
+<div class="logo">Cuida Mais</div>
+<div class="user-profile" onclick="toggleUserMenu()">
+<i class="fas fa-user"></i>
+</div>
+</header>
+<div class="container">
+<!-- Sidebar -->
+<nav class="sidebar">
+<a class="nav-item active" href="home-dashboard.html">
+<i class="fas fa-home"></i>
+        Home
+      </a>
+<a class="nav-item" href="pesquisa-pacientes.html">
+<i class="fas fa-users"></i>
+        Pacientes
+      </a>
+<a class="nav-item" href="registrar-dados.html">
+<i class="fas fa-clipboard-list"></i>
+        Registro de Dados
+      </a>
+<a class="nav-item" href="PaginaRelatorio/Relatorio.html">
+<i class="fas fa-chart-bar"></i>
+        Relatórios
+      </a>
+<a class="nav-item" href="alertas.html">
+<i class="fas fa-bell"></i>
+        Alertas
+      </a>
+</nav>
+<!-- Conteúdo principal -->
+<main class="main-content">
+<!-- Seção de boas-vindas -->
+<section class="welcome-section fade-in-up">
+<h1 class="welcome-title">Bem-vindo ao Cuida Mais</h1>
+<p class="welcome-subtitle">Seu HUB central de gerenciamento de pacientes</p>
+</section>
+<!-- Barra de pesquisa -->
+<section class="search-section fade-in-up-delay-1">
+<input class="search-input" placeholder="Pesquise por pacientes por nome ou ID..." type="text"/>
+<button class="search-btn" onclick="searchPatients()">
+<i class="fas fa-search"></i>
+          Pesquisar Paciente
+        </button>
+</section>
+<!-- Grid do dashboard -->
+<div class="dashboard-grid">
+<!-- Card de Alertas Urgentes -->
+<div class="card alerts-card fade-in-up-delay-2">
+<div class="card-header">
+<div>
+<div class="card-title">
+<i class="fas fa-exclamation-triangle" style="color: #dc2626;"></i>
+                Alertas Urgentes
+              </div>
+<div class="card-subtitle">Atenção imediata necessitada para esses pacientes</div>
+</div>
+</div>
+<div class="card-content">
+<div class="alert-item" onclick="viewPatient('Isabelle Silva')">
+<div class="alert-info">
+<div class="alert-patient">Isabelle Silva</div>
+<div class="alert-time">5 min atrás</div>
+</div>
+<span class="alert-level level-critical">Crítico</span>
+<i class="fas fa-chevron-right alert-arrow"></i>
+</div>
+<div class="alert-item" onclick="viewPatient('Sofia Lima')">
+<div class="alert-info">
+<div class="alert-patient">Sofia Lima</div>
+<div class="alert-time">30 min atrás</div>
+</div>
+<span class="alert-level level-high">Alto</span>
+<i class="fas fa-chevron-right alert-arrow"></i>
+</div>
+<div class="alert-item" onclick="viewPatient('Beatriz Pereira')">
+<div class="alert-info">
+<div class="alert-patient">Beatriz Pereira</div>
+<div class="alert-time">1 hr atrás</div>
+</div>
+<span class="alert-level level-medium">Médio</span>
+<i class="fas fa-chevron-right alert-arrow"></i>
+</div>
+<div class="alert-item" onclick="viewPatient('Maria Rodriguez')">
+<div class="alert-info">
+<div class="alert-patient">Maria Rodriguez</div>
+<div class="alert-time">2 hrs atrás</div>
+</div>
+<span class="alert-level level-high">Alto</span>
+<i class="fas fa-chevron-right alert-arrow"></i>
+</div>
+<div class="alert-item" onclick="viewPatient('Lucas Ferreira')">
+<div class="alert-info">
+<div class="alert-patient">Lucas Ferreira</div>
+<div class="alert-time">4 hrs atrás</div>
+</div>
+<span class="alert-level level-critical">Crítico</span>
+<i class="fas fa-chevron-right alert-arrow"></i>
+</div>
+<div class="alert-item" onclick="viewPatient('Carlos Mendes')">
+<div class="alert-info">
+<div class="alert-patient">Carlos Mendes</div>
+<div class="alert-time">6 hrs atrás</div>
+</div>
+<span class="alert-level level-low">Baixo</span>
+<i class="fas fa-chevron-right alert-arrow"></i>
+</div>
+<a class="see-more-link" href="#">Ver mais →</a>
+</div>
+</div>
+<!-- Card Registrar Dados -->
+<div class="card action-card" onclick="openDataRegistration()">
+<div class="card-content">
+<div class="action-icon">
+<i class="fas fa-edit"></i>
+</div>
+<div class="action-title">Registrar Dados</div>
+<div class="action-subtitle">Registre novos pedidos de Assistência</div>
+</div>
+</div>
+<!-- Card Monitoramento -->
+<div class="card action-card" onclick="openPatientMonitoring()">
+<div class="card-content">
+<div class="action-icon">
+<i class="fas fa-users"></i>
+</div>
+<div class="action-title">Monitoramento de Pacientes</div>
+<div class="action-subtitle">Veja prontuários e históricos dos pacientes</div>
+</div>
+</div>
+<!-- Card Configurações -->
+<div class="card action-card" onclick="openSettings()">
+<div class="card-content">
+<div class="action-icon">
+<i class="fas fa-cog"></i>
+</div>
+<div class="action-title">Configurações</div>
+<div class="action-subtitle">Customize suas preferências</div>
+</div>
+</div>
+</div>
+<!-- Seção de Atividade Recente -->
+<section class="activity-section fade-in-up-delay-3">
+<div class="activity-header">
+<h2 class="activity-title">Atividade Recente</h2>
+<p class="activity-subtitle">Últimas atualizações acerca dos pacientes</p>
+</div>
+<div class="activity-list">
+<div class="activity-item">
+<div class="activity-icon"></div>
+<div class="activity-content">
+<div class="activity-text">Registro de Dados: Novos dados de Triagem para Carlos Mendes.</div>
+<div class="activity-time">Agora</div>
+</div>
+</div>
+<div class="activity-item">
+<div class="activity-icon"></div>
+<div class="activity-content">
+<div class="activity-text">Atualização de Paciente: Medicação alterada para Luís Costa.</div>
+<div class="activity-time">15 min atrás</div>
+</div>
+</div>
+<div class="activity-item">
+<div class="activity-icon"></div>
+<div class="activity-content">
+<div class="activity-text">Alerta Resolvida: Alerta Baixo de Charlie Brown Jr. marcado como concluído.</div>
+<div class="activity-time">45 min atrás</div>
+</div>
+</div>
+<div class="activity-item">
+<div class="activity-icon"></div>
+<div class="activity-content">
+<div class="activity-text">Novo Paciente: Ana Beatriz Costa registrada no sistema.</div>
+<div class="activity-time">1 hr atrás</div>
+</div>
+</div>
+<div class="activity-item">
+<div class="activity-icon"></div>
+<div class="activity-content">
+<div class="activity-text">Relatório Gerado: Relatório mensal de atividades do departamento.</div>
+<div class="activity-time">2 hrs atrás</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+</div>
+
+<script src="assets/js/home-dashboard.inline.js"></script></body>
+</html>

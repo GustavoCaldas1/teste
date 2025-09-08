@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Registrar Nova Requisição de Ajuda - Cuida Mais</title>
+<!-- Fonte moderna -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Ícones Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+
+<link href="assets/css/registrar-dados.inline.css" rel="stylesheet"/></head>
+<body>
+<!-- Header -->
+<header class="header">
+<div class="logo">Cuida Mais</div>
+<div class="search-bar">
+<i class="fas fa-search" style="color: #6b7280;"></i>
+<input id="global-search" placeholder="Pesquisar por pacientes..." type="text"/>
+</div>
+<div class="user-profile" onclick="toggleUserMenu()">
+<i class="fas fa-user"></i>
+</div>
+</header>
+<div class="container">
+<!-- Sidebar -->
+<nav class="sidebar">
+<a class="nav-item" href="home-dashboard.html">
+<i class="fas fa-home"></i>
+        Home
+      </a>
+<a class="nav-item" href="pesquisa-pacientes.html">
+<i class="fas fa-users"></i>
+        Pacientes
+      </a>
+<a class="nav-item active" href="#">
+<i class="fas fa-clipboard-list"></i>
+        Registro de Dados
+      </a>
+<a class="nav-item" href="PaginaRelatorio/Relatorio.html">
+<i class="fas fa-chart-bar"></i>
+        Relatórios
+      </a>
+<a class="nav-item" href="alertas.html">
+<i class="fas fa-bell"></i>
+        Alertas
+      </a>
+</nav>
+<!-- Conteúdo principal -->
+<main class="main-content">
+<div class="page-header fade-in-up">
+<h1 class="page-title">Registrar Nova Requisição de Ajuda</h1>
+<p class="page-subtitle">Preencha os dados abaixo para registrar uma nova requisição de assistência</p>
+</div>
+<form class="form-container fade-in-up-delay-1" id="requestForm">
+<div class="form-grid">
+<!-- Coluna Esquerda: Detalhes do Pedido -->
+<div class="form-section">
+<h2 class="section-title">Detalhes do Pedido</h2>
+<div class="form-group">
+<label for="patient-id">ID do Paciente</label>
+<input id="patient-id" name="patient-id" placeholder="ex. P00123" required="" type="text"/>
+</div>
+<div class="form-group">
+<label for="request-date">Data</label>
+<input id="request-date" name="request-date" required="" type="date"/>
+</div>
+<div class="form-group">
+<label for="request-time">Hora</label>
+<input id="request-time" name="request-time" required="" type="time"/>
+</div>
+</div>
+<!-- Coluna Direita: Urgência -->
+<div class="form-section">
+<h2 class="section-title">Urgência</h2>
+<div class="form-group">
+<label for="urgency-level">Nível de Urgência</label>
+<select id="urgency-level" name="urgency-level" required="">
+<option value="">Selecione a Urgência</option>
+<option value="baixa">Baixa</option>
+<option value="media">Média</option>
+<option value="alta">Alta</option>
+<option value="critica">Crítica</option>
+</select>
+</div>
+</div>
+<!-- Seção de Necessidades (Ocupa toda a largura) -->
+<div class="form-section needs-section fade-in-up-delay-2">
+<h2 class="section-title">Tipos Comuns de Necessidade</h2>
+<div class="needs-grid">
+<div class="need-item">
+<label for="medication-needs">Administração de Medicamento</label>
+<textarea id="medication-needs" name="medication-needs" placeholder="Insira as necessidades do(a) Paciente" rows="3"></textarea>
+</div>
+<div class="need-item">
+<label for="hygiene-needs">Assistência para Higiene</label>
+<textarea id="hygiene-needs" name="hygiene-needs" placeholder="Insira as necessidades do(a) Paciente" rows="3"></textarea>
+</div>
+<div class="need-item">
+<label for="feeding-needs">Assistência para Alimentação</label>
+<textarea id="feeding-needs" name="feeding-needs" placeholder="Insira as necessidades do(a) Paciente" rows="3"></textarea>
+</div>
+</div>
+</div>
+<!-- Comentários Adicionais -->
+<div class="form-section" style="grid-column: 1 / -1;">
+<h2 class="section-title">Comentários Adicionais</h2>
+<div class="form-group">
+<label for="additional-comments">Informações Adicionais</label>
+<textarea id="additional-comments" name="additional-comments" placeholder="Insira informações adicionais sobre o pedido" rows="4"></textarea>
+</div>
+</div>
+<!-- Botões de Ação -->
+<div class="form-actions">
+<button class="btn btn-secondary" onclick="resetForm()" type="button">
+<i class="fas fa-undo"></i>
+              Reiniciar Formulário
+            </button>
+<button class="btn btn-primary" type="submit">
+<i class="fas fa-save"></i>
+              Registrar Pedido
+            </button>
+</div>
+</div>
+</form>
+</main>
+</div>
+
+<script src="assets/js/registrar-dados.inline.js"></script></body>
+</html>
+
+
+      
+
+      .main-content {
+
+        padding: 1rem;
+
+      }
+
+      
+
+      .form-container {
+
+        padding: 1rem;
+
+      }
+
+      
+
+      .form-actions {
+
+        flex-direction: column;
+
+      }
+
+      
+
+      .btn {
+
+        width: 100%;
+
+        justify-content: center;
+
+      }
+
+    }
+
+
+
+    /* Animações */
+
+    @keyframes fadeInUp {
+
+      from {
+
+        opacity: 0;
+
+        transform: translateY(20px);
+
+      }
+
+      to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+
+      }
+
+    }
+
+
+
+    .fade-in-up {
+
+      animation: fadeInUp 0.6s ease-out;
+
+    }
+
+
+
+    .fade-in-up-delay-1 {
+
+      animation: fadeInUp 0.6s ease-out 0.1s both;
+
+    }
+
+
+
+    .fade-in-up-delay-2 {
+
+      animation: fadeInUp 0.6s ease-out 0.2s both;
+
+    }
+
+  
+
+<body>
+<!-- Header -->
+<header class="header">
+<div class="logo">Cuida Mais</div>
+<div class="search-bar">
+<i class="fas fa-search" style="color: #6b7280;"></i>
+<input placeholder="Pesquisar por pacientes..." type="text"/>
+</div>
+<div class="user-profile" onclick="toggleUserMenu()">
+<i class="fas fa-user"></i>
+</div>
+</header>
+<div class="container">
+<!-- Sidebar -->
+<nav class="sidebar">
+<a class="nav-item" href="home-dashboard.html">
+<i class="fas fa-home"></i>
+
+        Home
+
+      </a>
+<a class="nav-item" href="pesquisa-pacientes.html">
+<i class="fas fa-users"></i>
+
+        Pacientes
+
+      </a>
+<a class="nav-item active" href="#">
+<i class="fas fa-clipboard-list"></i>
+
+        Registro de Dados
+
+      </a>
+<a class="nav-item" href="#">
+<i class="fas fa-chart-bar"></i>
+
+        Relatórios
+
+      </a>
+<a class="nav-item" href="#">
+<i class="fas fa-bell"></i>
+
+        Alertas
+
+      </a>
+</nav>
+<!-- Conteúdo principal -->
+<main class="main-content">
+<div class="page-header fade-in-up">
+<h1 class="page-title">Registrar Nova Requisição de Ajuda</h1>
+<p class="page-subtitle">Preencha os dados abaixo para registrar uma nova requisição de assistência</p>
+</div>
+<form class="form-container fade-in-up-delay-1" id="requestForm">
+<div class="form-grid">
+<!-- Coluna Esquerda: Detalhes do Pedido -->
+<div class="form-section">
+<h2 class="section-title">Detalhes do Pedido</h2>
+<div class="form-group">
+<label for="patient-id">ID do Paciente</label>
+<input id="patient-id" name="patient-id" placeholder="ex. P00123" required="" type="text"/>
+</div>
+<div class="form-group">
+<label for="request-date">Data</label>
+<input id="request-date" name="request-date" required="" type="date"/>
+</div>
+<div class="form-group">
+<label for="request-time">Hora</label>
+<input id="request-time" name="request-time" required="" type="time"/>
+</div>
+</div>
+<!-- Coluna Direita: Urgência -->
+<div class="form-section">
+<h2 class="section-title">Urgência</h2>
+<div class="form-group">
+<label for="urgency-level">Nível de Urgência</label>
+<select id="urgency-level" name="urgency-level" required="">
+<option value="">Selecione a Urgência</option>
+<option value="baixa">Baixa</option>
+<option value="media">Média</option>
+<option value="alta">Alta</option>
+<option value="critica">Crítica</option>
+</select>
+</div>
+</div>
+<!-- Seção de Necessidades (Ocupa toda a largura) -->
+<div class="form-section needs-section fade-in-up-delay-2">
+<h2 class="section-title">Tipos Comuns de Necessidade</h2>
+<div class="needs-grid">
+<div class="need-item">
+<label for="medication-needs">Administração de Medicamento</label>
+<textarea id="medication-needs" name="medication-needs" placeholder="Insira as necessidades do(a) Paciente" rows="3"></textarea>
+</div>
+<div class="need-item">
+<label for="hygiene-needs">Assistência para Higiene</label>
+<textarea id="hygiene-needs" name="hygiene-needs" placeholder="Insira as necessidades do(a) Paciente" rows="3"></textarea>
+</div>
+<div class="need-item">
+<label for="feeding-needs">Assistência para Alimentação</label>
+<textarea id="feeding-needs" name="feeding-needs" placeholder="Insira as necessidades do(a) Paciente" rows="3"></textarea>
+</div>
+</div>
+</div>
+<!-- Comentários Adicionais -->
+<div class="form-section" style="grid-column: 1 / -1;">
+<h2 class="section-title">Comentários Adicionais</h2>
+<div class="form-group">
+<label for="additional-comments">Informações Adicionais</label>
+<textarea id="additional-comments" name="additional-comments" placeholder="Insira informações adicionais sobre o pedido" rows="4"></textarea>
+</div>
+</div>
+<!-- Botões de Ação -->
+<div class="form-actions">
+<button class="btn btn-secondary" onclick="resetForm()" type="button">
+<i class="fas fa-undo"></i>
+
+              Reiniciar Formulário
+
+            </button>
+<button class="btn btn-primary" type="submit">
+<i class="fas fa-save"></i>
+
+              Registrar Pedido
+
+            </button>
+</div>
+</div>
+</form>
+</main>
+</div>
+
+</body>
+
