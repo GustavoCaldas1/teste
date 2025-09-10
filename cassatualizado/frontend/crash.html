@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Crash — Lux Casino</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body{ background:#07070b; color:#e6f0ff; font-family: Inter, system-ui, Arial; }
+    header{ display:flex; align-items:center; justify-content:space-between; padding:16px 20px; border-bottom:1px solid rgba(255,255,255,.08); }
+    .wrap{ max-width: 1100px; margin: 0 auto; padding: 16px; }
+    .board{ background: linear-gradient(180deg, rgba(20,224,255,.06), rgba(0,0,0,.4)); border:1px solid rgba(20,224,255,.18); border-radius:14px; padding: 12px; }
+    canvas{ display:block; width:100%; height:360px; background: radial-gradient(800px 400px at 30% -20%, rgba(20,224,255,.08), transparent); }
+    .controls{ display:flex; gap:12px; align-items:center; justify-content:center; margin-top:12px; }
+    .controls input, .controls button{ padding:10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,.1); background:#0f121a; color:#fff; }
+    .cash{ font-family: Orbitron; font-size: 22px; text-align:center; margin-top:8px; }
+    .log{ margin-top:12px; color:#9fb; font-size:.9rem; height:84px; overflow:auto; }
+  </style>
+</head>
+<body>
+  <header>
+    <strong>Crash</strong>
+    <div style="display:flex; align-items:center; gap:10px">
+      <div class="balance">Saldo: <span id="crBalance">--</span></div>
+      <a href="lobby.html" class="btn btn-outline">Voltar ao Lobby</a>
+    </div>
+  </header>
+  <div class="wrap">
+    <div class="board"><canvas id="crashCanvas" width="1000" height="360"></canvas></div>
+    <div class="cash">Multiplicador: <span id="mult">1.00x</span></div>
+    <div class="controls">
+      <label>Valor</label>
+      <input type="number" id="crBet" value="10" min="1">
+      <label>Auto Cashout</label>
+      <input type="number" id="autoCash" value="2" step="0.1" min="1.1">
+      <button id="crStart">Iniciar</button>
+      <button id="crCash">Sacar</button>
+      <label style="margin-left:12px">Auto Bet</label>
+      <input type="checkbox" id="autoOn">
+      <label>Rodadas</label>
+      <input type="number" id="autoRounds" value="10" min="1" style="width:80px">
+      <button id="autoStop">Parar</button>
+    </div>
+    <div class="log" id="crLog"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+  <script src="js/realtime-balance.js"></script>
+  <script>
+    (function(){ var s=localStorage.getItem('theme'); if(s==='light') document.documentElement.classList.add('theme-light'); })();
+    const cvs=document.getElementById('crashCanvas'), ctx=cvs.getContext('2d');
+    const multEl=document.getElementById('mult');
+    const betEl=document.getElementById('crBet');
+    const autoEl=document.getElementById('autoCash');
+    const startBtn=document.getElementById('crStart');
+    const cashBtn=document.getElementById('crCash');
+    const autoOn=document.getElementById('autoOn');
+    const autoRounds=document.getElementById('autoRounds');
+    const autoStop=document.getElementById('autoStop');
+    const logEl=document.getElementById('crLog');
+    const balEl=document.getElementById('crBalance');
+
+    let running=false, t=0, mult=1, crashed=false, winnings=0, bet=0;
+    let crashAt = 0;
+    let autoActive=false, autoLeft=0;
+    let particles=[];
+
+    function resetRound(){
+      running=false; crashed=false; t=0; mult=1; winnings=0; bet=0;
+      crashAt = rollCrashAt();
+      draw();
+    }
+
+    function rollCrashAt(){
+      // Chances raras para grandes multiplicadores
+      // ~0.2% 1000x, 0.5% 100x, 0.8% 60x, 1.2% 50x, 2.0% 40x
+      const r = Math.random()*100;
+      if(r < 0.2) return 1000;
+      if(r < 0.7) return 100;
+      if(r < 1.5) return 60;
+      if(r < 2.7) return 50;
+      if(r < 4.7) return 40;
+      return (Math.random()**2)*5 + 1.2;
+    }
+
+    function posAt(tt){
+      const m = 1 + (Math.exp(tt*0.7)-1);
+      const px = 40 + tt*80;
+      const wave = Math.sin(tt*1.2) * 3 * Math.min(1, Math.log(Math.max(1.0001, m)));
+      const py = (cvs.height-40) - Math.log(Math.max(1.0001, m)) * 90 - wave; // compressão log + leve curvatura
+      return {px,py,m};
+    }
+
+    function draw(){
+      ctx.clearRect(0,0,cvs.width,cvs.height);
+      // eixos
+      ctx.strokeStyle='rgba(255,255,255,.15)';
+      ctx.beginPath(); ctx.moveTo(40,cvs.height-40); ctx.lineTo(cvs.width-10,cvs.height-40); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(40,20); ctx.lineTo(40,cvs.height-40); ctx.stroke();
+
+      // curva com compressão log para multiplicadores altos e leve curvatura
+      ctx.strokeStyle='rgba(20,224,255,.9)'; ctx.lineWidth=2;
+      ctx.beginPath(); ctx.moveTo(40,cvs.height-40);
+      for(let x=0;x<=t;x+=0.02){
+        const m = 1 + (Math.exp(x*0.7)-1);
+        const px = 40 + x*80;
+        const wave = Math.sin(x*1.2) * 3 * Math.min(1, Math.log(Math.max(1.0001, m)));
+        const py = (cvs.height-40) - Math.log(Math.max(1.0001, m)) * 90 - wave;
+        ctx.lineTo(px, py);
+      }
+      ctx.stroke();
+
+      // marcador: nave seguindo a curva
+      const pNow = posAt(t);
+      const pPrev = posAt(Math.max(0, t-0.05));
+      const ang = Math.atan2(pNow.py - pPrev.py, pNow.px - pPrev.px);
+      drawShip(pNow.px, pNow.py, ang);
+
+      // partículas/explosão
+      particles = particles.filter(p=> p.life>0);
+      particles.forEach(p=>{
+        p.vx *= 0.98; p.vy *= 0.98; p.vy += 0.08; p.x += p.vx; p.y += p.vy; p.life-=1;
+        ctx.fillStyle = `rgba(255,200,80,${Math.max(0,p.life/30)})`;
+        ctx.beginPath(); ctx.arc(p.x,p.y,2,0,Math.PI*2); ctx.fill();
+      });
+    }
+
+    function drawShip(x,y,angle){
+      const size=10;
+      ctx.save();
+      ctx.translate(x,y); ctx.rotate(angle);
+      ctx.fillStyle='rgba(255,255,255,.95)';
+      ctx.beginPath();
+      ctx.moveTo(size,0);
+      ctx.lineTo(-size*0.7, size*0.6);
+      ctx.lineTo(-size*0.4, 0);
+      ctx.lineTo(-size*0.7, -size*0.6);
+      ctx.closePath(); ctx.fill();
+      const grad = ctx.createLinearGradient(-size*1.8,0,0,0);
+      grad.addColorStop(0,'rgba(20,224,255,.0)');
+      grad.addColorStop(1,'rgba(20,224,255,.6)');
+      ctx.fillStyle=grad;
+      ctx.fillRect(-size*1.8,-1.5,size*1.6,3);
+      ctx.restore();
+    }
+
+    function step(){
+      if(!running) return;
+      // Progressão: lento até 10x, acelera gradualmente depois
+      const speedScale = (()=>{
+        const m = mult;
+        if(m < 10) return 0.4 + 0.06 * (m - 1); // ~0.4x até ~0.94x
+        const extra = Math.min(2.0, 0.8 + 0.02 * (m - 10)); // sobe até ~2.0x
+        return extra;
+      })();
+      t += 0.016 * speedScale;
+      mult = Math.min(1000, 1 + (Math.exp(t*0.7)-1));
+      multEl.textContent = mult.toFixed(2)+'x';
+      draw();
+      if(mult >= crashAt){
+        running=false; crashed=true; log('💥 Crash em '+mult.toFixed(2)+'x');
+        // cria explosão
+        const p = posAt(t);
+        for(let i=0;i<40;i++){ const a = Math.random()*Math.PI*2; const sp = Math.random()*3+1; particles.push({ x:p.px, y:p.py, vx:Math.cos(a)*sp, vy:Math.sin(a)*sp, life: 30 }); }
+        // fim da rodada
+        setTimeout(resetRound, 1200);
+      } else {
+        // auto cashout
+        const auto = parseFloat(autoEl.value);
+        if(bet>0 && auto>1 && mult>=auto){ doCashout(); return; }
+        requestAnimationFrame(step);
+      }
+    }
+
+    function start(){
+      if(running) return;
+      bet = +betEl.value || 0;
+      if(bet<=0){ alert('Aposta inválida'); return; }
+      winnings=0; crashed=false; running=true; t=0; mult=1; log('🎮 Rodada iniciada.');
+      requestAnimationFrame(step);
+    }
+
+    async function doCashout(){
+      if(!running || bet<=0) return;
+      const gain = Math.floor(bet * mult);
+      try{
+        const resp = await fetch('/api/cashout/crash', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ amount: gain, mult }) });
+        const data = await resp.json();
+        if(data.ok){ log('💰 Sacou '+gain+' créditos em '+mult.toFixed(2)+'x'); if(data.balance!==undefined) balEl.textContent = toBRL(data.balance); }
+        else { log('Falha ao sacar.'); }
+      }catch(e){ log('Erro ao comunicar com servidor.'); }
+      running=false; bet=0; setTimeout(()=>{ resetRound(); maybeAutoNext(); }, 800);
+    }
+
+    function log(msg){ const p=document.createElement('div'); p.textContent=msg; logEl.prepend(p); }
+
+    startBtn.onclick = start; cashBtn.onclick = doCashout;
+    resetRound();
+
+    function maybeAutoNext(){
+      if(!autoActive) return;
+      if(autoLeft<=0){ autoActive=false; log('🛑 Auto Bet encerrado.'); return; }
+      const delay = 800;
+      setTimeout(()=>{ autoLeft--; start(); }, delay);
+    }
+
+    startBtn.addEventListener('click', ()=>{
+      if(autoOn.checked && !autoActive){ autoActive=true; autoLeft=Math.max(1, +autoRounds.value||1); }
+    });
+    autoStop.addEventListener('click', ()=>{ autoActive=false; });
+
+    // Saldo em tempo real padronizado
+    attachRealtimeBalance('crBalance', { formatBRL: true });
+  </script>
+</body>
+</html>
+
+

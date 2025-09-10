@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lux Casino — Bônus & Roleta</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-min">
+      <div class="brand-logo">♠</div>
+      <span>Lux <strong>Casino</strong></span>
+    </div>
+    <nav class="nav">
+      <a href="lobby.html">Lobby</a>
+      <a href="bonus.html" class="active">Bônus & Roleta</a>
+      <a href="sports.html">Apostas Esportivas</a>
+      <a href="wallet.html">Carteira</a>
+      <a href="profile.html">Perfil</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="glass-card center">
+      <h3>Roleta de Bônus</h3>
+      <canvas id="wheel" width="360" height="360"></canvas>
+      <button id="spinBtn" class="btn btn-primary glow">Girar</button>
+      <div id="result" class="result"></div>
+      <div id="confetti"></div>
+    </section>
+  </main>
+
+  <script src="js/roulette.js"></script>
+</body>
+</html>

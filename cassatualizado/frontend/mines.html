@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Mines - Cassino Luxuoso</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/mines.css">
+</head>
+<body class="dark-theme">
+  <header>
+    <h1>💎 Mines</h1>
+    <p>Saldo: <span id="balance">1000</span> créditos</p>
+  </header>
+
+  <section class="controls">
+    <label>Valor da aposta:</label>
+    <input type="number" id="bet" value="10" min="1">
+
+    <label>Bombas:</label>
+    <input type="number" id="bombs" value="5" min="1" max="20">
+
+    <button id="startGame">🎲 Iniciar Jogo</button>
+    <button id="cashOut" disabled>💰 Sacar</button>
+  </section>
+
+  <section class="grid" id="grid"></section>
+
+  <section class="log">
+    <h2>Histórico</h2>
+    <ul id="log"></ul>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+  <script src="js/realtime-balance.js"></script>
+  <script>
+    (function(){
+      var saved = localStorage.getItem('theme');
+      if(saved==='light') document.documentElement.classList.add('theme-light');
+    })();
+    attachRealtimeBalance('balance', { formatBRL: false });
+  </script>
+  <script src="js/mines.js"></script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lux Casino — Lobby</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-min">
+      <div class="brand-logo">♠</div>
+      <span>Lux <strong>Casino</strong></span>
+    </div>
+    <nav class="nav">
+      <a href="lobby.html" class="active">Lobby</a>
+      <a href="bonus.html">Bônus & Roleta</a>
+      <a href="sports.html">Apostas Esportivas</a>
+      <a href="wallet.html">Carteira</a>
+      <a href="profile.html">Perfil</a>
+    </nav>
+    <div class="search-wrap">
+      <input id="globalSearch" type="search" placeholder="Pesquisar jogos..." />
+      <button class="btn btn-outline" id="searchBtn">Buscar</button>
+      <button class="theme-toggle" id="themeToggle">Tema</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="banner-track" id="bannerTrack">
+        <div class="banner glow-border">Bem-vindo ao Lux Casino</div>
+        <div class="banner glow-border">Bônus diário na Roleta</div>
+        <div class="banner glow-border">Jackpots progressivos!</div>
+      </div>
+    </section>
+
+    <section class="glass-card" id="liveWins">
+      <h3 style="margin:0 0 8px 0">Ganhos em tempo real — Mines</h3>
+      <ul id="liveWinsList" class="live-wins" style="list-style:none; padding:0; margin:0;"></ul>
+    </section>
+
+    <section class="filters glass-card">
+      <div class="filter-group">
+        <label>Tipo</label>
+        <select id="fTipo">
+          <option value="todos">Todos</option>
+          <option value="slots">Caça-níqueis</option>
+          <option value="poker">Pôquer</option>
+          <option value="blackjack">Blackjack</option>
+          <option value="roleta">Roleta</option>
+          <option value="mines">Mines</option>
+          <option value="esportes">Apostas Esportivas</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Popularidade</label>
+        <select id="fPop">
+          <option value="todas">Todas</option>
+          <option value="altas">Altas</option>
+          <option value="medias">Médias</option>
+          <option value="novas">Novas</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Lançamentos</label>
+        <select id="fLanc">
+          <option value="qualquer">Qualquer</option>
+          <option value="recentes">Recentes</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="grid games" id="gamesGrid">
+      <!-- Cards gerados via JS -->
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+  <script src="js/lobby.js"></script>
+  <script>
+    initLobby();
+  </script>
+</body>
+</html>

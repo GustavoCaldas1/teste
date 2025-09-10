@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Plinko Neon — Lux Casino</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body{ background:#07070b; color:#e6f0ff; font-family: Inter, system-ui, Arial; }
+    header{ display:flex; align-items:center; justify-content:space-between; padding:16px 20px; border-bottom:1px solid rgba(255,255,255,.08); }
+    .board{ display:grid; place-items:center; padding:20px; }
+    canvas{ background: radial-gradient(1200px 500px at 50% -50%, rgba(0,255,255,.08), transparent), linear-gradient(180deg, rgba(0,0,0,.4), rgba(0,0,0,.8)); border:1px solid rgba(0,255,255,.15); border-radius:12px; box-shadow:0 0 40px rgba(0,255,255,.08) inset; }
+    .controls{ display:flex; gap:12px; justify-content:center; padding:12px 20px; }
+    .controls input, .controls button{ padding:10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,.1); background:#0f121a; color:#fff; }
+    .controls button{ background: linear-gradient(90deg, #00ffc6, #00a2ff); border:none; cursor:pointer; font-weight:600; }
+    .payouts{ display:flex; gap:8px; justify-content:center; padding:8px 12px; font-size:12px; opacity:.9 }
+    .payouts .cell{ background:#0b0f15; border:1px solid rgba(0,255,255,.12); padding:6px 8px; border-radius:8px; }
+  </style>
+</head>
+<body>
+  <header>
+    <strong>Plinko Neon</strong>
+    <div style="display:flex; align-items:center; gap:10px">
+      <div class="balance">Saldo: <span id="pkBalance">--</span></div>
+      <a href="lobby.html" class="btn btn-outline">Voltar ao Lobby</a>
+    </div>
+  </header>
+  <div class="controls">
+    <label>Valor</label>
+    <input type="number" id="pkBet" value="10" min="1">
+    <label>Linhas</label>
+    <input type="number" id="pkRows" value="14" min="10" max="18">
+    <button id="pkPlay">Lançar Bola</button>
+    <button id="pkCashout">Sacar</button>
+    <span style="margin-left:8px; opacity:.9">Ganhos: <strong id="pkWin">0</strong></span>
+  </div>
+  <div class="payouts" id="pkPayouts"></div>
+  <div class="board">
+    <canvas id="pkCanvas" width="640" height="560"></canvas>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+  <script src="js/realtime-balance.js"></script>
+  <script>
+    (function(){
+      var saved = localStorage.getItem('theme');
+      if(saved==='light') document.documentElement.classList.add('theme-light');
+    })();
+    attachRealtimeBalance('pkBalance', { formatBRL: true });
+  </script>
+  <script>
+    const canvas = document.getElementById('pkCanvas');
+    const ctx = canvas.getContext('2d');
+    const betEl = document.getElementById('pkBet');
+    const rowsEl = document.getElementById('pkRows');
+    const playBtn = document.getElementById('pkPlay');
+    const cashBtn = document.getElementById('pkCashout');
+    const payoutsEl = document.getElementById('pkPayouts');
+    let balls = [];
+    let buckets = [];
+    let pegs = [];
+    let winnings = 0;
+
+    function buildBoard(rows){
+      pegs = [];
+      const spacingX = 38;
+      const spacingY = 32;
+      for(let r=0;r<rows;r++){
+        for(let c=0;c<=r;c++){
+          const x = canvas.width/2 - (r*spacingX)/2 + c*spacingX;
+          const y = 60 + r*spacingY;
+          pegs.push({ x, y });
+        }
+      }
+      // buckets + payouts (simétricos)
+      const cols = rows+1;
+      buckets = Array.from({length: cols}, (_,i)=>({ x: (canvas.width/cols)*i + (canvas.width/cols)/2, m: payoutFor(rows, i) }));
+      payoutsEl.innerHTML = '';
+      buckets.forEach(b=>{
+        const div = document.createElement('div');
+        div.className='cell';
+        div.textContent = 'x'+b.m.toFixed(2);
+        payoutsEl.appendChild(div);
+      });
+    }
+
+    function payoutFor(rows, idx){
+      // Curva mais conservadora: centro < 1x, extremos no máx. ~2.4x
+      // Quanto mais perto da borda, maior o peso, mas com crescimento suave
+      const half = rows/2;
+      const edgeDist = Math.min(idx, rows - idx); // 0 nas bordas, half no centro
+      const edgeWeight = 1 - (edgeDist / half);  // 1 nas bordas, 0 no centro
+      const base = 0.65;                         // centro ≈ 0.65x
+      const maxBonus = 1.75;                     // extremos ≈ base + 1.75 = 2.4x
+      const bonus = Math.pow(edgeWeight, 2.4) * maxBonus;
+      return base + bonus;
+    }
+
+    function launchBall(){
+      const bet = +betEl.value || 1;
+      const jitter = (Math.random() - 0.5) * 2; // impulso horizontal inicial
+      balls.push({ x: canvas.width/2, y: 20, vx: jitter, vy: 0.5, bet });
+    }
+
+    function step(){
+      ctx.clearRect(0,0,canvas.width, canvas.height);
+
+      // draw pegs
+      ctx.fillStyle = '#0ff';
+      pegs.forEach(p=>{ ctx.beginPath(); ctx.arc(p.x,p.y,3,0,Math.PI*2); ctx.fill(); });
+
+      // draw buckets line
+      ctx.strokeStyle='rgba(0,255,255,.25)';
+      ctx.beginPath(); ctx.moveTo(40, 520); ctx.lineTo(canvas.width-40, 520); ctx.stroke();
+      buckets.forEach((b,i)=>{
+        ctx.fillStyle='rgba(0,255,255,.25)';
+        ctx.fillRect((canvas.width/(buckets.length))*i, 520, canvas.width/(buckets.length)-2, 8);
+        ctx.fillStyle='#89f';
+        ctx.font='12px monospace';
+        ctx.fillText('x'+b.m.toFixed(2), (canvas.width/(buckets.length))*i + 8, 545);
+      });
+
+      // physics + draw balls
+      const PEG_R = 5; // raio visual
+      const COLL_R = 8; // raio de colisão
+      const RESTITUTION = 0.55; // quique mais baixo nas colisões (0..1)
+      const MAX_SPEED = 6.0; // limite de velocidade
+      balls.forEach(ball=>{
+        ball.vy += 0.15; // gravidade mais suave
+        ball.vx *= 0.993; // atrito leve
+        ball.x += ball.vx; ball.y += ball.vy;
+        // desenha bola
+        ctx.fillStyle = '#fff';
+        ctx.beginPath(); ctx.arc(ball.x, ball.y, 5, 0, Math.PI*2); ctx.fill();
+        // collide with pegs
+        pegs.forEach(p=>{
+          const dx = ball.x - p.x; const dy = ball.y - p.y; const d = Math.hypot(dx,dy);
+          if(d < COLL_R){
+            // normal de colisão
+            const nx = dx / (d || 1); const ny = dy / (d || 1);
+            // empurra a bola para fora do pino
+            const overlap = COLL_R - d;
+            ball.x += nx * overlap;
+            ball.y += ny * overlap;
+            // reflete a velocidade na normal
+            const dot = ball.vx*nx + ball.vy*ny;
+            ball.vx = (ball.vx - 2*dot*nx) * RESTITUTION;
+            ball.vy = (ball.vy - 2*dot*ny) * RESTITUTION;
+            // ruído reduzido para variedade
+            ball.vx += (Math.random()-.5)*0.2;
+          }
+          // desenha pinos com raio maior
+          ctx.fillStyle = '#0ff';
+          ctx.beginPath(); ctx.arc(p.x, p.y, PEG_R, 0, Math.PI*2); ctx.fill();
+        });
+        // paredes laterais
+        if(ball.x < 8){ ball.x = 8; ball.vx = Math.abs(ball.vx) * 0.5; }
+        if(ball.x > canvas.width-8){ ball.x = canvas.width-8; ball.vx = -Math.abs(ball.vx) * 0.5; }
+        // limita velocidade para evitar quique exagerado
+        const speed = Math.hypot(ball.vx, ball.vy);
+        if(speed > MAX_SPEED){
+          const scale = MAX_SPEED / speed;
+          ball.vx *= scale; ball.vy *= scale;
+        }
+        // floor/buckets
+        if(ball.y>520){
+          const idx = Math.max(0, Math.min(buckets.length-1, Math.floor((ball.x/canvas.width)*buckets.length)));
+          const mult = buckets[idx].m;
+          const win = Math.max(0, Math.floor(ball.bet * mult));
+          winnings += win;
+          document.getElementById('pkWin').textContent = winnings;
+          balls.splice(balls.indexOf(ball),1);
+        }
+      });
+
+      requestAnimationFrame(step);
+    }
+
+    playBtn.onclick = ()=> { launchBall(); };
+    cashBtn.onclick = ()=>{
+      if(winnings>0){
+        // envia como "ganho" para a mesma stream do Mines (reuso do feed)
+        const payload = { type:'win', amount:winnings, mult: 1, user: (localStorage.getItem('user')? JSON.parse(localStorage.getItem('user')).username : 'lux_user'), ts: Date.now(), game:'plinko' };
+        try{ const bc = new BroadcastChannel('mines-wins'); bc.postMessage(payload);}catch(e){}
+        localStorage.setItem('mines:lastWin', JSON.stringify(payload));
+        alert('Você sacou ' + winnings + ' créditos!');
+        winnings = 0;
+      }
+    };
+
+    buildBoard(+rowsEl.value);
+    rowsEl.addEventListener('input', ()=> buildBoard(+rowsEl.value));
+    step();
+  </script>
+</body>
+</html>
+
+

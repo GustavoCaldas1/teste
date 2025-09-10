@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Teste Casino — Login</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body class="bg-grid">
+  <div class="login-wrap glass-card">
+    <div class="brand">
+      <div class="brand-logo">♠</div>
+      <h1>Teste <span>Casino</span></h1>
+      <p class="muted">Entre para a experiência premium.</p>
+    </div>
+
+    <form id="loginForm" class="form">
+      <label>Usuário</label>
+      <input type="text" name="username" placeholder="Seu usuário" required />
+
+      <label>Senha</label>
+      <input type="password" name="password" placeholder="••••••••" required />
+
+      <button class="btn btn-primary glow" type="submit">Entrar</button>
+      <a class="link" href="#" id="forgot">Esqueci minha senha</a>
+    </form>
+
+    <div class="footer-note">© 2025 Teste Casino • Todos os direitos reservados</div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script>
+    document.getElementById('forgot').addEventListener('click', (e) => {
+      e.preventDefault();
+      alert('Funcionalidade de recuperação de senha em desenvolvimento.');
+    });
+  </script>
+</body>
+</html>
