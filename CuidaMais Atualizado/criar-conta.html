@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Criar Conta - Cuida Mais</title>
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="base.css">
+  <link rel="stylesheet" href="criar-conta.css">
+</head>
+<body>
+  <div class="signup-container">
+    <!-- Left Panel -->
+    <div class="signup-left">
+      <div class="signup-overlay">
+        <div class="signup-content">
+          <h1 class="signup-title">Cuida Mais</h1>
+          <p class="signup-subtitle">Sistema de Gestão de Pacientes</p>
+          <p class="signup-description">
+            Junte-se a milhares de profissionais de saúde que já confiam no Cuida Mais 
+            para gerenciar seus pacientes de forma eficiente e segura.
+          </p>
+          <div class="signup-features">
+            <div class="feature-item">
+              <i class="fas fa-shield-alt"></i>
+              <span>Dados 100% Seguros</span>
+            </div>
+            <div class="feature-item">
+              <i class="fas fa-mobile-alt"></i>
+              <span>Acesso Mobile</span>
+            </div>
+            <div class="feature-item">
+              <i class="fas fa-headset"></i>
+              <span>Suporte 24/7</span>
+            </div>
+          </div>
+        </div>
+        <div class="signup-footer">
+          <p>&copy; 2024 Cuida Mais. Todos os direitos reservados.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Panel -->
+    <div class="signup-right">
+      <div class="signup-form-container">
+        <div class="signup-header">
+          <h2 class="signup-form-title">Criar Conta</h2>
+          <p class="signup-form-subtitle">Preencha os dados para criar sua conta</p>
+        </div>
+
+        <!-- Progress Indicator -->
+        <div class="progress-container">
+          <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+          <div class="progress-text" id="progressText">Passo 1 de 3</div>
+        </div>
+
+        <form class="signup-form" onsubmit="handleSubmit(event)">
+          <!-- Step 1: Personal Information -->
+          <div class="form-step active" id="step1">
+            <h3 class="step-title">Informações Pessoais</h3>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Nome Completo *</label>
+                <input type="text" class="form-input" placeholder="Seu nome completo" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Data de Nascimento *</label>
+                <input type="date" class="form-input" required>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">CPF *</label>
+                <input type="text" class="form-input" placeholder="000.000.000-00" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Telefone *</label>
+                <input type="tel" class="form-input" placeholder="(00) 00000-0000" required>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Email *</label>
+              <input type="email" class="form-input" placeholder="seu@email.com" required>
+            </div>
+          </div>
+
+          <!-- Step 2: Professional Information -->
+          <div class="form-step" id="step2">
+            <h3 class="step-title">Informações Profissionais</h3>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Profissão *</label>
+                <select class="form-select" required>
+                  <option value="">Selecione sua profissão</option>
+                  <option value="medico">Médico</option>
+                  <option value="enfermeiro">Enfermeiro</option>
+                  <option value="tecnico">Técnico em Enfermagem</option>
+                  <option value="fisioterapeuta">Fisioterapeuta</option>
+                  <option value="psicologo">Psicólogo</option>
+                  <option value="outro">Outro</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">CRM/CRF *</label>
+                <input type="text" class="form-input" placeholder="Número do registro" required>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Instituição de Trabalho</label>
+              <input type="text" class="form-input" placeholder="Nome da instituição">
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Especialidade</label>
+              <input type="text" class="form-input" placeholder="Sua especialidade médica">
+            </div>
+          </div>
+
+          <!-- Step 3: Account Security -->
+          <div class="form-step" id="step3">
+            <h3 class="step-title">Segurança da Conta</h3>
+            
+            <div class="form-group">
+              <label class="form-label">Senha *</label>
+              <div class="password-field">
+                <input type="password" class="form-input" placeholder="Mínimo 8 caracteres" required>
+                <button type="button" class="password-toggle" onclick="togglePassword()">
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+              <div class="password-requirements">
+                <div class="requirement" id="length">
+                  <i class="fas fa-times"></i>
+                  <span>Mínimo 8 caracteres</span>
+                </div>
+                <div class="requirement" id="uppercase">
+                  <i class="fas fa-times"></i>
+                  <span>Uma letra maiúscula</span>
+                </div>
+                <div class="requirement" id="number">
+                  <i class="fas fa-times"></i>
+                  <span>Um número</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Confirmar Senha *</label>
+              <div class="password-field">
+                <input type="password" class="form-input" placeholder="Digite a senha novamente" required>
+                <button type="button" class="password-toggle" onclick="toggleConfirmPassword()">
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="checkbox-label">
+                <input type="checkbox" class="checkbox-input" required>
+                <span class="checkbox-text">
+                  Aceito os <a href="#" class="terms-link">Termos de Uso</a> e 
+                  <a href="#" class="terms-link">Política de Privacidade</a>
+                </span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Navigation Buttons -->
+          <div class="form-navigation">
+            <button type="button" class="btn btn-secondary" id="prevBtn" onclick="changeStep(-1)" style="display: none;">
+              <i class="fas fa-arrow-left"></i>
+              Anterior
+            </button>
+            <button type="button" class="btn btn-primary" id="nextBtn" onclick="changeStep(1)">
+              Próximo
+              <i class="fas fa-arrow-right"></i>
+            </button>
+            <button type="submit" class="btn btn-primary" id="submitBtn" style="display: none;">
+              <i class="fas fa-user-plus"></i>
+              Criar Conta
+            </button>
+          </div>
+        </form>
+
+        <div class="signup-footer-right">
+          <p>Já tem uma conta? <a href="login.html" class="login-link">Fazer login</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="criar-conta.js"></script>
+</body>
+</html>

@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Cuida Mais</title>
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="base.css">
+  <link rel="stylesheet" href="home-dashboard.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="app-header">
+    <a href="#" class="app-logo">Cuida Mais</a>
+    
+    <!-- Header Right Controls -->
+    <div class="header-right">
+      <!-- Dark Mode Toggle -->
+      <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Alternar modo escuro">
+        <i class="fas fa-moon" id="darkModeIcon"></i>
+      </button>
+      
+      <!-- User Profile -->
+      <div class="app-user" onclick="toggleUserMenu()">
+      <div class="user-avatar">
+        <i class="fas fa-user"></i>
+      </div>
+      <div class="user-info">
+        <span class="user-name">Dr. João Silva</span>
+        <span class="user-role">Médico</span>
+      </div>
+      <i class="fas fa-chevron-down user-arrow"></i>
+      </div>
+    </div>
+    
+    <!-- User Menu Dropdown -->
+    <div class="user-menu" id="userMenu">
+      <div class="user-menu-header">
+        <div class="user-avatar-large">
+          <i class="fas fa-user"></i>
+        </div>
+        <div class="user-details">
+          <h3>Dr. João Silva</h3>
+          <p>Médico - CRM 123456</p>
+          <span class="user-status">Online</span>
+        </div>
+      </div>
+      
+      <div class="user-menu-divider"></div>
+      
+      <div class="user-menu-items">
+        <a href="#" class="menu-item" onclick="viewProfile()">
+          <i class="fas fa-user-circle"></i>
+          <span>Meu Perfil</span>
+        </a>
+        <a href="#" class="menu-item" onclick="editProfile()">
+          <i class="fas fa-edit"></i>
+          <span>Editar Perfil</span>
+        </a>
+        <a href="#" class="menu-item" onclick="changePassword()">
+          <i class="fas fa-lock"></i>
+          <span>Alterar Senha</span>
+        </a>
+        <a href="#" class="menu-item" onclick="settings()">
+          <i class="fas fa-cog"></i>
+          <span>Configurações</span>
+        </a>
+      </div>
+      
+      <div class="user-menu-divider"></div>
+      
+      <div class="user-menu-items">
+        <a href="#" class="menu-item logout" onclick="logout()">
+          <i class="fas fa-sign-out-alt"></i>
+          <span>Sair</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <nav class="app-sidebar">
+    <div class="sidebar-nav">
+      <a href="#" class="nav-item active">
+        <i class="fas fa-home"></i>
+        Dashboard
+      </a>
+      <a href="pesquisa-pacientes.html" class="nav-item">
+        <i class="fas fa-users"></i>
+        Pacientes
+      </a>
+      <a href="registrar-dados.html" class="nav-item">
+        <i class="fas fa-clipboard-list"></i>
+        Registro de Dados
+      </a>
+      <a href="relatorios.html" class="nav-item">
+        <i class="fas fa-chart-bar"></i>
+        Relatórios
+      </a>
+      <a href="alertas.html" class="nav-item">
+        <i class="fas fa-bell"></i>
+        Alertas
+      </a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="app-main">
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1 class="page-title">Dashboard</h1>
+      <p class="page-subtitle">Visão geral do sistema de gestão de pacientes</p>
+    </div>
+
+
+    <!-- Search Bar -->
+    <div class="card mb-6">
+      <div class="card-content">
+        <div class="search-container">
+          <input type="text" class="form-input" placeholder="Pesquisar pacientes por nome ou ID...">
+          <button class="btn btn-primary" onclick="searchPatients()">
+            <i class="fas fa-search"></i>
+            Pesquisar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard Grid -->
+    <div class="grid grid-3 mb-6">
+      <!-- Alerts Card -->
+      <div class="card alerts-card">
+        <div class="card-header">
+          <div class="card-title">
+            <i class="fas fa-exclamation-triangle" style="color: #dc2626; margin-right: 8px;"></i>
+            Alertas Urgentes
+          </div>
+          <div class="card-subtitle">Pacientes que precisam de atenção imediata</div>
+        </div>
+        <div class="card-content">
+          <div class="alert-list">
+            <div class="alert-item" onclick="viewPatient('Isabelle Silva')">
+              <div class="alert-info">
+                <div class="alert-patient">Isabelle Silva</div>
+                <div class="alert-time">5 min atrás</div>
+              </div>
+              <span class="badge badge-error">Crítico</span>
+              <i class="fas fa-chevron-right"></i>
+            </div>
+            
+            <div class="alert-item" onclick="viewPatient('Sofia Lima')">
+              <div class="alert-info">
+                <div class="alert-patient">Sofia Lima</div>
+                <div class="alert-time">30 min atrás</div>
+              </div>
+              <span class="badge badge-warning">Alto</span>
+              <i class="fas fa-chevron-right"></i>
+            </div>
+            
+            <div class="alert-item" onclick="viewPatient('Beatriz Pereira')">
+              <div class="alert-info">
+                <div class="alert-patient">Beatriz Pereira</div>
+                <div class="alert-time">1 hr atrás</div>
+              </div>
+              <span class="badge badge-warning">Médio</span>
+              <i class="fas fa-chevron-right"></i>
+            </div>
+            
+            <div class="alert-item" onclick="viewPatient('Maria Rodriguez')">
+              <div class="alert-info">
+                <div class="alert-patient">Maria Rodriguez</div>
+                <div class="alert-time">2 hrs atrás</div>
+              </div>
+              <span class="badge badge-warning">Alto</span>
+              <i class="fas fa-chevron-right"></i>
+            </div>
+          </div>
+          
+          <a href="alertas.html" class="see-more-link">Ver todos os alertas →</a>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Ações Rápidas</div>
+        </div>
+        <div class="card-content">
+          <div class="action-grid">
+            <button class="action-btn" onclick="openDataRegistration()">
+              <div class="action-icon">
+                <i class="fas fa-edit"></i>
+              </div>
+              <div class="action-text">
+                <div class="action-title">Registrar Dados</div>
+                <div class="action-subtitle">Novos pedidos de assistência</div>
+              </div>
+            </button>
+            
+            <button class="action-btn" onclick="openPatientMonitoring()">
+              <div class="action-icon">
+                <i class="fas fa-users"></i>
+              </div>
+              <div class="action-text">
+                <div class="action-title">Monitoramento</div>
+                <div class="action-subtitle">Prontuários e históricos</div>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats Card -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Estatísticas</div>
+        </div>
+        <div class="card-content">
+          <div class="stats-grid">
+            <div class="stat-item">
+              <div class="stat-number">156</div>
+              <div class="stat-label">Pacientes Ativos</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">23</div>
+              <div class="stat-label">Alertas Hoje</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">8</div>
+              <div class="stat-label">Novos Registros</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Atividade Recente</div>
+        <div class="card-subtitle">Últimas atualizações do sistema</div>
+      </div>
+      <div class="card-content">
+        <div class="activity-list">
+          <div class="activity-item">
+            <div class="activity-dot"></div>
+            <div class="activity-content">
+              <div class="activity-text">Registro de Dados: Novos dados de Triagem para Carlos Mendes</div>
+              <div class="activity-time">Agora</div>
+            </div>
+          </div>
+          
+          <div class="activity-item">
+            <div class="activity-dot"></div>
+            <div class="activity-content">
+              <div class="activity-text">Atualização de Paciente: Medicação alterada para Luís Costa</div>
+              <div class="activity-time">15 min atrás</div>
+            </div>
+          </div>
+          
+          <div class="activity-item">
+            <div class="activity-dot"></div>
+            <div class="activity-content">
+              <div class="activity-text">Alerta Resolvida: Alerta Baixo de Charlie Brown Jr. marcado como concluído</div>
+              <div class="activity-time">45 min atrás</div>
+            </div>
+          </div>
+          
+          <div class="activity-item">
+            <div class="activity-dot"></div>
+            <div class="activity-content">
+              <div class="activity-text">Novo Paciente: Ana Beatriz Costa registrada no sistema</div>
+              <div class="activity-time">1 hr atrás</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Profile/Settings Modal -->
+  <div class="modal-overlay" id="profileModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="modalTitle">Meu Perfil</h2>
+        <button class="btn-icon" aria-label="Fechar" onclick="closeProfileModal()"><i class="fas fa-times"></i></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="profile-sidebar">
+          <div class="profile-photo-wrapper">
+            <img id="profilePhotoPreview" class="profile-photo" alt="Foto de perfil" />
+            <label class="btn btn-light btn-small upload-btn">
+              <i class="fas fa-camera"></i>
+              <span>Trocar foto</span>
+              <input id="profilePhotoInput" type="file" accept="image/*" hidden>
+            </label>
+            <button type="button" class="remove-photo-btn" onclick="removeProfilePhoto()">
+              <i class="fas fa-trash"></i>
+              Remover foto
+            </button>
+          </div>
+          <div class="profile-basic">
+            <div class="profile-name" id="profileNameDisplay">Dr. João Silva</div>
+            <div class="profile-role" id="profileRoleDisplay">Médico - CRM 123456</div>
+            <div class="profile-status"><span class="status-dot"></span><span id="profileStatusDisplay">Online</span></div>
+          </div>
+          <div class="profile-tabs">
+            <button class="tab-btn active" data-tab="view" onclick="switchProfileTab('view')"><i class="fas fa-user-circle"></i> Meu Perfil</button>
+            <button class="tab-btn" data-tab="edit" onclick="switchProfileTab('edit')"><i class="fas fa-edit"></i> Editar Perfil</button>
+            <button class="tab-btn" data-tab="password" onclick="switchProfileTab('password')"><i class="fas fa-lock"></i> Alterar Senha</button>
+            <button class="tab-btn" data-tab="settings" onclick="switchProfileTab('settings')"><i class="fas fa-cog"></i> Configurações</button>
+          </div>
+        </div>
+
+        <div class="profile-content">
+          <!-- View -->
+          <div class="tab-content" id="tab-view">
+            <div class="field-group readonly">
+              <label>Nome</label>
+              <div id="viewName">Dr. João Silva</div>
+            </div>
+            <div class="field-group readonly">
+              <label>Função</label>
+              <div id="viewRole">Médico</div>
+            </div>
+            <div class="field-group readonly">
+              <label>CRM</label>
+              <div id="viewCrm">123456</div>
+            </div>
+            <div class="field-group readonly">
+              <label>Status</label>
+              <div id="viewStatus">Online</div>
+            </div>
+          </div>
+
+          <!-- Edit -->
+          <form class="tab-content hidden" id="tab-edit" onsubmit="saveProfile(event)">
+            <div class="field-group">
+              <label for="editName">Nome</label>
+              <input id="editName" class="form-input" type="text" required>
+            </div>
+            <div class="field-group grid-2">
+              <div>
+                <label for="editRole">Função</label>
+                <input id="editRole" class="form-input" type="text" required>
+              </div>
+              <div>
+                <label for="editCrm">CRM</label>
+                <input id="editCrm" class="form-input" type="text" required>
+              </div>
+            </div>
+            <div class="field-group">
+              <label for="editStatus">Status</label>
+              <select id="editStatus" class="form-input">
+                <option>Online</option>
+                <option>Ocupado</option>
+                <option>Ausente</option>
+                <option>Offline</option>
+              </select>
+            </div>
+            <div class="form-actions">
+              <button type="button" class="btn" onclick="resetEditForm()">Cancelar</button>
+              <button type="submit" class="btn btn-primary">Salvar</button>
+            </div>
+          </form>
+
+          <!-- Password -->
+          <form class="tab-content hidden" id="tab-password" onsubmit="savePassword(event)">
+            <div class="field-group">
+              <label for="currentPassword">Senha atual</label>
+              <input id="currentPassword" class="form-input" type="password" required>
+            </div>
+            <div class="field-group grid-2">
+              <div>
+                <label for="newPassword">Nova senha</label>
+                <input id="newPassword" class="form-input" type="password" minlength="6" required>
+              </div>
+              <div>
+                <label for="confirmPassword">Confirmar nova senha</label>
+                <input id="confirmPassword" class="form-input" type="password" minlength="6" required>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="button" class="btn" onclick="switchProfileTab('view')">Cancelar</button>
+              <button type="submit" class="btn btn-primary">Atualizar senha</button>
+            </div>
+          </form>
+
+          <!-- Settings -->
+          <form class="tab-content hidden" id="tab-settings" onsubmit="saveSettings(event)">
+            <div class="toggle-group">
+              <label class="toggle">
+                <input id="settingDark" type="checkbox">
+                <span></span>
+                Tema escuro
+              </label>
+            </div>
+            <div class="toggle-group">
+              <label class="toggle">
+                <input id="settingNotifications" type="checkbox" checked>
+                <span></span>
+                Notificações de sistema
+              </label>
+            </div>
+            <div class="form-actions">
+              <button type="button" class="btn" onclick="switchProfileTab('view')">Cancelar</button>
+              <button type="submit" class="btn btn-primary">Salvar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="shared-profile.js"></script>
+  <script src="home-dashboard.js"></script>
+</body>
+</html>

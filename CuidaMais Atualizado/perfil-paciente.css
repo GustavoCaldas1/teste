@@ -1,0 +1,438 @@
+/* ========================================
+   PERFIL DO PACIENTE - ESTILOS ESPECÍFICOS
+   ======================================== */
+
+/* ========================================
+   PERFIL DO PACIENTE
+   ======================================== */
+
+   html {
+    overflow-y: scroll;
+  }
+
+  
+.patient-profile {
+  text-align: center;
+}
+
+.patient-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 auto 16px;
+}
+
+.patient-name {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 4px;
+  cursor: default !important;
+}
+
+.patient-id {
+  color: #64748b;
+  font-size: 14px;
+  margin-bottom: 24px;
+  cursor: default !important;
+}
+
+.patient-details {
+  text-align: left;
+  margin-bottom: 24px;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+}
+
+.detail-item i {
+  width: 20px;
+  color: #8b5cf6;
+  margin-right: 12px;
+  font-size: 14px;
+}
+
+.detail-label {
+  color: #64748b;
+  font-size: 14px;
+  min-width: 100px;
+  margin-right: 8px;
+  cursor: default !important;
+}
+
+.detail-value {
+  color: #0f172a;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: default !important;
+}
+
+/* ========================================
+   GRÁFICO DE SINAIS VITAIS
+   ======================================== */
+.vitals-legend {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.legend-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+.legend-color.fc { background-color: #dc2626; }
+.legend-color.temp { background-color: #2563eb; }
+.legend-color.pa-sist { background-color: #7c3aed; }
+.legend-color.pa-diast { background-color: #ec4899; }
+
+.chart-container {
+  position: relative;
+  height: 300px;
+}
+
+/* ========================================
+   TABS
+   ======================================== */
+.tabs {
+  display: flex;
+  border-bottom: 1px solid #e2e8f0;
+  margin-bottom: 24px;
+  background: #f8fafc;
+  border-radius: 8px 8px 0 0;
+  overflow-x: auto;
+}
+/* ========================================
+   MODAL E EDIÇÃO DO PACIENTE
+   ======================================== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.modal-overlay.show { display: flex; }
+
+.modal {
+  width: 920px;
+  max-width: calc(100vw - 32px);
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 20px 40px rgba(2,6,23,0.2);
+  overflow: hidden;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.btn-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+#patientEditForm {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 24px;
+  padding: 20px;
+}
+
+.profile-photo-wrapper { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.profile-photo { width: 112px; height: 112px; border-radius: 50%; object-fit: cover; background: #f1f5f9; border: 2px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+.upload-btn { display: inline-flex; align-items: center; gap: 8px; }
+.field-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.form-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 8px; }
+
+@media (max-width: 768px) {
+  #patientEditForm { grid-template-columns: 1fr; }
+}
+
+.tab-btn {
+  padding: 12px 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  color: #64748b;
+  transition: all 0.2s ease;
+  border-bottom: 3px solid transparent;
+  white-space: nowrap;
+}
+
+.tab-btn:hover {
+  color: #8b5cf6;
+  background: #f1f5f9;
+}
+
+.tab-btn.active {
+  color: #8b5cf6;
+  border-bottom-color: #8b5cf6;
+  background: #ffffff;
+}
+
+.tab-content {
+  position: relative;
+}
+
+.tab-pane {
+  display: none;
+}
+
+.tab-pane.active {
+  display: block;
+}
+
+/* ========================================
+   COMENTÁRIOS
+   ======================================== */
+.comments-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.comment-item {
+  padding: 16px;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.comment-author {
+  font-weight: 600;
+  color: #0f172a;
+  font-size: 14px;
+  cursor: default !important;
+}
+
+.comment-date {
+  color: #64748b;
+  font-size: 12px;
+  cursor: default !important;
+}
+
+.comment-text {
+  color: #374151;
+  line-height: 1.5;
+  font-size: 14px;
+  cursor: default !important;
+}
+
+/* ========================================
+   USER MENU DROPDOWN
+   ======================================== */
+.user-menu {
+  position: absolute;
+  top: 100%;
+  right: 24px;
+  width: 280px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.2s ease;
+}
+
+.user-menu.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.user-menu-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: #f8fafc;
+  border-radius: 12px 12px 0 0;
+}
+
+.user-avatar-large {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #ec4899;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 20px;
+}
+
+.user-details h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0 0 4px 0;
+}
+
+.user-details p {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0 0 4px 0;
+}
+
+.user-status {
+  font-size: 12px;
+  color: #10b981;
+  font-weight: 500;
+}
+
+.user-menu-divider {
+  height: 1px;
+  background: #e2e8f0;
+  margin: 0;
+}
+
+.user-menu-items {
+  padding: 8px 0;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  color: #374151;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.menu-item:hover {
+  background: #f8fafc;
+  color: #0f172a;
+}
+
+.menu-item i {
+  width: 16px;
+  text-align: center;
+  color: #64748b;
+}
+
+.menu-item.logout {
+  color: #dc2626;
+}
+
+.menu-item.logout:hover {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.menu-item.logout i {
+  color: #dc2626;
+}
+
+/* ========================================
+   RESPONSIVIDADE
+   ======================================== */
+@media (max-width: 1024px) {
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .vitals-legend {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .tabs {
+    flex-wrap: wrap;
+  }
+  
+  .tab-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+  
+  .patient-details {
+    text-align: center;
+  }
+  
+  .detail-item {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .patient-avatar {
+    width: 60px;
+    height: 60px;
+    font-size: 20px;
+  }
+  
+  .patient-name {
+    font-size: 20px;
+  }
+  
+  .chart-container {
+    height: 250px;
+  }
+  
+  .tabs {
+    flex-direction: column;
+  }
+  
+  .tab-btn {
+    width: 100%;
+    text-align: left;
+  }
+}

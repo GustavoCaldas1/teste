@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Relatórios & Estatísticas - Cuida Mais</title>
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="base.css">
+  <link rel="stylesheet" href="relatorios.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="app-header">
+    <a href="#" class="app-logo">Cuida Mais</a>
+    
+    <!-- Header Right Controls -->
+    <div class="header-right">
+      <!-- Dark Mode Toggle -->
+      <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Alternar modo escuro">
+        <i class="fas fa-moon" id="darkModeIcon"></i>
+      </button>
+      
+      <!-- User Profile -->
+      <div class="app-user" onclick="toggleUserMenu()">
+      <div class="user-avatar">
+        <i class="fas fa-user"></i>
+      </div>
+      <div class="user-info">
+        <span class="user-name">Dr. João Silva</span>
+        <span class="user-role">Médico</span>
+      </div>
+      <i class="fas fa-chevron-down user-arrow"></i>
+      </div>
+    </div>
+    
+    <!-- User Menu Dropdown -->
+    <div class="user-menu" id="userMenu">
+      <div class="user-menu-header">
+        <div class="user-avatar-large">
+          <i class="fas fa-user"></i>
+        </div>
+        <div class="user-details">
+          <h3>Dr. João Silva</h3>
+          <p>Médico - CRM 123456</p>
+          <span class="user-status">Online</span>
+        </div>
+      </div>
+      
+      <div class="user-menu-divider"></div>
+      
+      <div class="user-menu-items">
+        <a href="#" class="menu-item" onclick="viewProfile()">
+          <i class="fas fa-user-circle"></i>
+          <span>Meu Perfil</span>
+        </a>
+        <a href="#" class="menu-item" onclick="editProfile()">
+          <i class="fas fa-edit"></i>
+          <span>Editar Perfil</span>
+        </a>
+        <a href="#" class="menu-item" onclick="changePassword()">
+          <i class="fas fa-lock"></i>
+          <span>Alterar Senha</span>
+        </a>
+        <a href="#" class="menu-item" onclick="settings()">
+          <i class="fas fa-cog"></i>
+          <span>Configurações</span>
+        </a>
+      </div>
+      
+      <div class="user-menu-divider"></div>
+      
+      <div class="user-menu-items">
+        <a href="#" class="menu-item logout" onclick="logout()">
+          <i class="fas fa-sign-out-alt"></i>
+          <span>Sair</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <nav class="app-sidebar">
+    <div class="sidebar-nav">
+      <a href="home-dashboard.html" class="nav-item">
+        <i class="fas fa-home"></i>
+        Dashboard
+      </a>
+      <a href="pesquisa-pacientes.html" class="nav-item">
+        <i class="fas fa-users"></i>
+        Pacientes
+      </a>
+      <a href="registrar-dados.html" class="nav-item">
+        <i class="fas fa-clipboard-list"></i>
+        Registro de Dados
+      </a>
+      <a href="#" class="nav-item active">
+        <i class="fas fa-chart-bar"></i>
+        Relatórios
+      </a>
+      <a href="alertas.html" class="nav-item">
+        <i class="fas fa-bell"></i>
+        Alertas
+      </a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="app-main">
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1 class="page-title">Relatórios & Estatísticas</h1>
+      <p class="page-subtitle">Análise detalhada de dados e performance do sistema</p>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search-bar-container">
+      <input type="text" class="search-input" placeholder="Pesquisar por paciente...">
+      <button class="search-btn" onclick="searchPatient()">
+        <i class="fas fa-search"></i>
+      </button>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="stats-grid mb-6">
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-bell"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-number">1,245</div>
+          <div class="stat-label">Total de Alertas</div>
+          <div class="stat-description">Alertas gerados nos últimos 30 dias</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-number">69</div>
+          <div class="stat-label">Alertas Críticos</div>
+          <div class="stat-description">Alertas de risco iminente</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-user-injured"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-number">1,120</div>
+          <div class="stat-label">Pacientes Monitorados</div>
+          <div class="stat-description">Pacientes atualmente em UTI</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-clock"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-number">2h 30m</div>
+          <div class="stat-label">Tempo Médio de Resolução</div>
+          <div class="stat-description">Tempo médio de resolução de alertas</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="content-grid">
+      <!-- Left Column -->
+      <div class="content-left">
+        <!-- Recent Alerts -->
+        <div class="card mb-6">
+          <div class="card-header">
+            <div class="card-title">Alertas Recentes</div>
+            <button class="btn btn-sm btn-secondary" onclick="refreshAlerts()">
+              <i class="fas fa-sync-alt"></i>
+              Atualizar
+            </button>
+          </div>
+          <div class="card-content">
+            <div class="table-container">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Paciente</th>
+                    <th>ID</th>
+                    <th>Tipo do Alerta</th>
+                    <th>Urgência</th>
+                    <th>Timestamp</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="patient-name">Isabelle Silva</td>
+                    <td class="patient-id">P210</td>
+                    <td>Dificuldade respiratória</td>
+                    <td><span class="badge badge-error">Crítico</span></td>
+                    <td>2024-07-28 10:30 AM</td>
+                    <td><span class="badge badge-error">Aberto</span></td>
+                  </tr>
+                  <tr>
+                    <td class="patient-name">Jane Smith</td>
+                    <td class="patient-id">P122</td>
+                    <td>Arritmia cardíaca</td>
+                    <td><span class="badge badge-warning">Alto</span></td>
+                    <td>2024-07-28 09:15 AM</td>
+                    <td><span class="badge badge-warning">Em atendimento</span></td>
+                  </tr>
+                  <tr>
+                    <td class="patient-name">Robert Johnson</td>
+                    <td class="patient-id">P143</td>
+                    <td>Indicador de sepse</td>
+                    <td><span class="badge badge-error">Crítico</span></td>
+                    <td>2024-07-27 11:00 PM</td>
+                    <td><span class="badge badge-error">Aberto</span></td>
+                  </tr>
+                  <tr>
+                    <td class="patient-name">Emily Davis</td>
+                    <td class="patient-id">P1454</td>
+                    <td>Hipotensão</td>
+                    <td><span class="badge badge-info">Médio</span></td>
+                    <td>2024-07-27 08:45 PM</td>
+                    <td><span class="badge badge-success">Resolvido</span></td>
+                  </tr>
+                  <tr>
+                    <td class="patient-name">Michael Brown</td>
+                    <td class="patient-id">P025</td>
+                    <td>Pico de glicose no sangue</td>
+                    <td><span class="badge badge-info">Baixo</span></td>
+                    <td>2024-07-27 06:00 PM</td>
+                    <td><span class="badge badge-success">Resolvido</span></td>
+                  </tr>
+                  <tr>
+                    <td class="patient-name">Sarah White</td>
+                    <td class="patient-id">P036</td>
+                    <td>Febre inexplicada</td>
+                    <td><span class="badge badge-info">Médio</span></td>
+                    <td>2024-07-26 11:30 PM</td>
+                    <td><span class="badge badge-warning">Em atendimento</span></td>
+                  </tr>
+                  <tr>
+                    <td class="patient-name">David Green</td>
+                    <td class="patient-id">P127</td>
+                    <td>Dessaturação de oxigênio</td>
+                    <td><span class="badge badge-error">Crítico</span></td>
+                    <td>2024-07-26 10:15 AM</td>
+                    <td><span class="badge badge-error">Aberto</span></td>
+                  </tr>
+                  <tr>
+                    <td class="patient-name">Laura Black</td>
+                    <td class="patient-id">P308</td>
+                    <td>Aumento do nível de dor</td>
+                    <td><span class="badge badge-info">Baixo</span></td>
+                    <td>2024-07-26 09:30 AM</td>
+                    <td><span class="badge badge-success">Resolvido</span></td>
+                  </tr>
+                  <tr>
+                    <td class="patient-name">Chris Blue</td>
+                    <td class="patient-id">P629</td>
+                    <td>Sobrecarga de Fluidos</td>
+                    <td><span class="badge badge-warning">Alto</span></td>
+                    <td>2024-07-26 08:00 AM</td>
+                    <td><span class="badge badge-warning">Em atendimento</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="charts-grid">
+          <!-- Alerts Over Time Chart -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Alertas ao longo do tempo</div>
+            </div>
+            <div class="card-content">
+              <div class="chart-container">
+                <canvas id="alertsOverTimeChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Urgency Distribution Chart -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Distribuição de Urgência</div>
+            </div>
+            <div class="card-content">
+              <div class="chart-container">
+                <canvas id="urgencyDistributionChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column -->
+      <div class="content-right">
+        <!-- Report Filter -->
+        <div class="card mb-6">
+          <div class="card-header">
+            <div class="card-title">Filtro de Relatório</div>
+          </div>
+          <div class="card-content">
+            <form class="filter-form" onsubmit="applyFilters(event)">
+              <div class="form-group">
+                <label class="form-label">Grupo do Paciente</label>
+                <select class="form-select" id="patientGroup">
+                  <option value="">Selecione o Grupo</option>
+                  <option value="uti">UTI</option>
+                  <option value="enfermaria">Enfermaria</option>
+                  <option value="emergencia">Emergência</option>
+                  <option value="ambulatorio">Ambulatório</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Paciente específico</label>
+                <input type="text" class="form-input" placeholder="Procure o paciente por ID ou nome" id="specificPatient">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Intervalo de tempo</label>
+                <select class="form-select" id="timeInterval">
+                  <option value="7">Últimos 7 dias</option>
+                  <option value="30" selected>Últimos 30 dias</option>
+                  <option value="90">Últimos 90 dias</option>
+                  <option value="custom">Data customizada</option>
+                </select>
+              </div>
+
+              <div class="form-group" id="customDateGroup" style="display: none;">
+                <label class="form-label">Data customizada</label>
+                <input type="date" class="form-input" id="customDate" value="2025-08-06">
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-filter">
+                <i class="fas fa-filter"></i>
+                Aplicar Filtros
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Export Report -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Exportar Relatório</div>
+          </div>
+          <div class="card-content">
+            <p class="export-description">
+              Baixe os dados do relatório atual em formato Excel para análise posterior.
+            </p>
+            <button class="btn btn-success btn-export" onclick="exportToExcel()">
+              <i class="fas fa-file-excel"></i>
+              Exportar para Excel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="shared-profile.js"></script>
+  <script src="relatorios.js"></script>
+</body>
+</html>

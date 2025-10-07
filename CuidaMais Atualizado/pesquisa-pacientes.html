@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pesquisa de Pacientes - Cuida Mais</title>
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="base.css">
+  <link rel="stylesheet" href="pesquisa-pacientes.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="app-header">
+    <a href="#" class="app-logo">Cuida Mais</a>
+    
+    <!-- Header Right Controls -->
+    <div class="header-right">
+      <!-- Dark Mode Toggle -->
+      <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Alternar modo escuro">
+        <i class="fas fa-moon" id="darkModeIcon"></i>
+      </button>
+      
+      <!-- User Profile -->
+      <div class="app-user" onclick="toggleUserMenu()">
+      <div class="user-avatar">
+        <i class="fas fa-user"></i>
+      </div>
+      <div class="user-info">
+        <span class="user-name">Dr. João Silva</span>
+        <span class="user-role">Médico</span>
+      </div>
+      <i class="fas fa-chevron-down user-arrow"></i>
+      </div>
+    </div>
+    
+    <!-- User Menu Dropdown -->
+    <div class="user-menu" id="userMenu">
+      <div class="user-menu-header">
+        <div class="user-avatar-large">
+          <i class="fas fa-user"></i>
+        </div>
+        <div class="user-details">
+          <h3>Dr. João Silva</h3>
+          <p>Médico - CRM 123456</p>
+          <span class="user-status">Online</span>
+        </div>
+      </div>
+      
+      <div class="user-menu-divider"></div>
+      
+      <div class="user-menu-items">
+        <a href="#" class="menu-item" onclick="viewProfile()">
+          <i class="fas fa-user-circle"></i>
+          <span>Meu Perfil</span>
+        </a>
+        <a href="#" class="menu-item" onclick="editProfile()">
+          <i class="fas fa-edit"></i>
+          <span>Editar Perfil</span>
+        </a>
+        <a href="#" class="menu-item" onclick="changePassword()">
+          <i class="fas fa-lock"></i>
+          <span>Alterar Senha</span>
+        </a>
+        <a href="#" class="menu-item" onclick="settings()">
+          <i class="fas fa-cog"></i>
+          <span>Configurações</span>
+        </a>
+      </div>
+      
+      <div class="user-menu-divider"></div>
+      
+      <div class="user-menu-items">
+        <a href="#" class="menu-item logout" onclick="logout()">
+          <i class="fas fa-sign-out-alt"></i>
+          <span>Sair</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <nav class="app-sidebar">
+    <div class="sidebar-nav">
+      <a href="home-dashboard.html" class="nav-item">
+        <i class="fas fa-home"></i>
+        Dashboard
+      </a>
+      <a href="#" class="nav-item active">
+        <i class="fas fa-users"></i>
+        Pacientes
+      </a>
+      <a href="registrar-dados.html" class="nav-item">
+        <i class="fas fa-clipboard-list"></i>
+        Registro de Dados
+      </a>
+      <a href="relatorios.html" class="nav-item">
+        <i class="fas fa-chart-bar"></i>
+        Relatórios
+      </a>
+      <a href="alertas.html" class="nav-item">
+        <i class="fas fa-bell"></i>
+        Alertas
+      </a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="app-main">
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1 class="page-title">Pesquisa de Pacientes</h1>
+      <p class="page-subtitle">Encontre e gerencie os dados dos pacientes do sistema</p>
+    </div>
+
+    <!-- Search Form -->
+    <div class="card mb-6">
+      <div class="card-content">
+        <form class="search-form" onsubmit="handleSearch(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Nome do Paciente</label>
+              <input type="text" class="form-input" placeholder="Digite o nome completo ou parcial" id="search-name">
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">ID do Paciente</label>
+              <input type="text" class="form-input" placeholder="Ex: PAC-2024-001" id="search-id">
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Status</label>
+              <select class="form-select" id="search-status">
+                <option value="">Todos os status</option>
+                <option value="active">Ativo</option>
+                <option value="inactive">Inativo</option>
+                <option value="pending">Pendente</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-search"></i>
+                Pesquisar
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Resultados da Pesquisa</div>
+        <div class="card-subtitle">Mostrando 8 de 156 pacientes</div>
+      </div>
+      
+      <div class="card-content">
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Nome do Paciente</th>
+                <th>ID</th>
+                <th>Idade</th>
+                <th>Status</th>
+                <th>Última Atualização</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="patient-name">Maria Silva Santos</td>
+                <td class="patient-id">PAC-2024-001</td>
+                <td>45 anos</td>
+                <td><span class="badge badge-success">Ativo</span></td>
+                <td>Hoje, 14:30</td>
+                <td>
+                  <button class="btn btn-sm btn-primary" onclick="viewPatient('Maria Silva Santos')">Ver</button>
+                  <button class="btn btn-sm btn-secondary" onclick="editPatient('Maria Silva Santos')">Editar</button>
+                </td>
+              </tr>
+              
+              <tr>
+                <td class="patient-name">João Carlos Oliveira</td>
+                <td class="patient-id">PAC-2024-002</td>
+                <td>32 anos</td>
+                <td><span class="badge badge-success">Ativo</span></td>
+                <td>Ontem, 16:45</td>
+                <td>
+                  <button class="btn btn-sm btn-primary" onclick="viewPatient('João Carlos Oliveira')">Ver</button>
+                  <button class="btn btn-sm btn-secondary" onclick="editPatient('João Carlos Oliveira')">Editar</button>
+                </td>
+              </tr>
+              
+              <tr>
+                <td class="patient-name">Ana Beatriz Costa</td>
+                <td class="patient-id">PAC-2024-003</td>
+                <td>28 anos</td>
+                <td><span class="badge badge-warning">Pendente</span></td>
+                <td>2 dias atrás</td>
+                <td>
+                  <button class="btn btn-sm btn-primary" onclick="viewPatient('Ana Beatriz Costa')">Ver</button>
+                  <button class="btn btn-sm btn-secondary" onclick="editPatient('Ana Beatriz Costa')">Editar</button>
+                </td>
+              </tr>
+              
+              <tr>
+                <td class="patient-name">Pedro Henrique Lima</td>
+                <td class="patient-id">PAC-2024-004</td>
+                <td>67 anos</td>
+                <td><span class="badge badge-success">Ativo</span></td>
+                <td>3 dias atrás</td>
+                <td>
+                  <button class="btn btn-sm btn-primary" onclick="viewPatient('Pedro Henrique Lima')">Ver</button>
+                  <button class="btn btn-sm btn-secondary" onclick="editPatient('Pedro Henrique Lima')">Editar</button>
+                </td>
+              </tr>
+              
+              <tr>
+                <td class="patient-name">Fernanda Rodrigues</td>
+                <td class="patient-id">PAC-2024-005</td>
+                <td>39 anos</td>
+                <td><span class="badge badge-error">Inativo</span></td>
+                <td>1 semana atrás</td>
+                <td>
+                  <button class="btn btn-sm btn-primary" onclick="viewPatient('Fernanda Rodrigues')">Ver</button>
+                  <button class="btn btn-sm btn-secondary" onclick="editPatient('Fernanda Rodrigues')">Editar</button>
+                </td>
+              </tr>
+              
+              <tr>
+                <td class="patient-name">Lucas Mendes Pereira</td>
+                <td class="patient-id">PAC-2024-006</td>
+                <td>24 anos</td>
+                <td><span class="badge badge-success">Ativo</span></td>
+                <td>Hoje, 09:15</td>
+                <td>
+                  <button class="btn btn-sm btn-primary" onclick="viewPatient('Lucas Mendes Pereira')">Ver</button>
+                  <button class="btn btn-sm btn-secondary" onclick="editPatient('Lucas Mendes Pereira')">Editar</button>
+                </td>
+              </tr>
+              
+              <tr>
+                <td class="patient-name">Isabela Ferreira</td>
+                <td class="patient-id">PAC-2024-007</td>
+                <td>51 anos</td>
+                <td><span class="badge badge-warning">Pendente</span></td>
+                <td>4 dias atrás</td>
+                <td>
+                  <button class="btn btn-sm btn-primary" onclick="viewPatient('Isabela Ferreira')">Ver</button>
+                  <button class="btn btn-sm btn-secondary" onclick="editPatient('Isabela Ferreira')">Editar</button>
+                </td>
+              </tr>
+              
+              <tr>
+                <td class="patient-name">Roberto Almeida</td>
+                <td class="patient-id">PAC-2024-008</td>
+                <td>73 anos</td>
+                <td><span class="badge badge-success">Ativo</span></td>
+                <td>Ontem, 11:20</td>
+                <td>
+                  <button class="btn btn-sm btn-primary" onclick="viewPatient('Roberto Almeida')">Ver</button>
+                  <button class="btn btn-sm btn-secondary" onclick="editPatient('Roberto Almeida')">Editar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <!-- Pagination -->
+        <div class="pagination">
+          <div class="pagination-info">
+            Página 1 de 20
+          </div>
+          <div class="pagination-controls">
+            <button class="btn btn-sm btn-secondary" disabled>
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="btn btn-sm btn-primary">1</button>
+            <button class="btn btn-sm btn-secondary">2</button>
+            <button class="btn btn-sm btn-secondary">3</button>
+            <button class="btn btn-sm btn-secondary">4</button>
+            <button class="btn btn-sm btn-secondary">5</button>
+            <button class="btn btn-sm btn-secondary">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="shared-profile.js"></script>
+  <script src="pesquisa-pacientes.js"></script>
+</body>
+</html>

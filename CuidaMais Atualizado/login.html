@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Cuida Mais</title>
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="base.css">
+  <link rel="stylesheet" href="login.css">
+</head>
+<body>
+  <div class="login-container">
+    <!-- Left Panel -->
+    <div class="login-left">
+      <div class="login-overlay">
+        <div class="login-content">
+          <h1 class="login-title">Cuida Mais</h1>
+          <p class="login-subtitle">Sistema de Gestão de Pacientes</p>
+          <p class="login-description">
+            Gerencie de forma eficiente todos os dados dos seus pacientes, 
+            monitore sinais vitais e mantenha um controle completo do cuidado médico.
+          </p>
+          <div class="login-features">
+            <div class="feature-item">
+              <i class="fas fa-users"></i>
+              <span>Gestão de Pacientes</span>
+            </div>
+            <div class="feature-item">
+              <i class="fas fa-chart-line"></i>
+              <span>Monitoramento em Tempo Real</span>
+            </div>
+            <div class="feature-item">
+              <i class="fas fa-shield-alt"></i>
+              <span>Segurança e Privacidade</span>
+            </div>
+          </div>
+        </div>
+        <div class="login-footer">
+          <p>&copy; 2024 Cuida Mais. Todos os direitos reservados.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Panel -->
+    <div class="login-right">
+      <div class="login-form-container">
+        <div class="login-header">
+          <h2 class="login-form-title">Bem-vindo ao Cuida Mais</h2>
+          <p class="login-form-subtitle">Faça login para acessar sua conta</p>
+        </div>
+
+        <form class="login-form" onsubmit="handleLogin(event)">
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-input" placeholder="email@cuidamais.com" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Senha</label>
+            <div class="password-field">
+              <input type="password" class="form-input" placeholder="Digite sua senha" required>
+              <button type="button" class="password-toggle" onclick="togglePassword()">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-options">
+            <label class="checkbox-label">
+              <input type="checkbox" class="checkbox-input">
+              <span class="checkbox-text">Lembrar de mim</span>
+            </label>
+            <a href="#" class="forgot-link">Esqueceu a senha?</a>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-login">
+            <i class="fas fa-sign-in-alt"></i>
+            Entrar
+          </button>
+
+          <div class="login-divider">
+            <span>ou</span>
+          </div>
+
+          <button type="button" class="btn btn-secondary" onclick="loginWithGoogle()">
+            <i class="fab fa-google"></i>
+            Entrar com Google
+          </button>
+        </form>
+
+        <div class="login-footer-right">
+          <p>Não tem uma conta? <a href="criar-conta.html" class="create-account-link">Criar conta</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="login.js"></script>
+</body>
+</html>

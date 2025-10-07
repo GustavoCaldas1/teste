@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alerta - Cuida Mais</title>
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="base.css">
+  <link rel="stylesheet" href="alertas.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="app-header">
+    <a href="#" class="app-logo">Cuida Mais</a>
+    
+    <!-- Header Right Controls -->
+    <div class="header-right">
+      <!-- Dark Mode Toggle -->
+      <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Alternar modo escuro">
+        <i class="fas fa-moon" id="darkModeIcon"></i>
+      </button>
+      
+      <!-- User Profile -->
+      <div class="app-user" onclick="toggleUserMenu()">
+      <div class="user-avatar">
+        <i class="fas fa-user"></i>
+      </div>
+      <div class="user-info">
+        <span class="user-name">Dr. João Silva</span>
+        <span class="user-role">Médico</span>
+      </div>
+      <i class="fas fa-chevron-down user-arrow"></i>
+      </div>
+    </div>
+    
+    <!-- User Menu Dropdown -->
+    <div class="user-menu" id="userMenu">
+      <div class="user-menu-header">
+        <div class="user-avatar-large">
+          <i class="fas fa-user"></i>
+        </div>
+        <div class="user-details">
+          <h3>Dr. João Silva</h3>
+          <p>Médico - CRM 123456</p>
+          <span class="user-status">Online</span>
+        </div>
+      </div>
+      
+      <div class="user-menu-divider"></div>
+      
+      <div class="user-menu-items">
+        <a href="#" class="menu-item" onclick="viewProfile()">
+          <i class="fas fa-user-circle"></i>
+          <span>Meu Perfil</span>
+        </a>
+        <a href="#" class="menu-item" onclick="editProfile()">
+          <i class="fas fa-edit"></i>
+          <span>Editar Perfil</span>
+        </a>
+        <a href="#" class="menu-item" onclick="changePassword()">
+          <i class="fas fa-lock"></i>
+          <span>Alterar Senha</span>
+        </a>
+        <a href="#" class="menu-item" onclick="settings()">
+          <i class="fas fa-cog"></i>
+          <span>Configurações</span>
+        </a>
+      </div>
+      
+      <div class="user-menu-divider"></div>
+      
+      <div class="user-menu-items">
+        <a href="#" class="menu-item logout" onclick="logout()">
+          <i class="fas fa-sign-out-alt"></i>
+          <span>Sair</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <nav class="app-sidebar">
+    <div class="sidebar-nav">
+      <a href="home-dashboard.html" class="nav-item">
+        <i class="fas fa-home"></i>
+        Dashboard
+      </a>
+      <a href="pesquisa-pacientes.html" class="nav-item">
+        <i class="fas fa-users"></i>
+        Pacientes
+      </a>
+      <a href="registrar-dados.html" class="nav-item">
+        <i class="fas fa-clipboard-list"></i>
+        Registro de Dados
+      </a>
+      <a href="relatorios.html" class="nav-item">
+        <i class="fas fa-chart-bar"></i>
+        Relatórios
+      </a>
+      <a href="#" class="nav-item active">
+        <i class="fas fa-bell"></i>
+        Alertas
+      </a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="app-main">
+    <!-- Alert Header -->
+    <div class="alert-header">
+      <div class="alert-title-section">
+        <h1 class="alert-title">Alerta: CUIMAIS-001-2025-ALERTA</h1>
+        <p class="alert-patient">Paciente: Isabelle Silva (Crítico)</p>
+      </div>
+      <button class="btn btn-primary" onclick="viewPatientProfile()">
+        <i class="fas fa-arrow-right"></i>
+        Ver perfil do Paciente
+      </button>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="content-grid">
+      <!-- Left Column -->
+      <div class="content-left">
+        <!-- Status do Alerta -->
+        <div class="card mb-6">
+          <div class="card-header">
+            <div class="card-title">Status do Alerta</div>
+            <div class="card-subtitle">Acompanhe o status atual do alerta</div>
+          </div>
+          <div class="card-content">
+            <div class="status-progress">
+              <div class="status-step active">
+                <div class="status-icon">
+                  <i class="fas fa-bell"></i>
+                </div>
+                <div class="status-label">Aberto</div>
+              </div>
+              
+              <div class="status-step">
+                <div class="status-icon">
+                  <i class="fas fa-cog"></i>
+                </div>
+                <div class="status-label">Em atendimento</div>
+              </div>
+              
+              <div class="status-step">
+                <div class="status-icon">
+                  <i class="fas fa-check"></i>
+                </div>
+                <div class="status-label">Resolvido</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Histórico de Comentários -->
+        <div class="card mb-6">
+          <div class="card-header">
+            <div class="card-title">Histórico de Comentários</div>
+            <div class="card-subtitle">Todos comentários registrados para este alerta</div>
+          </div>
+          <div class="card-content">
+            <div class="comments-list">
+              <div class="comment-item">
+                <div class="comment-header">
+                  <div class="comment-author">Enfermeiro João Pereira</div>
+                  <div class="comment-time">2024-03-10 10:35 AM</div>
+                </div>
+                <div class="comment-text">
+                  Paciente transferido para UTI. Vitais estaveis, mas temperatura alta. Começando monitoramento..
+                </div>
+              </div>
+              
+              <div class="comment-item">
+                <div class="comment-header">
+                  <div class="comment-author">Dr. Ana Costa</div>
+                  <div class="comment-time">2024-03-10 11:00 AM</div>
+                </div>
+                <div class="comment-text">
+                  Iniciei antibióticos e solicitei hemocultura de imediato. Monitoramento de sinais de choque. Paciente consciente e comunicantivo.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Adicionar Novo Comentário -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Adicione Novo Comentário</div>
+            <div class="card-subtitle">Compartilhe atualizações e comentários sobre o alerta</div>
+          </div>
+          <div class="card-content">
+            <form class="comment-form" onsubmit="addComment(event)">
+              <div class="form-group">
+                <textarea class="form-textarea" placeholder="Escreva seu comentário aqui." required></textarea>
+              </div>
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-paper-plane"></i>
+                  Enviar Comentário
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column -->
+      <div class="content-right">
+        <!-- Detalhes do Alerta -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Detalhes do Alerta</div>
+            <div class="card-subtitle">Informações importantes sobre o alerta</div>
+          </div>
+          <div class="card-content">
+            <div class="alert-details">
+              <div class="detail-item">
+                <div class="detail-label">Descrição do Alerta</div>
+                <div class="detail-value">
+                  O paciente apresentou febre repentina e aumento na contagem de leucocitos. Requer avaliação médica imediata e hemoculturas.
+                </div>
+              </div>
+              
+              <div class="detail-item">
+                <div class="detail-label">Criado</div>
+                <div class="detail-value">2024-03-10 10:30 AM</div>
+              </div>
+              
+              <div class="detail-item">
+                <div class="detail-label">Departamento</div>
+                <div class="detail-value">UTI</div>
+              </div>
+              
+              <div class="detail-item">
+                <div class="detail-label">Designado para</div>
+                <div class="detail-value">Dr. Ana Costa</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <button class="btn btn-secondary" onclick="markAsInProgress()">
+        <i class="fas fa-star"></i>
+        Marcar como Em Atendimento
+      </button>
+      <button class="btn btn-primary" onclick="markAsResolved()">
+        <i class="fas fa-check"></i>
+        Marcar como Resolvido
+      </button>
+      <button class="btn btn-danger" onclick="archiveAlert()">
+        <i class="fas fa-archive"></i>
+        Arquivar
+      </button>
+    </div>
+  </main>
+
+  <script src="shared-profile.js"></script>
+  <script src="alertas.js"></script>
+</body>
+</html>
+

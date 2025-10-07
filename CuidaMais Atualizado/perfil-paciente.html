@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil do Paciente - Cuida Mais</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="base.css">
+  <link rel="stylesheet" href="perfil-paciente.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="app-header">
+    <a href="#" class="app-logo">Cuida Mais</a>
+    
+    <!-- Header Right Controls -->
+    <div class="header-right">
+      <!-- Dark Mode Toggle -->
+      <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Alternar modo escuro">
+        <i class="fas fa-moon" id="darkModeIcon"></i>
+      </button>
+      
+      <!-- User Profile -->
+      <div class="app-user" onclick="toggleUserMenu()">
+      <div class="user-avatar">
+        <i class="fas fa-user"></i>
+      </div>
+      <div class="user-info">
+        <span class="user-name">Dr. João Silva</span>
+        <span class="user-role">Médico</span>
+      </div>
+      <i class="fas fa-chevron-down user-arrow"></i>
+      </div>
+    </div>
+    
+    <!-- User Menu Dropdown -->
+    <div class="user-menu" id="userMenu">
+      <div class="user-menu-header">
+        <div class="user-avatar-large">
+      <i class="fas fa-user"></i>
+        </div>
+        <div class="user-details">
+          <h3>Dr. João Silva</h3>
+          <p>Médico - CRM 123456</p>
+          <span class="user-status">Online</span>
+        </div>
+      </div>
+      
+      <div class="user-menu-divider"></div>
+      
+      <div class="user-menu-items">
+        <a href="#" class="menu-item" onclick="viewProfile()">
+          <i class="fas fa-user-circle"></i>
+          <span>Meu Perfil</span>
+        </a>
+        <a href="#" class="menu-item" onclick="editProfile()">
+          <i class="fas fa-edit"></i>
+          <span>Editar Perfil</span>
+        </a>
+        <a href="#" class="menu-item" onclick="changePassword()">
+          <i class="fas fa-lock"></i>
+          <span>Alterar Senha</span>
+        </a>
+        <a href="#" class="menu-item" onclick="settings()">
+          <i class="fas fa-cog"></i>
+          <span>Configurações</span>
+        </a>
+      </div>
+      
+      <div class="user-menu-divider"></div>
+      
+      <div class="user-menu-items">
+        <a href="#" class="menu-item logout" onclick="logout()">
+          <i class="fas fa-sign-out-alt"></i>
+          <span>Sair</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+    <!-- Sidebar -->
+  <nav class="app-sidebar">
+    <div class="sidebar-nav">
+      <a href="home-dashboard.html" class="nav-item">
+        <i class="fas fa-home"></i>
+        Dashboard
+      </a>
+      <a href="pesquisa-pacientes.html" class="nav-item active">
+        <i class="fas fa-users"></i>
+        Pacientes
+      </a>
+      <a href="registrar-dados.html" class="nav-item">
+        <i class="fas fa-clipboard-list"></i>
+        Registro de Dados
+      </a>
+      <a href="relatorios.html" class="nav-item">
+        <i class="fas fa-chart-bar"></i>
+        Relatórios
+      </a>
+      <a href="alertas.html" class="nav-item">
+        <i class="fas fa-bell"></i>
+        Alertas
+      </a>
+    </div>
+    </nav>
+
+  <!-- Main Content -->
+  <main class="app-main">
+    <!-- Page Header -->
+      <div class="page-header">
+        <h1 class="page-title">Perfil do Paciente</h1>
+        <p class="page-subtitle">Visualização detalhada dos dados e histórico do paciente</p>
+      </div>
+
+    <!-- Patient Profile Grid -->
+    <div class="grid grid-2 mb-6">
+      <!-- Patient Info Card -->
+      <div class="card">
+        <div class="card-content">
+          <div class="patient-profile">
+            <div class="patient-avatar">
+              <span>IS</span>
+          </div>
+          <h2 class="patient-name">Isabelle Silva</h2>
+            <p class="patient-id">ID: P210</p>
+          
+          <div class="patient-details">
+            <div class="detail-item">
+                <i class="fas fa-user"></i>
+              <span class="detail-label">Idade:</span>
+              <span class="detail-value">68 anos</span>
+            </div>
+            <div class="detail-item">
+                <i class="fas fa-bed"></i>
+              <span class="detail-label">Quarto:</span>
+              <span class="detail-value">UTI-B 223</span>
+            </div>
+            <div class="detail-item">
+                <i class="fas fa-tint"></i>
+              <span class="detail-label">Tipo Sanguíneo:</span>
+              <span class="detail-value">B+</span>
+            </div>
+            <div class="detail-item">
+                <i class="fas fa-calendar"></i>
+              <span class="detail-label">Admissão:</span>
+              <span class="detail-value">2025-07-06</span>
+            </div>
+            <div class="detail-item">
+                <i class="fas fa-phone"></i>
+              <span class="detail-label">Contato:</span>
+              <span class="detail-value">(61) 91234-6789</span>
+            </div>
+          </div>
+          
+            <button class="btn btn-primary" onclick="editProfile()">
+              <i class="fas fa-edit"></i>
+              Editar Perfil
+          </button>
+          </div>
+        </div>
+        </div>
+
+      <!-- Vitals Chart Card -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Sinais Vitais</div>
+          <div class="card-subtitle">Tendência das últimas 24 horas</div>
+        </div>
+        <div class="card-content">
+            <div class="vitals-legend">
+              <div class="legend-item">
+              <div class="legend-color fc"></div>
+              <span>Frequência Cardíaca</span>
+              </div>
+              <div class="legend-item">
+              <div class="legend-color temp"></div>
+              <span>Temperatura</span>
+              </div>
+              <div class="legend-item">
+              <div class="legend-color pa-sist"></div>
+              <span>PA Sistólica</span>
+              </div>
+              <div class="legend-item">
+              <div class="legend-color pa-diast"></div>
+              <span>PA Diastólica</span>
+            </div>
+          </div>
+          <div class="chart-container">
+            <canvas id="vitalsChart"></canvas>
+          </div>
+          </div>
+        </div>
+      </div>
+
+    <!-- Medical Records -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Prontuário Médico</div>
+        <div class="card-subtitle">Histórico completo de dados médicos e procedimentos</div>
+        </div>
+
+      <div class="card-content">
+        <!-- Tabs -->
+        <div class="tabs">
+          <button class="tab-btn active" onclick="showTab('vitals')">
+            Histórico de Vitais
+          </button>
+          <button class="tab-btn" onclick="showTab('medications')">
+            Medicamentos
+          </button>
+          <button class="tab-btn" onclick="showTab('procedures')">
+            Procedimentos
+          </button>
+          <button class="tab-btn" onclick="showTab('exams')">
+            Exames
+          </button>
+          <button class="tab-btn" onclick="showTab('comments')">
+            Comentários
+          </button>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="tab-content">
+          <div id="vitals-tab" class="tab-pane active">
+            <div class="table-container">
+              <table class="table">
+            <thead>
+              <tr>
+                <th>Data</th>
+                <th>Horário</th>
+                <th>FC (BPM)</th>
+                <th>Temp (°C)</th>
+                <th>PA (mmHg)</th>
+                <th>SpO2 (%)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>2025-08-06</td>
+                <td>15:00</td>
+                <td>80</td>
+                <td>37.7</td>
+                <td>125/85</td>
+                <td>97</td>
+              </tr>
+              <tr>
+                <td>2025-08-06</td>
+                <td>14:00</td>
+                <td>83</td>
+                <td>37.9</td>
+                <td>128/88</td>
+                <td>96</td>
+              </tr>
+              <tr>
+                <td>2025-08-06</td>
+                <td>13:00</td>
+                <td>85</td>
+                <td>38.0</td>
+                <td>130/90</td>
+                <td>95</td>
+              </tr>
+              <tr>
+                <td>2025-08-06</td>
+                <td>12:00</td>
+                <td>82</td>
+                <td>37.8</td>
+                <td>128/88</td>
+                <td>96</td>
+              </tr>
+              <tr>
+                <td>2025-08-06</td>
+                <td>11:00</td>
+                <td>77</td>
+                <td>37.3</td>
+                <td>120/80</td>
+                <td>98</td>
+              </tr>
+            </tbody>
+          </table>
+            </div>
+        </div>
+
+          <div id="medications-tab" class="tab-pane">
+            <div class="table-container">
+              <table class="table">
+            <thead>
+              <tr>
+                <th>Medicamento</th>
+                <th>Dosagem</th>
+                <th>Frequência</th>
+                <th>Início</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Dipirona</td>
+                <td>1g</td>
+                <td>6/6h</td>
+                <td>2025-08-05</td>
+                    <td><span class="badge badge-success">Ativo</span></td>
+              </tr>
+              <tr>
+                <td>Omeprazol</td>
+                <td>40mg</td>
+                <td>1x/dia</td>
+                <td>2025-08-04</td>
+                    <td><span class="badge badge-success">Ativo</span></td>
+              </tr>
+              <tr>
+                <td>Heparina</td>
+                <td>5000UI</td>
+                <td>12/12h</td>
+                <td>2025-08-03</td>
+                    <td><span class="badge badge-error">Suspenso</span></td>
+              </tr>
+            </tbody>
+          </table>
+            </div>
+        </div>
+
+          <div id="procedures-tab" class="tab-pane">
+            <div class="table-container">
+              <table class="table">
+            <thead>
+              <tr>
+                <th>Procedimento</th>
+                <th>Data</th>
+                <th>Médico</th>
+                <th>Observações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Cateterismo Venoso Central</td>
+                <td>2025-08-05</td>
+                <td>Dr. Carlos Mendes</td>
+                <td>Procedimento realizado com sucesso</td>
+              </tr>
+              <tr>
+                <td>Intubação Orotraqueal</td>
+                <td>2025-08-04</td>
+                <td>Dr. Ana Silva</td>
+                <td>Paciente em ventilação mecânica</td>
+              </tr>
+            </tbody>
+          </table>
+            </div>
+        </div>
+
+          <div id="exams-tab" class="tab-pane">
+            <div class="table-container">
+              <table class="table">
+            <thead>
+              <tr>
+                <th>Exame</th>
+                <th>Data</th>
+                <th>Resultado</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Hemograma Completo</td>
+                <td>2025-08-06</td>
+                <td>Normal</td>
+                    <td><span class="badge badge-success">Concluído</span></td>
+              </tr>
+              <tr>
+                <td>Ressonância Magnética</td>
+                <td>2025-08-05</td>
+                <td>Pendente</td>
+                    <td><span class="badge badge-warning">Agendado</span></td>
+              </tr>
+            </tbody>
+          </table>
+            </div>
+          </div>
+
+          <div id="comments-tab" class="tab-pane">
+            <div class="comments-section">
+              <div class="comment-item">
+                <div class="comment-header">
+                  <span class="comment-author">Dr. Carlos Mendes</span>
+                  <span class="comment-date">2025-08-06 15:30</span>
+                </div>
+                <div class="comment-text">
+                  Paciente estável, sinais vitais dentro da normalidade. 
+                  Continuar com medicação prescrita e monitoramento.
+                </div>
+        </div>
+
+              <div class="comment-item">
+                <div class="comment-header">
+                  <span class="comment-author">Enf. Ana Silva</span>
+                  <span class="comment-date">2025-08-06 14:15</span>
+                </div>
+                <div class="comment-text">
+                  Paciente colaborativo, sem queixas. 
+                  Medicação administrada conforme prescrição.
+                </div>
+              </div>
+            </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </main>
+
+  <!-- Modal: Editar Perfil do Paciente -->
+  <div class="modal-overlay" id="patientEditModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Editar Perfil do Paciente</h2>
+        <button class="btn-icon" aria-label="Fechar" onclick="closePatientModal()"><i class="fas fa-times"></i></button>
+      </div>
+      <form class="modal-body" id="patientEditForm" onsubmit="savePatientEdits(event)">
+        <div class="profile-sidebar">
+          <div class="profile-photo-wrapper">
+            <img id="patientPhotoPreview" class="profile-photo" alt="Foto do paciente" />
+            <label class="btn btn-light btn-small upload-btn">
+              <i class="fas fa-camera"></i>
+              <span>Trocar foto</span>
+              <input id="patientPhotoInput" type="file" accept="image/*" hidden>
+            </label>
+          </div>
+        </div>
+
+        <div class="profile-content">
+          <div class="field-group">
+            <label for="patientName">Nome</label>
+            <input id="patientName" class="form-input" type="text" required>
+          </div>
+          <div class="field-group grid-2">
+            <div>
+              <label for="patientAge">Idade</label>
+              <input id="patientAge" class="form-input" type="number" min="0" required>
+            </div>
+            <div>
+              <label for="patientBlood">Tipo Sanguíneo</label>
+              <select id="patientBlood" class="form-input">
+                <option>O+</option>
+                <option>O-</option>
+                <option>A+</option>
+                <option>A-</option>
+                <option>B+</option>
+                <option>B-</option>
+                <option>AB+</option>
+                <option>AB-</option>
+              </select>
+            </div>
+          </div>
+          <div class="field-group grid-2">
+            <div>
+              <label for="patientRoom">Quarto</label>
+              <input id="patientRoom" class="form-input" type="text" required>
+            </div>
+            <div>
+              <label for="patientAdmission">Admissão</label>
+              <input id="patientAdmission" class="form-input" type="date" required>
+            </div>
+          </div>
+          <div class="field-group">
+            <label for="patientContact">Contato</label>
+            <input id="patientContact" class="form-input" type="text" required>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn" onclick="closePatientModal()">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Salvar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="shared-profile.js"></script>
+  <script src="perfil-paciente.js"></script>
+</body>
+</html>
